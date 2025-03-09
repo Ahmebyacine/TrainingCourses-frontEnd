@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Pencil, Trash2, Calendar, Users, ChevronRight, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,23 +17,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import api from "@/services/api"
 
 export default function ProgramCard({
   program,
-  isEditing,
-  isExpanded,
-  courses,
-  institutions,
-  trainees,
-  isLoadingTrainees,
-  getCourseName,
-  getInstitutionName,
-  onToggleExpand,
   onStartEditing,
-  onCancelEditing,
-  onUpdateProgram,
   onDeleteProgram,
 }) {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [trainees, setTrainees] = useState([])
+  const [isLoadingTrainees, setIsLoadingTrainees] = useState(false)
+
   // Format date for display
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -67,19 +62,34 @@ export default function ProgramCard({
     }
   }
 
+  const handleToggle = async () => {
+    const newState = !isExpanded
+    setIsExpanded(newState)
+    
+      try {
+        setIsLoadingTrainees(true)
+        const response = await api.get(`/api/trainee/program/${program._id}`)
+        setTrainees(response.data)
+      } catch (error) {
+        console.error("Error fetching trainees:", error)
+      } finally {
+        setIsLoadingTrainees(false)
+      }
+  }
+
   const status = getProgramStatus(program.start_date, program.end_date)
 
   return (
-    <Collapsible open={isExpanded} onOpenChange={onToggleExpand} className="border rounded-lg overflow-hidden">
+    <Collapsible open={isExpanded} onOpenChange={handleToggle} className="border rounded-lg overflow-hidden">
       <Card className="border-0 rounded-none">
         <CardHeader className="pb-3">
           <div className="flex justify-between items-start">
             <div>
               <div className="flex items-center gap-2">
-                <CardTitle>{getCourseName(program.course)}</CardTitle>
+                <CardTitle>{program.course?.name || 'Unknown Course'}</CardTitle>
                 <span className={`text-xs px-2 py-1 rounded-full ${status.color}`}>{status.label}</span>
               </div>
-              <CardDescription className="mt-1">at {getInstitutionName(program.institution)}</CardDescription>
+              <CardDescription className="mt-1">at {program.institution?.name || 'Unknown Institution'}</CardDescription>
             </div>
             <CollapsibleTrigger asChild>
               <Button variant="ghost" size="sm" className="gap-1">
@@ -131,8 +141,8 @@ export default function ProgramCard({
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will permanently delete the program "{getCourseName(program.course)}" at "
-                    {getInstitutionName(program.institution)}". This action cannot be undone.
+                    This will permanently delete the program "{program.course?.name}" at "
+                    {program.institution?.name}". This action cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -151,7 +161,7 @@ export default function ProgramCard({
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold flex items-center">
               <Users className="h-5 w-5 mr-2" />
-              Trainees for {getCourseName(program.course)}
+              Trainees for {program.course?.name}
             </h3>
           </div>
 
@@ -180,9 +190,9 @@ export default function ProgramCard({
                       <TableCell className="font-medium">
                         <div className="flex items-center">
                           <Avatar className="h-8 w-8 mr-2">
-                            <AvatarFallback>{trainee.name.charAt(0)}</AvatarFallback>
+                            <AvatarFallback>{trainee?.name.charAt(0)}</AvatarFallback>
                           </Avatar>
-                          {trainee.name}
+                          {trainee?.name}
                         </div>
                       </TableCell>
                       <TableCell>{trainee.email}</TableCell>

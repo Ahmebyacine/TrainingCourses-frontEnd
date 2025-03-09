@@ -55,8 +55,8 @@ export default function AddProgramModal({
   useEffect(() => {
     if (mode === "edit" && initialData) {
       form.reset({
-        course: initialData.course,
-        institution: initialData.institution,
+        course: initialData.course._id,
+        institution: initialData.institution._id,
         start_date: formatDateForInput(initialData.start_date),
         end_date: formatDateForInput(initialData.end_date),
       })

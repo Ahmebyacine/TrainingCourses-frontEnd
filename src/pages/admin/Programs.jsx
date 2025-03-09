@@ -3,6 +3,7 @@ import { Plus, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ProgramCard from "@/layouts/admin/ProgramCard"
 import AddProgramModal from "@/layouts/admin/AddProgramModal"
+import api from "@/services/api"
 
 export default function Programs() {
   const [programs, setPrograms] = useState([])
@@ -22,53 +23,15 @@ export default function Programs() {
       try {
         // Replace with your actual API endpoints
         const [programsResponse, coursesResponse, institutionsResponse] = await Promise.all([
-          fetch("/api/programs"),
-          fetch("/api/courses"),
-          fetch("/api/institutions"),
+          api.get("/api/program"),
+          api.get("/api/course"),
+          api.get("/api/institution"),
         ])
-
-        const programsData = await programsResponse.json()
-        const coursesData = await coursesResponse.json()
-        const institutionsData = await institutionsResponse.json()
-
-        setPrograms(programsData)
-        setCourses(coursesData)
-        setInstitutions(institutionsData)
+        setPrograms(programsResponse.data)
+        setCourses(coursesResponse.data)
+        setInstitutions(institutionsResponse.data)
       } catch (error) {
         console.error("Error fetching data:", error)
-        // For demo purposes, set some sample data
-        setCourses([
-          { _id: "1", name: "Web Development", price: 1200 },
-          { _id: "2", name: "Data Science", price: 1500 },
-          { _id: "3", name: "UX/UI Design", price: 900 },
-        ])
-
-        setInstitutions([
-          { _id: "1", name: "City University" },
-          { _id: "2", name: "Tech Institute" },
-          { _id: "3", name: "Business School" },
-        ])
-
-        setPrograms([
-          {
-            _id: "1",
-            course: "1",
-            institution: "2",
-            start_date: "2023-09-01T00:00:00.000Z",
-            end_date: "2023-12-15T00:00:00.000Z",
-            createdAt: "2023-08-15T00:00:00.000Z",
-            updatedAt: "2023-08-15T00:00:00.000Z",
-          },
-          {
-            _id: "2",
-            course: "3",
-            institution: "1",
-            start_date: "2023-10-15T00:00:00.000Z",
-            end_date: "2024-01-30T00:00:00.000Z",
-            createdAt: "2023-09-20T00:00:00.000Z",
-            updatedAt: "2023-09-20T00:00:00.000Z",
-          },
-        ])
       } finally {
         setIsLoading(false)
       }
@@ -82,38 +45,10 @@ export default function Programs() {
     setIsLoadingTrainees(true)
     try {
       // Replace with your actual API endpoint
-      const response = await fetch(`/api/trainees?program=${programId}`)
-      const data = await response.json()
-      setTrainees(data)
+      const response = await api.get(`/api/trainee/program/${programId}`)
+      setTrainees(response.data)
     } catch (error) {
       console.error("Error fetching trainees:", error)
-      // For demo purposes, set some sample data
-      setTrainees([
-        {
-          _id: "1",
-          name: "Alex Johnson",
-          email: "alex@example.com",
-          phone: "123-456-7890",
-          program: programId,
-          registrationDate: "2023-08-20T00:00:00.000Z",
-        },
-        {
-          _id: "2",
-          name: "Maria Garcia",
-          email: "maria@example.com",
-          phone: "987-654-3210",
-          program: programId,
-          registrationDate: "2023-08-22T00:00:00.000Z",
-        },
-        {
-          _id: "3",
-          name: "Sam Wilson",
-          email: "sam@example.com",
-          phone: "555-123-4567",
-          program: programId,
-          registrationDate: "2023-08-25T00:00:00.000Z",
-        },
-      ])
     } finally {
       setIsLoadingTrainees(false)
     }
@@ -141,34 +76,11 @@ export default function Programs() {
       }
 
       // Replace with your actual API endpoint
-      const response = await fetch("/api/programs", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formattedData),
-      })
-
-      if (response.ok) {
-        const newProgram = await response.json()
-        setPrograms([...programs, newProgram])
-        setAddDialogOpen(false)
-      } else {
-        const errorData = await response.json()
-        alert(`Failed to add program: ${errorData.message}`)
-      }
+      const response = await api.post("/api/program",formattedData)
+      setPrograms([...programs, response.data[0]])
+      setAddDialogOpen(false)
     } catch (error) {
       console.error("Error adding program:", error)
-      // For demo purposes, add locally
-      const newProgram = {
-        _id: Date.now().toString(),
-        ...data,
-        start_date: new Date(data.start_date).toISOString(),
-        end_date: new Date(data.end_date).toISOString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      }
-      setPrograms([...programs, newProgram])
       setAddDialogOpen(false)
     }
   }
@@ -184,38 +96,11 @@ export default function Programs() {
       }
 
       // Replace with your actual API endpoint
-      const response = await fetch(`/api/programs/${editingId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formattedData),
-      })
-
-      if (response.ok) {
-        const updatedProgram = await response.json()
-        setPrograms(programs.map((program) => (program._id === editingId ? updatedProgram : program)))
-        setEditingId(null)
-      } else {
-        const errorData = await response.json()
-        alert(`Failed to update program: ${errorData.message}`)
-      }
+      const response = await api.put(`/api/program/${editingId}`,formattedData)
+      setEditingId(null)
+      setPrograms(programs.map((program) => (program._id === editingId ? response.data[0] : program)))
     } catch (error) {
       console.error("Error updating program:", error)
-      // For demo purposes, update locally
-      setPrograms(
-        programs.map((program) =>
-          program._id === editingId
-            ? {
-                ...program,
-                ...data,
-                start_date: new Date(data.start_date).toISOString(),
-                end_date: new Date(data.end_date).toISOString(),
-                updatedAt: new Date().toISOString(),
-              }
-            : program,
-        ),
-      )
       setEditingId(null)
     }
   }
@@ -224,20 +109,11 @@ export default function Programs() {
   const handleDeleteProgram = async (id) => {
     try {
       // Replace with your actual API endpoint
-      const response = await fetch(`/api/programs/${id}`, {
-        method: "DELETE",
-      })
-
-      if (response.ok) {
+      const response = await api.delete(`/api/program/${id}`)
         setPrograms(programs.filter((program) => program._id !== id))
-        // If the deleted program was expanded, remove it from expanded list
         if (expandedPrograms.includes(id)) {
           setExpandedPrograms(expandedPrograms.filter((progId) => progId !== id))
         }
-      } else {
-        const errorData = await response.json()
-        alert(`Failed to delete program: ${errorData.message}`)
-      }
     } catch (error) {
       console.error("Error deleting program:", error)
       // For demo purposes, delete locally
@@ -257,17 +133,6 @@ export default function Programs() {
   // Cancel editing
   const cancelEditing = () => {
     setEditingId(null)
-  }
-
-  // Helper functions for child components
-  const getCourseName = (id) => {
-    const course = courses.find((c) => c._id === id)
-    return course ? course.name : "Unknown Course"
-  }
-
-  const getInstitutionName = (id) => {
-    const institution = institutions.find((inst) => inst._id === id)
-    return institution ? institution.name : "Unknown Institution"
   }
 
   return (
@@ -296,18 +161,7 @@ export default function Programs() {
             <ProgramCard
               key={program._id}
               program={program}
-              isEditing={editingId === program._id}
-              isExpanded={expandedPrograms.includes(program._id)}
-              courses={courses}
-              institutions={institutions}
-              trainees={trainees}
-              isLoadingTrainees={isLoadingTrainees}
-              getCourseName={getCourseName}
-              getInstitutionName={getInstitutionName}
-              onToggleExpand={() => toggleProgramExpansion(program._id)}
               onStartEditing={() => startEditing(program)}
-              onCancelEditing={cancelEditing}
-              onUpdateProgram={handleUpdateProgram}
               onDeleteProgram={handleDeleteProgram}
             />
           ))}
@@ -324,7 +178,7 @@ export default function Programs() {
       />
 
       {editingId && (
-        <ProgramModal
+        <AddProgramModal
           open={!!editingId}
           onOpenChange={(open) => !open && setEditingId(null)}
           courses={courses}

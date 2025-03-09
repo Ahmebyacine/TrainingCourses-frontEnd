@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { User } from "lucide-react"
 import UserCard from "@/layouts/admin/UserCard"
 import AddUserModal from "@/layouts/admin/AddUserModel"
+import api from "@/services/api"
 
 export default function Users() {
   const [users, setUsers] = useState([])
@@ -15,44 +16,13 @@ export default function Users() {
       setIsLoading(true)
       try {
         const [usersResponse, institutionsResponse] = await Promise.all([
-          fetch("/api/users"),
-          fetch("/api/institutions"),
+          api.get("/api/user"),
+          api.get("/api/institution"),
         ])
-
-        const usersData = await usersResponse.json()
-        const institutionsData = await institutionsResponse.json()
-
-        setUsers(usersData)
-        setInstitutions(institutionsData)
+        setUsers(usersResponse.data)
+        setInstitutions(institutionsResponse.data)
       } catch (error) {
         console.error("Error fetching data:", error)
-        setUsers([
-          {
-            _id: "1",
-            name: "John Doe",
-            email: "john@example.com",
-            phone: "123-456-7890",
-            nationalId: "ID12345",
-            institutions: ["1", "2"],
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          {
-            _id: "2",
-            name: "Jane Smith",
-            email: "jane@example.com",
-            phone: "987-654-3210",
-            nationalId: "ID67890",
-            institutions: ["3"],
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-        ])
-        setInstitutions([
-          { _id: "1", name: "City University" },
-          { _id: "2", name: "Tech Institute" },
-          { _id: "3", name: "Business School" },
-        ])
       } finally {
         setIsLoading(false)
       }
@@ -63,25 +33,11 @@ export default function Users() {
 
   const handleAddUser = async (data) => {
     try {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-
-      if (response.ok) {
-        const newUser = await response.json()
-        setUsers([...users, newUser])
+      const response = await api.post("/api/user",data)
+        setUsers([...users, response.data])
         setAddDialogOpen(false)
-      }
     } catch (error) {
-      const newUser = {
-        _id: Date.now().toString(),
-        ...data,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      }
-      setUsers([...users, newUser])
+      console.log(error)
       setAddDialogOpen(false)
     }
   }
@@ -91,31 +47,21 @@ export default function Users() {
     if (!updateData.password) delete updateData.password
 
     try {
-      const response = await fetch(`/api/users/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateData),
-      })
-
-      if (response.ok) {
-        const updatedUser = await response.json()
-        setUsers(users.map(user => user._id === id ? updatedUser : user))
-        setEditingId(null)
-      }
+      const response = await api.put(`/api/user/${id}`,updateData)
+      setUsers(users.map(user => user._id === id ? response.data : user))
+      setEditingId(null)
     } catch (error) {
-      setUsers(users.map(user => 
-        user._id === id ? { ...user, ...updateData, updatedAt: new Date().toISOString() } : user
-      ))
+      console.log(error)
       setEditingId(null)
     }
   }
 
   const handleDeleteUser = async (id) => {
     try {
-      await fetch(`/api/users/${id}`, { method: "DELETE" })
+      await api.delete(`/api/user/${id}`)
       setUsers(users.filter(user => user._id !== id))
     } catch (error) {
-      setUsers(users.filter(user => user._id !== id))
+      console.log(error)
     }
   }
 

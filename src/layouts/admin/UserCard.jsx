@@ -36,7 +36,9 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
 
   useEffect(() => {
     if (editingId === user._id) {
-      setSelectedInstitutions(user.institutions || [])
+      setSelectedInstitutions(
+        user.institutions?.map((institution) => institution._id) || []
+      );
       form.reset({
         name: user.name,
         email: user.email,
@@ -58,9 +60,6 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
     })
   }
 
-  const getInstitutionName = (id) => {
-    return institutions.find(inst => inst._id === id)?.name || "Unknown Institution"
-  }
 
   const handleSubmit = (data) => {
     onUpdateUser(user._id, data)
@@ -205,7 +204,7 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
                 {user.institutions?.length > 0 ? (
                   user.institutions.map(instId => (
                     <Badge key={instId} variant="outline" className="text-xs">
-                      {getInstitutionName(instId)}
+                      {instId.name}
                     </Badge>
                   ))
                 ) : (

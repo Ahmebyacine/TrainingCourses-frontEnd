@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { BookOpen } from "lucide-react"
 import CourseCard from "@/layouts/admin/CourseCard"
 import AddCourseModal from "@/layouts/admin/AddCourseModal"
+import api from "@/services/api"
 
 export default function Courses() {
   const [courses, setCourses] = useState([])
@@ -13,17 +14,10 @@ export default function Courses() {
     const fetchCourses = async () => {
       setIsLoading(true)
       try {
-        const response = await fetch("/api/courses")
-        const data = await response.json()
-        setCourses(data)
+        const response = await api.get("/api/course")
+        setCourses(response.data)
       } catch (error) {
         console.error("Error fetching courses:", error)
-        setCourses([
-          { _id: "1", name: "Web Development", price: 1200, duree: "3 months" },
-          { _id: "2", name: "Data Science", price: 1500, duree: "4 months" },
-          { _id: "3", name: "UX/UI Design", price: 900, duree: "2 months" },
-          { _id: "4", name: "Mobile App Development", price: 1300, duree: "3 months" },
-        ])
       } finally {
         setIsLoading(false)
       }
@@ -33,53 +27,34 @@ export default function Courses() {
 
   const handleAddCourse = async (data) => {
     try {
-      const response = await fetch("/api/courses", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-
-      if (response.ok) {
-        const newCourse = await response.json()
-        setCourses([...courses, newCourse])
-        setAddDialogOpen(false)
-      }
+      const response = await api.post("/api/course", data)
+      setCourses([...courses, response.data])
+      setAddDialogOpen(false)
     } catch (error) {
-      const newCourse = { _id: Date.now().toString(), ...data }
-      setCourses([...courses, newCourse])
+      console.log(error)
       setAddDialogOpen(false)
     }
   }
 
   const handleUpdateCourse = async (data) => {
     try {
-      const response = await fetch(`/api/courses/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-
-      if (response.ok) {
-        const updatedCourse = await response.json()
-        setCourses(courses.map(course => 
-          course._id === editingId ? updatedCourse : course
-        ))
-        setEditingId(null)
-      }
-    } catch (error) {
+      const response = await api.put(`/api/course/${editingId}`,data)
       setCourses(courses.map(course => 
-        course._id === editingId ? { ...course, ...data } : course
+        course._id === editingId ? response.data : course
       ))
+      setEditingId(null)
+    } catch (error) {
+      console.error(error)
       setEditingId(null)
     }
   }
 
   const handleDeleteCourse = async (id) => {
     try {
-      await fetch(`/api/courses/${id}`, { method: "DELETE" })
+      await api.delete(`/api/course/${id}`)
       setCourses(courses.filter(course => course._id !== id))
     } catch (error) {
-      setCourses(courses.filter(course => course._id !== id))
+      console.log(error)
     }
   }
 

@@ -3,10 +3,15 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import {
   BookOpen,
   Building2,
+  BuildingIcon,
   Calendar,
+  CircleDashedIcon,
+  LayoutDashboard,
   Menu,
+  Search,
   User,
   Users,
+  Users2,
   X,
 } from "lucide-react";
 
@@ -15,16 +20,17 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import UserMenu from "@/components/UserMenu";
+import { getTokenData } from "@/services/auth";
 
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
-
+  const { role } = getTokenData();
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const navItems = [
+  const navItemsAdmin = [
     {
       title: "Programs",
       href: "/",
@@ -44,6 +50,43 @@ export default function DashboardLayout() {
       title: "Users",
       href: "/users",
       icon: <Users className="h-5 w-5" />,
+    },
+    {
+      title: "Courses Statistics",
+      href: "/course-statistics",
+      icon: <CircleDashedIcon className="h-5 w-5" />,
+    },
+    {
+      title: "Institutions Statistics",
+      href: "/institution-statistics",
+      icon: <BuildingIcon className="h-5 w-5" />,
+    },
+    {
+      title: "Employee Statistics",
+      href: "/employee-statistics",
+      icon: <Users2 className="h-5 w-5" />,
+    },
+    {
+      title: "Program Statistics",
+      href: "/program-statistics",
+      icon: <Users2 className="h-5 w-5" />,
+    },
+  ];
+  const navItemsEmployee = [
+    {
+      title: "Add Treinee",
+      href: "/add-trainee",
+      icon: <Users className="h-5 w-5" />,
+    },
+    {
+      title: "Search Treinee",
+      href: "/search-trainee",
+      icon: <Search className="h-5 w-5" />,
+    },
+    {
+      title: "Statistics",
+      href: "/user-statistics",
+      icon: <LayoutDashboard className="h-5 w-5" />,
     },
   ];
 
@@ -67,7 +110,7 @@ export default function DashboardLayout() {
         </div>
         <nav className="flex-1 overflow-y-auto p-4">
           <ul className="space-y-2">
-            {navItems.map((item) => (
+            {(role === 'admin' ? navItemsAdmin : navItemsEmployee).map((item) => (
               <li key={item.href}>
                 <Link
                   to={item.href}
@@ -117,7 +160,7 @@ export default function DashboardLayout() {
                 </div>
                 <nav className="flex-1 overflow-y-auto p-4">
                   <ul className="space-y-2">
-                    {navItems.map((item) => (
+                    {(role === 'admin' ? navItemsAdmin : navItemsEmployee).map((item) => (
                       <li key={item.href}>
                         <Link
                           to={item.href}
@@ -140,7 +183,7 @@ export default function DashboardLayout() {
             </Sheet>
             <div className="lg:hidden">
               <h1 className="text-lg font-semibold">
-                {navItems.find((item) => item.href === location.pathname)?.title || "Dashboard"}
+                {(role === 'admin' ? navItemsAdmin : navItemsEmployee).find((item) => item.href === location.pathname)?.title || "Dashboard"}
               </h1>
             </div>
           </div>

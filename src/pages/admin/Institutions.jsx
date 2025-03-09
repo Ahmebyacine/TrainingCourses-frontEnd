@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Building2 } from "lucide-react"
 import InstitutionCard from "@/layouts/admin/InstitutionCard"
 import AddInstitutionModal from "@/layouts/admin/AddInstitutionModal"
+import api from "@/services/api"
 
 export default function Institutions() {
   const [institutions, setInstitutions] = useState([])
@@ -13,16 +14,10 @@ export default function Institutions() {
     const fetchInstitutions = async () => {
       setIsLoading(true)
       try {
-        const response = await fetch("/api/institutions")
-        const data = await response.json()
-        setInstitutions(data)
+        const response = await api.get("/api/institution")
+        setInstitutions(response.data)
       } catch (error) {
         console.error("Error fetching institutions:", error)
-        setInstitutions([
-          { _id: "1", name: "City University", address: "123 Main St, City", phone: "123-456-7890" },
-          { _id: "2", name: "Tech Institute", address: "456 Tech Blvd, Town", phone: "987-654-3210" },
-          { _id: "3", name: "Business School", address: "789 Commerce Ave, Metro", phone: "555-123-4567" },
-        ])
       } finally {
         setIsLoading(false)
       }
@@ -32,53 +27,38 @@ export default function Institutions() {
 
   const handleAddInstitution = async (data) => {
     try {
-      const response = await fetch("/api/institutions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-
-      if (response.ok) {
-        const newInstitution = await response.json()
-        setInstitutions([...institutions, newInstitution])
-        setAddDialogOpen(false)
-      }
+      const response = await api.post('/api/institution', data);
+      setAddDialogOpen(false)
+      setInstitutions([...institutions, response.data])
     } catch (error) {
-      const newInstitution = { _id: Date.now().toString(), ...data }
-      setInstitutions([...institutions, newInstitution])
+      console.log(error)
       setAddDialogOpen(false)
     }
   }
 
   const handleUpdateInstitution = async (data) => {
     try {
-      const response = await fetch(`/api/institutions/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-
-      if (response.ok) {
-        const updatedInstitution = await response.json()
-        setInstitutions(institutions.map(inst => 
-          inst._id === editingId ? updatedInstitution : inst
-        ))
-        setEditingId(null)
-      }
+      const response = await api.put(`/api/institution/${editingId}`,data)
+      const updatedInstitution = response.data;
+      setInstitutions(institutions.map(inst => 
+        inst._id === editingId ? updatedInstitution : inst
+      ))
+      setEditingId(null)
     } catch (error) {
       setInstitutions(institutions.map(inst => 
         inst._id === editingId ? { ...inst, ...data } : inst
       ))
       setEditingId(null)
+      console.log(error)
     }
   }
 
   const handleDeleteInstitution = async (id) => {
     try {
-      await fetch(`/api/institutions/${id}`, { method: "DELETE" })
+      await api.delete(`/api/institution/${id}`,)
       setInstitutions(institutions.filter(inst => inst._id !== id))
     } catch (error) {
-      setInstitutions(institutions.filter(inst => inst._id !== id))
+      console.log(error)
     }
   }
 

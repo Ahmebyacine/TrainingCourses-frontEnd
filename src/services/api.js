@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { getToken } from './auth';
 const api = axios.create({
-  baseURL: 'https://bookinbackend.onrender.com',
+  baseURL: 'https://trainingcourses-backend.onrender.com',
 });
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = getToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
