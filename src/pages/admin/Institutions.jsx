@@ -3,10 +3,13 @@ import { Building2 } from "lucide-react"
 import InstitutionCard from "@/layouts/admin/InstitutionCard"
 import AddInstitutionModal from "@/layouts/admin/AddInstitutionModal"
 import api from "@/services/api"
+import { toast } from "sonner"
+import ErrorPage from "../common/ErrorPage"
 
 export default function Institutions() {
   const [institutions, setInstitutions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [editingId, setEditingId] = useState(null)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
 
@@ -17,7 +20,7 @@ export default function Institutions() {
         const response = await api.get("/api/institution")
         setInstitutions(response.data)
       } catch (error) {
-        console.error("Error fetching institutions:", error)
+        setError(err.response?.data?.message);
       } finally {
         setIsLoading(false)
       }
@@ -30,8 +33,11 @@ export default function Institutions() {
       const response = await api.post('/api/institution', data);
       setAddDialogOpen(false)
       setInstitutions([...institutions, response.data])
+      toast.success("Institution has been Added", {
+        description: `the Institution ${response.data.name} has Added`
+      })
     } catch (error) {
-      console.log(error)
+      toast.error("Institution has Not been Added")
       setAddDialogOpen(false)
     }
   }
@@ -44,12 +50,15 @@ export default function Institutions() {
         inst._id === editingId ? updatedInstitution : inst
       ))
       setEditingId(null)
+      toast.success("Institution has been Updated", {
+        description: `the Institution ${response.data.name} has Updated`
+      })
     } catch (error) {
       setInstitutions(institutions.map(inst => 
         inst._id === editingId ? { ...inst, ...data } : inst
       ))
       setEditingId(null)
-      console.log(error)
+      toast.error("Institution has Not been Updated")
     }
   }
 
@@ -57,15 +66,21 @@ export default function Institutions() {
     try {
       await api.delete(`/api/institution/${id}`,)
       setInstitutions(institutions.filter(inst => inst._id !== id))
+      toast.success("Institution has been Deleted", {
+        description: `the Institution ${response.data.name} has Deleted`
+      })
     } catch (error) {
-      console.log(error)
+      toast.error("Institution has Not been Deleted")
     }
   }
 
+
+  if (error) return <ErrorPage error={error} />
+
   return (
-    <div className="container mx-auto py-8 px-10">
+    <div className="w-full mx-auto py-8 px-5 md:px-10">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Institutions</h1>
+        <h1 className="md:text-3xl text-xl font-bold">Institutions</h1>
         <AddInstitutionModal 
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}

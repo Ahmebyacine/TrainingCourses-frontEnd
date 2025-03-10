@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import { SuccessComponent } from "@/layouts/employee/SuccessComponent"
 import { AddTraineeCard } from "@/layouts/employee/AddTraineeCard"
 import api from "@/services/api"
+import { toast } from "sonner"
+import ErrorPage from "../common/ErrorPage"
 
 // Define the form schema with validation
 
@@ -9,6 +11,7 @@ import api from "@/services/api"
 export default function AddTrainee() {
   const [programs, setPrograms] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
 
   const [trainee, setTrainee] = useState({})
@@ -19,7 +22,7 @@ export default function AddTrainee() {
         const programsResponse = await api.get("/api/program/employee")
         setPrograms(programsResponse.data)
       } catch (error) {
-        console.error("Error fetching programs data:", error)
+        setError(err.response?.data?.message);
       }
     }
     fetchData()
@@ -31,11 +34,13 @@ export default function AddTrainee() {
     try {
       // Replace with your actual API endpoint
         const response = await api.post("/api/trainee",data)
-        console.log(response.data)
         setTrainee(response.data)
         setSuccess(true)
+        toast.success("Trainee has been Added", {
+          description: `the Trainee ${response.data.name} has Added`
+        })
     } catch (error) {
-      console.error("Error submitting form:", error)
+      toast.error("Trainee has been Not Added")
     } finally {
       setIsLoading(false)
     }
@@ -44,6 +49,7 @@ export default function AddTrainee() {
     setSuccess(false)
   }
 
+  if (error) return <ErrorPage error={error} />
   return (
     <>
       {success ? (

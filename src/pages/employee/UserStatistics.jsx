@@ -1,6 +1,7 @@
 import StatisticsCard from '@/layouts/statistics/user/StatisticsCard'
 import api from '@/services/api'
 import { useState, useEffect } from 'react'
+import ErrorPage from '../common/ErrorPage'
 
 export default function UserStatistics() {
   const [userData, setUserData] = useState([])
@@ -12,10 +13,8 @@ export default function UserStatistics() {
       try {
         const response = await api.get('/api/user/statistics/employee')
         setUserData(response.data)
-        console.log(response.data)
-
       } catch (err) {
-        setError(err.message)
+        setError(err.response?.data?.message);
       } finally {
         setLoading(false)
       }
@@ -32,19 +31,13 @@ export default function UserStatistics() {
     )
   }
 
-  if (error) {
-    return (
-      <div className="container mx-auto py-10">
-        <div className="text-red-500">Error: {error}</div>
-      </div>
-    )
-  }
+  if (error) return <ErrorPage error={error} />
 
   return (
     <div className="container mx-auto p-10">
       <div className='space-y-4'>
           <StatisticsCard 
-            key={userData.user.id} 
+            key={userData.user._id} 
             data={userData} 
           />
       </div>

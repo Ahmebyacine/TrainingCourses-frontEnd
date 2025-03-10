@@ -14,6 +14,7 @@ import QRScannerComponent from "@/layouts/employee/QRScanner"
 import api from "@/services/api"
 import TraineeDetailsCard from "@/layouts/employee/TraineeDetailsCard"
 import { useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 
 
 // Search form schema
@@ -43,9 +44,13 @@ export default function TraineeSearch() {
     try {
       const response = await api.post('/api/trainee/search',{id: searchTerm})
       setTrainee(response.data)
-      console.log(response.data)
+      toast.success("Trainee has found", {
+        description: `the Trainee ${response.data.name} has found`
+      })
     } catch (error) {
-      console.error("Error searching for trainee:", error)
+      toast.error("Trainee not found", {
+        description: `${error.response.data.message}`
+      })
     } finally {
       setIsSearching(false)
     }

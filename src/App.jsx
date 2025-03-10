@@ -1,10 +1,9 @@
-// App.js
 import DashboardLayout from './layouts/common/DashboardLayout'
 import Courses from './pages/admin/Courses'
 import Institutions from './pages/admin/Institutions'
 import Programs from './pages/admin/Programs'
 import Users from './pages/admin/Users'
-import { createHashRouter, RouterProvider } from "react-router-dom"; // Changed import
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import AddTrainee from './pages/employee/AddTrainee'
 import SignIn from './pages/auth/SignIn'
 import ProtectedRoute from './services/ProtectedRoute'
@@ -17,7 +16,7 @@ import Unauthorized from './pages/common/Unauthorized'
 import TraineeSearch from './pages/employee/TraineeSearch'
 import EditTrainee from './layouts/employee/EditTrainee'
 
-const router = createHashRouter([ // Changed to createHashRouter
+const router = createHashRouter([
   {
     path: "/",
     element: (
@@ -88,10 +87,7 @@ const router = createHashRouter([ // Changed to createHashRouter
     path: "/unauthorized",
     element: <Unauthorized />,
   },
-],
-{
-  basename: "/TrainingCourses-frontEnd/",
-});
+]);
 
 function App() {
   return <RouterProvider router={router} />;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { format } from "date-fns"
@@ -12,8 +12,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { useToast } from "@/hooks/useToast"
 import api from "@/services/api";
+import { toast } from "sonner";
 
 // Define the trainee form schema
 const traineeSchema = z.object({
@@ -59,8 +59,9 @@ export default function EditTrainee() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
-  const [programs, setPrograms] = useState(mockPrograms)
-  const { toast } = useToast()
+  const [programs, setPrograms] = useState(mockPrograms);
+
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(traineeSchema),
@@ -90,7 +91,7 @@ export default function EditTrainee() {
           name: response.data.name,
           email: response.data.email,
           phone: response.data.phone,
-          program: response.data.program,
+          program: response.data.program._id,
           inialTranche: response.data.inialTranche,
           secondTranche: response.data.secondTranche,
           rest: response.data.rest,
@@ -130,26 +131,22 @@ export default function EditTrainee() {
   // Handle form submission
   const onSubmit = async (values) => {
     setIsSaving(true)
+    console.log(values)
     try {
       
-     await fetch(`/api/trainees/${id}`,values)
+     await api.put(`/api/trainee/${id}`,values)
 
-      toast({
-        title: "Success",
+      toast.success( "Success",{
         description: "Trainee information updated successfully",
       })
 
       // Navigate back to search page
       setTimeout(() => {
-        window.location.href = "/search-trainees"
+        navigate(`/search-trainee`)
       }, 1000)
     } catch (error) {
       console.error("Error updating trainee:", error)
-      toast({
-        title: "Error",
-        description: "Failed to update trainee information. Please try again.",
-        variant: "destructive",
-      })
+      toast.error("the tainee has not updated")
     } finally {
       setIsSaving(false)
     }
@@ -157,7 +154,7 @@ export default function EditTrainee() {
 
   return (
     <div className="container py-8 max-w-3xl mx-auto">
-      <Button variant="outline" size="sm" className="mb-4" onClick={() => (window.location.href = "/trainees/search")}>
+      <Button variant="outline" size="sm" className="mb-4" onClick={() => navigate(`/search-trainee`)}>
         <ArrowLeft className="h-4 w-4 mr-2" />
         Back to Search
       </Button>

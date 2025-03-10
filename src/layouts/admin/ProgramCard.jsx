@@ -18,6 +18,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import api from "@/services/api"
+import { toast } from "sonner"
 
 export default function ProgramCard({
   program,
@@ -71,7 +72,7 @@ export default function ProgramCard({
         const response = await api.get(`/api/trainee/program/${program._id}`)
         setTrainees(response.data)
       } catch (error) {
-        console.error("Error fetching trainees:", error)
+        toast.error(`Error fetching trainees`)
       } finally {
         setIsLoadingTrainees(false)
       }
@@ -197,7 +198,7 @@ export default function ProgramCard({
                       </TableCell>
                       <TableCell>{trainee.email}</TableCell>
                       <TableCell>{trainee.phone}</TableCell>
-                      <TableCell>{formatDate(trainee.registrationDate)}</TableCell>
+                      <TableCell>{formatDate(trainee.createdAt)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

@@ -112,10 +112,10 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                render={({ field }) => (
                  <FormItem>
                    <FormLabel>Program *</FormLabel>
-                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                   <Select onValueChange={field.onChange} defaultValue={field.value[0]}>
                      <FormControl>
                        <SelectTrigger>
-                       <SelectValue 
+                       <SelectValue
                          placeholder={
                            programs.length === 0 
                              ? "Loading programs..." 
@@ -155,7 +155,7 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                    <FormItem>
                      <FormLabel>Initial Tranche</FormLabel>
                      <FormControl>
-                       <Input type="number" min="0" step="0.01" {...field} />
+                       <Input type="number" min="0" {...field} />
                      </FormControl>
                      <FormMessage />
                    </FormItem>

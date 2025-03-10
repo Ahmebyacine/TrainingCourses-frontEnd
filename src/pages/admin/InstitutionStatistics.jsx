@@ -5,9 +5,13 @@ import { YearlyOverview } from '@/layouts/statistics/instittution/YearlyOverview
 import { MonthlyBreakdown } from '@/layouts/statistics/instittution/MonthlyBreakdown';
 import { availableYears } from '@/assets/Data';
 import api from '@/services/api';
+import ErrorPage from '../common/ErrorPage';
 
 export const InstitutionStatistics = () => {
-  const [selectedYear, setSelectedYear] = useState(2024);
+  const [selectedYear, setSelectedYear] = useState(() => {
+    const now = new Date();
+    return now.getFullYear();
+  });
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -16,10 +20,10 @@ export const InstitutionStatistics = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await api.get(`/api/institution/statistics?year${selectedYear}`);
+        const response = await api.get(`/api/institution/statistics?year=${selectedYear}`);
         setData(response.data);
       } catch (err) {
-        setError(err.response?.data?.message || err.message || 'Unknown error');
+        setError(err.response?.data?.message);
       } finally {
         setLoading(false);
       }
@@ -28,9 +32,11 @@ export const InstitutionStatistics = () => {
     fetchData();
   }, [selectedYear]);
 
+  if (error) return <ErrorPage error={error} />
+  
   return (
-    <div className="container mx-auto py-6 px-10">
-      <h1 className="text-3xl font-bold mb-6">Institution Statistics Dashboard</h1>
+    <div className="container mx-auto py-6 px-5 md:px-10">
+      <h1 className="md:text-3xl text-xl font-bold mb-6">Institution Statistics Dashboard</h1>
 
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">

@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import ProgramCard from "@/layouts/admin/ProgramCard"
 import AddProgramModal from "@/layouts/admin/AddProgramModal"
 import api from "@/services/api"
+import { toast } from "sonner"
+import ErrorPage from "../common/ErrorPage"
 
 export default function Programs() {
   const [programs, setPrograms] = useState([])
@@ -11,10 +13,9 @@ export default function Programs() {
   const [institutions, setInstitutions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
+  const [error, setError] = useState(null)
   const [editingId, setEditingId] = useState(null)
   const [expandedPrograms, setExpandedPrograms] = useState([])
-  const [trainees, setTrainees] = useState([])
-  const [isLoadingTrainees, setIsLoadingTrainees] = useState(false)
 
   // Fetch programs, courses, and institutions data
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function Programs() {
         setCourses(coursesResponse.data)
         setInstitutions(institutionsResponse.data)
       } catch (error) {
-        console.error("Error fetching data:", error)
+        setError(err.response?.data?.message);
       } finally {
         setIsLoading(false)
       }
@@ -39,31 +40,6 @@ export default function Programs() {
 
     fetchData()
   }, [])
-
-  // Fetch trainees for a specific program
-  const fetchTrainees = async (programId) => {
-    setIsLoadingTrainees(true)
-    try {
-      // Replace with your actual API endpoint
-      const response = await api.get(`/api/trainee/program/${programId}`)
-      setTrainees(response.data)
-    } catch (error) {
-      console.error("Error fetching trainees:", error)
-    } finally {
-      setIsLoadingTrainees(false)
-    }
-  }
-
-  // Toggle program expansion to show trainees
-  const toggleProgramExpansion = (programId) => {
-    if (expandedPrograms.includes(programId)) {
-      setExpandedPrograms(expandedPrograms.filter((id) => id !== programId))
-      setTrainees([])
-    } else {
-      setExpandedPrograms([...expandedPrograms, programId])
-      fetchTrainees(programId)
-    }
-  }
 
   // Handle adding a new program
   const handleAddProgram = async (data) => {
@@ -79,8 +55,11 @@ export default function Programs() {
       const response = await api.post("/api/program",formattedData)
       setPrograms([...programs, response.data[0]])
       setAddDialogOpen(false)
+      toast.success("Program has been Added", {
+        description: `the Program ${response.data[0].name} has Added`
+      })
     } catch (error) {
-      console.error("Error adding program:", error)
+      toast.error("Program has been Not Added")
       setAddDialogOpen(false)
     }
   }
@@ -99,8 +78,11 @@ export default function Programs() {
       const response = await api.put(`/api/program/${editingId}`,formattedData)
       setEditingId(null)
       setPrograms(programs.map((program) => (program._id === editingId ? response.data[0] : program)))
+      toast.success("Program has been Updated", {
+        description: `the Program ${response.data[0].name} has Updated`
+      })
     } catch (error) {
-      console.error("Error updating program:", error)
+      toast.error("Program has been Not Updated")
       setEditingId(null)
     }
   }
@@ -109,19 +91,14 @@ export default function Programs() {
   const handleDeleteProgram = async (id) => {
     try {
       // Replace with your actual API endpoint
-      const response = await api.delete(`/api/program/${id}`)
-        setPrograms(programs.filter((program) => program._id !== id))
-        if (expandedPrograms.includes(id)) {
-          setExpandedPrograms(expandedPrograms.filter((progId) => progId !== id))
-        }
-    } catch (error) {
-      console.error("Error deleting program:", error)
-      // For demo purposes, delete locally
+      await api.delete(`/api/program/${id}`)
       setPrograms(programs.filter((program) => program._id !== id))
-      // If the deleted program was expanded, remove it from expanded list
       if (expandedPrograms.includes(id)) {
         setExpandedPrograms(expandedPrograms.filter((progId) => progId !== id))
       }
+      toast.success("Program has been Deleted")
+    } catch (error) {
+      toast.error("Program has been Not Deleted")
     }
   }
 
@@ -129,16 +106,12 @@ export default function Programs() {
   const startEditing = (program) => {
     setEditingId(program._id)
   }
-
-  // Cancel editing
-  const cancelEditing = () => {
-    setEditingId(null)
-  }
+  if (error) return <ErrorPage error={error} />
 
   return (
-    <div className="container mx-auto py-8 px-10">
+    <div className="container mx-auto py-8 px-5 md:px-10">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Programs</h1>
+        <h1 className="text-xl md:text-3xl font-bold">Programs</h1>
         <Button onClick={() => setAddDialogOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
           Add Program

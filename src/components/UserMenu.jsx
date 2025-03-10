@@ -1,21 +1,18 @@
+import { getTokenData } from '@/services/auth';
 import { ChevronDown } from 'lucide-react';
 import React from 'react';
 import LogoutButton from './LogoutBotton';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 const UserMenu = () => {
+  const {name , email}= getTokenData();
     return (
         <div className="border-t p-4">
          <div className="flex items-center gap-3">
-           <Avatar>
-             <AvatarImage src="/placeholder.svg?height=32&width=32" alt="User" />
-             <AvatarFallback>AD</AvatarFallback>
-           </Avatar>
            <div className="flex-1 overflow-hidden">
-             <p className="text-sm font-medium leading-none">Admin User</p>
-             <p className="text-xs text-muted-foreground truncate">admin@admin.com</p>
+             <p className="text-sm font-medium leading-none">{name || 'unknown user'}</p>
+             <p className="text-xs text-muted-foreground truncate">{email || 'unknown user'}</p>
            </div>
            <DropdownMenu>
              <DropdownMenuTrigger asChild>

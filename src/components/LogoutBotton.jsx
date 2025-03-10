@@ -7,6 +7,8 @@ const LogoutButton = () => {
   const navigate = useNavigate();  
   const handleLogout = () => {
     removeToken();
+    window.localStorage.clear();
+    window.sessionStorage.clear();
     navigate('/login');
   };
 

@@ -11,7 +11,7 @@ const QRScannerComponent = ({ onScan }) => {
   // Handle successful scan
   const handleScan = (result) => {
     if (result) {
-      onScan(result)
+      onScan(result[0].rawValue)
       setScanning(false)
     }
   }
@@ -40,11 +40,14 @@ const QRScannerComponent = ({ onScan }) => {
             constraints={{
               facingMode: "environment",
             }}
-            scanDelay={300}
+            scanDelay={500}
             containerStyle={{
               borderRadius: "0.5rem",
               overflow: "hidden",
             }}
+            components={
+              {audio:false}
+            }
           />
           <div className="absolute inset-0 border-2 border-primary/50 rounded-lg pointer-events-none" />
         </div>

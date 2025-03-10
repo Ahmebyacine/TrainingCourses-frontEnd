@@ -3,11 +3,14 @@ import { User } from "lucide-react"
 import UserCard from "@/layouts/admin/UserCard"
 import AddUserModal from "@/layouts/admin/AddUserModel"
 import api from "@/services/api"
+import { toast } from "sonner"
+import ErrorPage from "../common/ErrorPage"
 
 export default function Users() {
   const [users, setUsers] = useState([])
   const [institutions, setInstitutions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [editingId, setEditingId] = useState(null)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
 
@@ -22,7 +25,7 @@ export default function Users() {
         setUsers(usersResponse.data)
         setInstitutions(institutionsResponse.data)
       } catch (error) {
-        console.error("Error fetching data:", error)
+        setError(err.response?.data?.message);
       } finally {
         setIsLoading(false)
       }
@@ -34,10 +37,13 @@ export default function Users() {
   const handleAddUser = async (data) => {
     try {
       const response = await api.post("/api/user",data)
-        setUsers([...users, response.data])
+        setUsers([...users, response.data[0]])
         setAddDialogOpen(false)
+        toast.success("User has been Added", {
+          description: `the User ${response.data[0].name} has Added`
+        })
     } catch (error) {
-      console.log(error)
+      toast.error("User has been Not Added")
       setAddDialogOpen(false)
     }
   }
@@ -48,11 +54,16 @@ export default function Users() {
 
     try {
       const response = await api.put(`/api/user/${id}`,updateData)
+      console.log(response.data)
       setUsers(users.map(user => user._id === id ? response.data : user))
       setEditingId(null)
+      toast.success("User has been Updated", {
+        description: `the User ${response.data.name} has Updated`
+      })
     } catch (error) {
       console.log(error)
       setEditingId(null)
+      toast.error("User has been Not Updated")
     }
   }
 
@@ -60,8 +71,9 @@ export default function Users() {
     try {
       await api.delete(`/api/user/${id}`)
       setUsers(users.filter(user => user._id !== id))
+      toast.success("User has been Delted")
     } catch (error) {
-      console.log(error)
+      toast.error("User has been Delted")
     }
   }
 
@@ -72,11 +84,12 @@ export default function Users() {
       day: "numeric",
     })
   }
+  if (error) return <ErrorPage error={error} />
 
   return (
-    <div className="container mx-auto py-8 px-10">
+    <div className="container mx-auto py-8 px-5 md:px-10">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Users</h1>
+        <h1 className="md:text-3xl text-xl font-bold">Users</h1>
         <AddUserModal
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}

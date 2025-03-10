@@ -1,6 +1,7 @@
 import StatisticsCard from '@/layouts/statistics/program/StatisticsCard'
 import api from '@/services/api'
 import { useState, useEffect } from 'react'
+import ErrorPage from '../common/ErrorPage'
 
 export default function ProgramStatistics() {
   const [programData, setProgramData] = useState([])
@@ -13,7 +14,7 @@ export default function ProgramStatistics() {
         const response = await api.get('/api/program/statistics/all')
         setProgramData(response.data.statistics)
       } catch (err) {
-        setError(err.message)
+        setError(err.response?.data?.message);
       } finally {
         setLoading(false)
       }
@@ -30,13 +31,7 @@ export default function ProgramStatistics() {
     )
   }
 
-  if (error) {
-    return (
-      <div className="container mx-auto py-10">
-        <div className="text-red-500">Error: {error}</div>
-      </div>
-    )
-  }
+  if (error) return <ErrorPage error={error} />
 
   return (
     <div className="container mx-auto p-10">

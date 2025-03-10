@@ -3,12 +3,16 @@ import { BookOpen } from "lucide-react"
 import CourseCard from "@/layouts/admin/CourseCard"
 import AddCourseModal from "@/layouts/admin/AddCourseModal"
 import api from "@/services/api"
+import { toast } from "sonner"
+import ErrorPage from "../common/ErrorPage"
 
 export default function Courses() {
   const [courses, setCourses] = useState([])
+  const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [editingId, setEditingId] = useState(null)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
+
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -17,7 +21,8 @@ export default function Courses() {
         const response = await api.get("/api/course")
         setCourses(response.data)
       } catch (error) {
-        console.error("Error fetching courses:", error)
+        console.log(error)
+        setError(err.response?.data?.message);
       } finally {
         setIsLoading(false)
       }
@@ -30,8 +35,11 @@ export default function Courses() {
       const response = await api.post("/api/course", data)
       setCourses([...courses, response.data])
       setAddDialogOpen(false)
+      toast.success("Course has been Added", {
+        description: `the course ${response.data.name} has Added`
+      })
     } catch (error) {
-      console.log(error)
+      toast.error("Course has not been Added")
       setAddDialogOpen(false)
     }
   }
@@ -43,8 +51,11 @@ export default function Courses() {
         course._id === editingId ? response.data : course
       ))
       setEditingId(null)
+      toast.success("Course has been Updates", {
+        description: `the course ${response.data.name} has Updates`
+      })
     } catch (error) {
-      console.error(error)
+      toast.error("Course has not been Updates")
       setEditingId(null)
     }
   }
@@ -53,8 +64,9 @@ export default function Courses() {
     try {
       await api.delete(`/api/course/${id}`)
       setCourses(courses.filter(course => course._id !== id))
+      toast.success("Course has been Deleted")
     } catch (error) {
-      console.log(error)
+      toast.error("Course has not been Deleted")
     }
   }
 
@@ -66,11 +78,11 @@ export default function Courses() {
       maximumFractionDigits: 0,
     }).format(price)
   }
-
+  if (error) return <ErrorPage error={error} />
   return (
-    <div className="container mx-auto py-8 px-10">
+    <div className="container mx-auto py-8 px-5 md:px-10">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Courses</h1>
+        <h1 className="md:text-3xl text-xl font-bold">Courses</h1>
         <AddCourseModal 
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}

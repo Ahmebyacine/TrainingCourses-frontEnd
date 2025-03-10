@@ -14,7 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 const editUserSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
-  password: z.string().min(6).optional(),
+  password: z.string().optional(),
   phone: z.string().min(10),
   nationalId: z.string().min(1),
   institutions: z.array(z.string()).optional(),
