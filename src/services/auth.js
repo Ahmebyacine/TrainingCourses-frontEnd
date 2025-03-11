@@ -22,7 +22,10 @@ export const removeToken = () => {
 
 // Check if user is authenticated
 export const isAuthenticated = () => {
-  return !!getToken();
+  const tokenData = getTokenData();
+  if (!tokenData || tokenData.exp === undefined) return false;
+  const currentTime = Date.now() / 1000;
+  return tokenData.exp > currentTime;
 };
 
 //Get Token Data
