@@ -108,7 +108,7 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>البريد الإلكتروني</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -121,7 +121,7 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password (leave empty to keep current)</FormLabel>
+                    <FormLabel>كلمة المرور (اتركها فارغة للحفاظ على الحالية)</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -134,7 +134,7 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>الهاتف</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -147,7 +147,7 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
                 name="nationalId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>National ID</FormLabel>
+                    <FormLabel>الهوية الوطنية</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -160,7 +160,7 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
                 name="institutions"
                 render={() => (
                   <FormItem>
-                    <FormLabel>Institutions</FormLabel>
+                    <FormLabel>المؤسسات</FormLabel>
                     <FormControl>
                       <div className="border rounded-md p-2">
                         <ScrollArea className="h-32">
@@ -208,7 +208,7 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
                     </Badge>
                   ))
                 ) : (
-                  <span className="text-muted-foreground text-sm">No institutions assigned</span>
+                  <span className="text-muted-foreground text-sm">لا توجد مؤسسات مسندة</span>
                 )}
               </div>
             </div>
@@ -221,37 +221,37 @@ export default function UserCard({ user, institutions, editingId, formatDate, on
           <div className="flex justify-end gap-2 w-full">
             <Button variant="outline" size="sm" onClick={() => onStartEditing(null)}>
               <X className="h-4 w-4 mr-1" />
-              Cancel
+              إلغاء
             </Button>
             <Button size="sm" onClick={form.handleSubmit(handleSubmit)}>
               <Check className="h-4 w-4 mr-1" />
-              Save
+              حفظ
             </Button>
           </div>
         ) : (
           <div className="flex justify-end gap-2 w-full">
             <Button variant="outline" size="sm" onClick={() => onStartEditing(user._id)}>
               <Pencil className="h-4 w-4 mr-1" />
-              Edit
+              تعديل
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" size="sm">
                   <Trash2 className="h-4 w-4 mr-1" />
-                  Delete
+                  حذف
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogTitle>هل أنت متأكد؟</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will permanently delete the user "{user.name}". This action cannot be undone.
+                    سيتم حذف المستخدم "{user.name}" نهائيًا. لا يمكن التراجع عن هذا الإجراء.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel>إلغاء</AlertDialogCancel>
                   <AlertDialogAction onClick={() => onDeleteUser(user._id)}>
-                    Delete
+                    حذف
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

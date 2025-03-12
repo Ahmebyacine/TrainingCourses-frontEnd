@@ -55,11 +55,11 @@ export default function Programs() {
       const response = await api.post("/api/program",formattedData)
       setPrograms([...programs, response.data[0]])
       setAddDialogOpen(false)
-      toast.success("Program has been Added", {
-        description: `the Program ${response.data[0].name} has Added`
+      toast.success("تمت إضافة البرنامج", {
+        description: `تمت إضافة البرنامج ${response.data[0].name}`
       })
     } catch (error) {
-      toast.error("Program has been Not Added")
+      toast.error("لم يتم إضافة البرنامج")
       setAddDialogOpen(false)
     }
   }
@@ -78,11 +78,11 @@ export default function Programs() {
       const response = await api.put(`/api/program/${editingId}`,formattedData)
       setEditingId(null)
       setPrograms(programs.map((program) => (program._id === editingId ? response.data[0] : program)))
-      toast.success("Program has been Updated", {
-        description: `the Program ${response.data[0].name} has Updated`
+      toast.success("تم تحديث البرنامج", {
+        description: `تم تحديث البرنامج ${response.data[0].name}`
       })
     } catch (error) {
-      toast.error("Program has been Not Updated")
+      toast.error("لم يتم تحديث البرنامج")
       setEditingId(null)
     }
   }
@@ -96,9 +96,9 @@ export default function Programs() {
       if (expandedPrograms.includes(id)) {
         setExpandedPrograms(expandedPrograms.filter((progId) => progId !== id))
       }
-      toast.success("Program has been Deleted")
+      toast.success("تم حذف البرنامج")
     } catch (error) {
-      toast.error("Program has been Not Deleted")
+      toast.error("لم يتم حذف البرنامج")
     }
   }
 
@@ -109,24 +109,24 @@ export default function Programs() {
   if (error) return <ErrorPage error={error} />
 
   return (
-    <div className="container mx-auto py-8 px-5 md:px-10">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl md:text-3xl font-bold">Programs</h1>
+    <div className="container mx-auto py-8 px-5 md:px-10" dir="rtl">
+      <div className="flex justify-between items-center mb-6 flex-row-reverse">
+        <h1 className="text-xl md:text-3xl font-bold text-right">البرامج التدريبية</h1>
         <Button onClick={() => setAddDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Program
+          <Plus className="ml-2 h-4 w-4" />
+          إضافة برنامج
         </Button>
       </div>
 
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
-          <p className="text-lg">Loading programs...</p>
+          <p className="text-lg">جاري تحميل البرامج...</p>
         </div>
       ) : programs.length === 0 ? (
         <div className="text-center p-8 border border-dashed rounded-lg">
           <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
-          <h3 className="mt-4 text-lg font-semibold">No programs found</h3>
-          <p className="text-muted-foreground">Get started by adding a new program.</p>
+          <h3 className="mt-4 text-lg font-semibold">لا توجد برامج متاحة</h3>
+          <p className="text-muted-foreground">ابدأ بإضافة برنامج جديد</p>
         </div>
       ) : (
         <div className="space-y-6">

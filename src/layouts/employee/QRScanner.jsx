@@ -18,7 +18,6 @@ const QRScannerComponent = ({ onScan }) => {
 
   // Handle camera errors
   const handleError = (error) => {
-    console.error("QR scanner error:", error)
     setCameraError(error.message)
     setScanning(false)
   }
@@ -45,9 +44,9 @@ const QRScannerComponent = ({ onScan }) => {
               borderRadius: "0.5rem",
               overflow: "hidden",
             }}
-            components={
-              {audio:false}
-            }
+            components={{
+              audio: false
+            }}
           />
           <div className="absolute inset-0 border-2 border-primary/50 rounded-lg pointer-events-none" />
         </div>
@@ -69,19 +68,19 @@ const QRScannerComponent = ({ onScan }) => {
         {scanning ? (
           <>
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            Scanning...
+            جاري المسح...
           </>
         ) : (
           <>
             <QrCode className="h-4 w-4 mr-2" />
-            {cameraError ? "Retry Scanning" : "Scan QR Code"}
+            {cameraError ? "إعادة المحاولة" : "مسح رمز الاستجابة السريعة"}
           </>
         )}
       </Button>
       
       {!cameraError && (
         <p className="text-sm text-muted-foreground text-center">
-          Position the QR code within the frame to scan
+          ضع رمز الاستجابة السريعة داخل الإطار للمسح
         </p>
       )}
     </div>

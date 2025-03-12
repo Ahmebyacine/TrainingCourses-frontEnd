@@ -55,11 +55,11 @@ export default function ProgramCard({
     const end = new Date(endDate)
 
     if (now < start) {
-      return { label: "Upcoming", color: "bg-blue-100 text-blue-800" }
+      return { label: "قادم", color: "bg-blue-100 text-blue-800" }
     } else if (now > end) {
-      return { label: "Completed", color: "bg-green-100 text-green-800" }
+      return { label: "اكتملت", color: "bg-green-100 text-green-800" }
     } else {
-      return { label: "In Progress", color: "bg-yellow-100 text-yellow-800" }
+      return { label: "قيد التقدم", color: "bg-yellow-100 text-yellow-800" }
     }
   }
 
@@ -87,15 +87,15 @@ export default function ProgramCard({
           <div className="flex justify-between items-start">
             <div>
               <div className="flex items-center gap-2">
-                <CardTitle>{program.course?.name || 'Unknown Course'}</CardTitle>
+                <CardTitle>{program.course?.name || 'دورة غير معروفة'}</CardTitle>
                 <span className={`text-xs px-2 py-1 rounded-full ${status.color}`}>{status.label}</span>
               </div>
-              <CardDescription className="mt-1">at {program.institution?.name || 'Unknown Institution'}</CardDescription>
+              <CardDescription className="mt-1">في {program.institution?.name || 'مؤسسة غير معروفة'}</CardDescription>
             </div>
             <CollapsibleTrigger asChild>
               <Button variant="ghost" size="sm" className="gap-1">
                 <Users className="h-4 w-4" />
-                Trainees
+                المتدربون
                 {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
               </Button>
             </CollapsibleTrigger>
@@ -107,7 +107,7 @@ export default function ProgramCard({
               <div className="flex items-start">
                 <Calendar className="h-4 w-4 mr-2 mt-0.5 text-muted-foreground" />
                 <div>
-                  <div className="font-medium">Duration</div>
+                  <div className="font-medium">المدة</div>
                   <div>{calculateDuration(program.start_date, program.end_date)}</div>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function ProgramCard({
               <div className="flex items-start">
                 <Calendar className="h-4 w-4 mr-2 mt-0.5 text-muted-foreground" />
                 <div>
-                  <div className="font-medium">Dates</div>
+                  <div className="font-medium">التواريخ</div>
                   <div>
                     {formatDate(program.start_date)} - {formatDate(program.end_date)}
                   </div>
@@ -129,26 +129,26 @@ export default function ProgramCard({
           <div className="flex justify-end gap-2 w-full">
             <Button variant="outline" size="sm" onClick={() => onStartEditing(program)}>
               <Pencil className="h-4 w-4 mr-1" />
-              Edit
+              تعديل
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" size="sm">
                   <Trash2 className="h-4 w-4 mr-1" />
-                  Delete
+                  حذف
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogTitle>هل أنت متأكد؟</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will permanently delete the program "{program.course?.name}" at "
-                    {program.institution?.name}". This action cannot be undone.
+                    سيتم حذف برنامج "{program.course?.name}" في "
+                    {program.institution?.name}" نهائيًا. لا يمكن التراجع عن هذا الإجراء.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => onDeleteProgram(program._id)}>Delete</AlertDialogAction>
+                  <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => onDeleteProgram(program._id)}>حذف</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -162,27 +162,27 @@ export default function ProgramCard({
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold flex items-center">
               <Users className="h-5 w-5 mr-2" />
-              Trainees for {program.course?.name}
+              المتدربون في {program.course?.name}
             </h3>
           </div>
 
           {isLoadingTrainees ? (
             <div className="flex justify-center items-center h-32">
-              <p>Loading trainees...</p>
+              <p>جاري تحميل المتدربين...</p>
             </div>
           ) : trainees.length === 0 ? (
             <div className="text-center p-6 border border-dashed rounded-lg">
-              <p className="text-muted-foreground">No trainees found for this program.</p>
+              <p className="text-muted-foreground">لا يوجد متدربون في هذا البرنامج</p>
             </div>
           ) : (
             <div className="rounded-md border">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Trainee</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Phone</TableHead>
-                    <TableHead>Registration Date</TableHead>
+                    <TableHead>المتدرب</TableHead>
+                    <TableHead>البريد الإلكتروني</TableHead>
+                    <TableHead>الهاتف</TableHead>
+                    <TableHead>تاريخ التسجيل</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

@@ -6,26 +6,26 @@ const ErrorPage = ({ error }) => {
   const router = useNavigate()
 
   const errorMessages = {
-    400: "Bad Request",
-    401: "Unauthorized",
-    403: "Forbidden",
-    404: "Not Found",
-    405: "Method Not Allowed",
-    408: "Request Timeout",
-    409: "Conflict",
-    500: "Internal Server Error",
-    501: "Not Implemented",
-    502: "Bad Gateway",
-    503: "Service Unavailable",
-    504: "Gateway Timeout",
-    505: "HTTP Version Not Supported",
+    400: "طلب غير صحيح",
+    401: "غير مصرح",
+    403: "ممنوع",
+    404: "غير موجود",
+    405: "طريقة غير مسموحة",
+    408: "انتهت مهلة الطلب",
+    409: "تعارض",
+    500: "خطأ داخلي في الخادم",
+    501: "غير مطبق",
+    502: "بوابة خاطئة",
+    503: "الخدمة غير متاحة",
+    504: "انتهت مهلة البوابة",
+    505: "إصدار HTTP غير مدعوم",
   }
 
   const status = error?.status || 500
-  const message = errorMessages[status] || "Unknown Error"
+  const message = errorMessages[status] || "خطأ غير معروف"
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background p-4">
+    <div className="flex items-center justify-center min-h-screen bg-background p-4" dir="rtl">
       <Card className="w-full max-w-md shadow-lg border-muted">
         <CardHeader className="pb-0">
           <div className="flex flex-col items-center">
@@ -34,11 +34,13 @@ const ErrorPage = ({ error }) => {
           </div>
         </CardHeader>
         <CardContent className="text-center pt-4">
-          <p className="text-muted-foreground">{error.message || "Something went wrong. Please try again later."}</p>
+          <p className="text-muted-foreground">
+            {error.message || "حدث خطأ ما. يرجى المحاولة مرة أخرى لاحقًا."}
+          </p>
         </CardContent>
         <CardFooter className="flex justify-center pb-6">
           <Button variant="default" onClick={() => router.back()} className="px-6">
-            Go Back
+            العودة
           </Button>
         </CardFooter>
       </Card>

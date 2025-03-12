@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MonthlyTrendChart } from './Charts';
+import { MonthlyTrendChart } from '../Charts';
 import { StatisticsTableMonthly } from './StatisticsTableMonthly';
-
-// Month order for sorting
-const MONTHS_ORDER = [
-  'January', 'February', 'March', 'April',
-  'May', 'June', 'July', 'August',
-  'September', 'October', 'November', 'December'
-];
+import { MONTHS_ORDER } from '@/assets/Data';
 
 export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
   const [selectedMonth, setSelectedMonth] = useState(() => {
@@ -17,13 +11,13 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
     return now.toLocaleString('en-US', { month: 'long' });
   });
 
-  if (loading) return <div className="text-center py-4">Loading monthly data...</div>;
-  if (!monthlyData?.statistics) return <div className="text-center py-4 text-destructive">No data available for {selectedYear}</div>;
+  if (loading) return <div className="text-center py-4">جاري تحميل البيانات الشهرية...</div>;
+  if (!monthlyData?.statistics) return <div className="text-center py-4 text-destructive">لا توجد بيانات متاحة لسنة {selectedYear}</div>;
 
   // Process monthly trend data
   const processMonthlyTrend = (statistics) => {
-    const aggregation = statistics.reduce((acc, empolyee) => {
-      empolyee.performance.monthlyData.forEach(monthData => {
+    const aggregation = statistics.reduce((acc, employee) => {
+      employee.performance.monthlyData.forEach(monthData => {
         const month = monthData.month;
         if (!acc[month]) {
           acc[month] = {
@@ -43,7 +37,7 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
     }, {});
 
     return Object.values(aggregation)
-      .sort((a, b) => MONTHS_ORDER.indexOf(a.name) - MONTHS_ORDER.indexOf(b.name))
+      .sort((a, b) => MONTHS_ORDER.findIndex(m => m.value === a.name) - MONTHS_ORDER.findIndex(m => m.value === b.name))
       .map(month => ({
         ...month,
         totalAmount: month.totalAmount / 1000
@@ -52,10 +46,10 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
 
   // Get current month stats
   const getCurrentMonthStats = (statistics, targetMonth) => {
-    return statistics.map(empolyee => {
-      const monthlyEntry = empolyee.performance.monthlyData.find(m => m.month === targetMonth);
+    return statistics.map(employee => {
+      const monthlyEntry = employee.performance.monthlyData.find(m => m.month === targetMonth);
       return {
-        empolyee: empolyee.employee,
+        employee: employee.employee,
         totalTrainees: monthlyEntry?.totalTrainees || 0,
         totalAmount: monthlyEntry?.totalAmount || 0,
         totalPaid: monthlyEntry?.totalPaid || 0,
@@ -68,16 +62,16 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
   const currentMonthStats = getCurrentMonthStats(monthlyData.statistics, selectedMonth);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir="rtl">
       <div className="flex items-center gap-4 mb-6">
         <Select value={selectedMonth} onValueChange={setSelectedMonth}>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Month" />
+            <SelectValue placeholder="اختر الشهر" />
           </SelectTrigger>
           <SelectContent>
             {MONTHS_ORDER.map(month => (
-              <SelectItem key={month} value={month}>
-                {month}
+              <SelectItem key={month.value} value={month.value}>
+                {month.label}
               </SelectItem>
             ))}
           </SelectContent>
@@ -86,8 +80,8 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Monthly Trends {selectedYear}</CardTitle>
-          <CardDescription>Trainees and revenue by month</CardDescription>
+          <CardTitle className="text-right">التوجهات الشهرية لسنة {selectedYear}</CardTitle>
+          <CardDescription className="text-right">المتدربون والإيرادات حسب الشهر</CardDescription>
         </CardHeader>
         <CardContent className="h-80">
           <MonthlyTrendChart data={monthlyTrendData} />
@@ -96,8 +90,8 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Empolyee Statistics for {selectedMonth} {selectedYear}</CardTitle>
-          <CardDescription>Detailed breakdown by empolyee</CardDescription>
+          <CardTitle className="text-right">إحصائيات الموظفين لشهر {selectedMonth} سنة {selectedYear}</CardTitle>
+          <CardDescription className="text-right">تفصيل حسب الموظف</CardDescription>
         </CardHeader>
         <CardContent>
           <StatisticsTableMonthly 

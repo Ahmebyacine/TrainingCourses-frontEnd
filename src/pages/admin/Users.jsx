@@ -39,11 +39,11 @@ export default function Users() {
       const response = await api.post("/api/user",data)
         setUsers([...users, response.data[0]])
         setAddDialogOpen(false)
-        toast.success("User has been Added", {
-          description: `the User ${response.data[0].name} has Added`
+        toast.success("تمت إضافة المستخدم", {
+          description: `قام المستخدم ${response.data[0].name} بإضافة`
         })
     } catch (error) {
-      toast.error("User has been Not Added")
+      toast.error("لم تتم إضافة المستخدم")
       setAddDialogOpen(false)
     }
   }
@@ -57,13 +57,13 @@ export default function Users() {
       console.log(response.data)
       setUsers(users.map(user => user._id === id ? response.data : user))
       setEditingId(null)
-      toast.success("User has been Updated", {
-        description: `the User ${response.data.name} has Updated`
+      toast.success("تم تحديث المستخدم", {
+        description: `قام المستخدم ${response.data.name} بالتحديث`
       })
     } catch (error) {
       console.log(error)
       setEditingId(null)
-      toast.error("User has been Not Updated")
+      toast.error("لم يتم تحديث المستخدم")
     }
   }
 
@@ -71,14 +71,14 @@ export default function Users() {
     try {
       await api.delete(`/api/user/${id}`)
       setUsers(users.filter(user => user._id !== id))
-      toast.success("User has been Delted")
+      toast.success("تم حذف المستخدم")
     } catch (error) {
-      toast.error("User has been Delted")
+      toast.error("تم حذف المستخدم")
     }
   }
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("ar", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -87,9 +87,9 @@ export default function Users() {
   if (error) return <ErrorPage error={error} />
 
   return (
-    <div className="container mx-auto py-8 px-5 md:px-10">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="md:text-3xl text-xl font-bold">Users</h1>
+    <div className="container mx-auto py-8 px-5 md:px-10" dir="rtl">
+      <div className="flex justify-between items-center mb-6 flex-row-reverse">
+        <h1 className="md:text-3xl text-xl font-bold text-right">المستخدمين</h1>
         <AddUserModal
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}
@@ -100,13 +100,13 @@ export default function Users() {
 
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
-          <p className="text-lg">Loading users...</p>
+          <p className="text-lg">جاري تحميل المستخدمين...</p>
         </div>
       ) : users.length === 0 ? (
         <div className="text-center p-8 border border-dashed rounded-lg">
           <User className="mx-auto h-12 w-12 text-muted-foreground" />
-          <h3 className="mt-4 text-lg font-semibold">No users found</h3>
-          <p className="text-muted-foreground">Get started by adding a new user.</p>
+          <h3 className="mt-4 text-lg font-semibold">لا توجد مستخدمين متاحين</h3>
+          <p className="text-muted-foreground">ابدأ بإضافة مستخدم جديد</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">

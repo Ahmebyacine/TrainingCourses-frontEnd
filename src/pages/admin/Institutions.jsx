@@ -33,11 +33,11 @@ export default function Institutions() {
       const response = await api.post('/api/institution', data);
       setAddDialogOpen(false)
       setInstitutions([...institutions, response.data])
-      toast.success("Institution has been Added", {
-        description: `the Institution ${response.data.name} has Added`
+      toast.success("تمت إضافة المؤسسة", {
+        description: `لقد أضافت المؤسسة ${response.data.name}`
       })
     } catch (error) {
-      toast.error("Institution has Not been Added")
+      toast.error("لم تتم إضافة المؤسسة")
       setAddDialogOpen(false)
     }
   }
@@ -50,15 +50,15 @@ export default function Institutions() {
         inst._id === editingId ? updatedInstitution : inst
       ))
       setEditingId(null)
-      toast.success("Institution has been Updated", {
-        description: `the Institution ${response.data.name} has Updated`
+      toast.success("تم تحديث المؤسسة", {
+        description: `قامت المؤسسة ${response.data.name} بالتحديث`
       })
     } catch (error) {
       setInstitutions(institutions.map(inst => 
         inst._id === editingId ? { ...inst, ...data } : inst
       ))
       setEditingId(null)
-      toast.error("Institution has Not been Updated")
+      toast.error("لم يتم تحديث المؤسسة")
     }
   }
 
@@ -66,11 +66,11 @@ export default function Institutions() {
     try {
       await api.delete(`/api/institution/${id}`,)
       setInstitutions(institutions.filter(inst => inst._id !== id))
-      toast.success("Institution has been Deleted", {
-        description: `the Institution ${response.data.name} has Deleted`
+      toast.success("تم حذف المؤسسة", {
+        description: `قامت المؤسسة ${response.data.name} بحذف`
       })
     } catch (error) {
-      toast.error("Institution has Not been Deleted")
+      toast.error("لم يتم حذف المؤسسة")
     }
   }
 
@@ -78,9 +78,9 @@ export default function Institutions() {
   if (error) return <ErrorPage error={error} />
 
   return (
-    <div className="w-full mx-auto py-8 px-5 md:px-10">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="md:text-3xl text-xl font-bold">Institutions</h1>
+    <div className="w-full mx-auto py-8 px-5 md:px-10" dir="rtl">
+      <div className="flex justify-between items-center mb-6 flex-row-reverse">
+        <h1 className="md:text-3xl text-xl font-bold text-right">المؤسسات</h1>
         <AddInstitutionModal 
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}
@@ -90,13 +90,13 @@ export default function Institutions() {
 
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
-          <p className="text-lg">Loading institutions...</p>
+          <p className="text-lg">جاري تحميل المؤسسات...</p>
         </div>
       ) : institutions.length === 0 ? (
         <div className="text-center p-8 border border-dashed rounded-lg">
           <Building2 className="mx-auto h-12 w-12 text-muted-foreground" />
-          <h3 className="mt-4 text-lg font-semibold">No institutions found</h3>
-          <p className="text-muted-foreground">Get started by adding a new institution.</p>
+          <h3 className="mt-4 text-lg font-semibold">لا توجد مؤسسات متاحة</h3>
+          <p className="text-muted-foreground">ابدأ بإضافة مؤسسة جديدة</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -113,5 +113,5 @@ export default function Institutions() {
         </div>
       )}
     </div>
-  )
+ )
 }

@@ -1,16 +1,16 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { RevenueBarChart, PaymentStatusPieChart } from './Charts';
+import { RevenueBarChart, PaymentStatusPieChart } from '../Charts';
 import { StatisticsTable } from './StatisticsTable';
 import { COLORS } from '@/assets/Data';
 
-export const YearlyOverview = ({ selectedYear,yearlyData,loading }) => {
+export const YearlyOverview = ({ selectedYear, yearlyData, loading }) => {
 
-  if (loading) return <div className="text-center py-4">Loading yearly data...</div>;
+  if (loading) return <div className="text-center py-4">جاري تحميل البيانات السنوية...</div>;
 
   // Handle error or empty data state
   if (!yearlyData || !yearlyData.statistics) {
-    return <div className="text-center py-4 text-destructive">No data available for {selectedYear}</div>;
+    return <div className="text-center py-4 text-destructive">لا توجد بيانات متاحة لسنة {selectedYear}</div>;
   }
   
   const yearlyChartData = yearlyData?.statistics.map((stat) => ({
@@ -21,17 +21,17 @@ export const YearlyOverview = ({ selectedYear,yearlyData,loading }) => {
   }));
 
   const paymentStatusData = [
-    { name: "Paid", value: yearlyData?.statistics.reduce((sum, stat) => sum + stat.yearlyTotal.totalPaid, 0) },
-    { name: "Unpaid", value: yearlyData?.statistics.reduce((sum, stat) => sum + stat.yearlyTotal.totalUnpaid, 0) },
+    { name: "المدفوع", value: yearlyData?.statistics.reduce((sum, stat) => sum + stat.yearlyTotal.totalPaid, 0) },
+    { name: "غير المدفوع", value: yearlyData?.statistics.reduce((sum, stat) => sum + stat.yearlyTotal.totalUnpaid, 0) },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir="rtl">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Card>
           <CardHeader>
-            <CardTitle>Revenue Overview {selectedYear}</CardTitle>
-            <CardDescription>Total revenue and payment status</CardDescription>
+            <CardTitle className="text-right">نظرة عامة على الإيرادات لسنة {selectedYear}</CardTitle>
+            <CardDescription className="text-right">الإيرادات الكاملة وحالة المدفوعات</CardDescription>
           </CardHeader>
           <CardContent className="h-80">
             <RevenueBarChart data={yearlyChartData} />
@@ -40,8 +40,8 @@ export const YearlyOverview = ({ selectedYear,yearlyData,loading }) => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Payment Status {selectedYear}</CardTitle>
-            <CardDescription>Paid vs Unpaid amounts</CardDescription>
+            <CardTitle className="text-right">حالة المدفوعات لسنة {selectedYear}</CardTitle>
+            <CardDescription className="text-right">المبالغ المدفوعة وغير المدفوعة</CardDescription>
           </CardHeader>
           <CardContent className="h-80">
             <PaymentStatusPieChart data={paymentStatusData} colors={COLORS} />
@@ -51,8 +51,8 @@ export const YearlyOverview = ({ selectedYear,yearlyData,loading }) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Course Statistics {selectedYear}</CardTitle>
-          <CardDescription>Detailed breakdown by course</CardDescription>
+          <CardTitle className="text-right">إحصائيات الدورات لسنة {selectedYear}</CardTitle>
+          <CardDescription className="text-right">تفصيل حسب كل دورة</CardDescription>
         </CardHeader>
         <CardContent>
           <StatisticsTable statistics={yearlyData.statistics} showTotal={true} />

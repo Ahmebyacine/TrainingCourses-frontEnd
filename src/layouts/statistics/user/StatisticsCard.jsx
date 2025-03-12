@@ -3,59 +3,58 @@ import { DollarSign, CheckCircle, XCircle, Calendar } from "lucide-react"
 
 export default function StatisticsCard({ data }) {
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("en-DZ", {
+    return new Intl.NumberFormat("ar-DZ", {
       style: "currency",
       currency: "DZD",
       maximumFractionDigits: 0,
     }).format(amount)
   }
 
-
   return (
-    <Card className="w-full">
+    <Card className="w-full" dir="rtl">
       <CardHeader>
-        <CardTitle className="text-2xl">{data.user.name}</CardTitle>
-        <CardDescription>{data.user.email}</CardDescription>
+        <CardTitle className="text-2xl text-right">{data.user.name}</CardTitle>
+        <CardDescription className="text-right">{data.user.email}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="flex flex-col space-y-2 rounded-lg border p-4">
-            <div className="flex items-center space-x-2 text-muted-foreground">
+            <div className="flex items-center justify-end space-x-2 text-muted-foreground">
+              <span className="text-sm font-medium">المبلغ الإجمالي</span>
               <DollarSign className="h-4 w-4" />
-              <span className="text-sm font-medium">Total Amount</span>
             </div>
-            <div className="text-2xl font-bold">{formatCurrency(data.statistics.totalAmount)}</div>
+            <div className="text-2xl font-bold text-left">{formatCurrency(data.statistics.totalAmount)}</div>
           </div>
 
           <div className="flex flex-col space-y-2 rounded-lg border p-4">
-            <div className="flex items-center space-x-2 text-green-600">
+            <div className="flex items-center justify-end space-x-2 text-green-600">
+              <span className="text-sm font-medium">المدفوع</span>
               <CheckCircle className="h-4 w-4" />
-              <span className="text-sm font-medium">Paid</span>
             </div>
-            <div className="text-2xl font-bold">{formatCurrency(data.statistics.totalPaid)}</div>
-            <div className="text-sm text-muted-foreground">
-              {Math.round((data.statistics.totalPaid / data.statistics.totalAmount) * 100)}% of total
+            <div className="text-2xl font-bold text-left">{formatCurrency(data.statistics.totalPaid)}</div>
+            <div className="text-sm text-muted-foreground text-left">
+              {Math.round((data.statistics.totalPaid / data.statistics.totalAmount) * 100)}% من الإجمالي
             </div>
           </div>
 
           <div className="flex flex-col space-y-2 rounded-lg border p-4">
-            <div className="flex items-center space-x-2 text-red-600">
+            <div className="flex items-center justify-end space-x-2 text-red-600">
+              <span className="text-sm font-medium">غير المدفوع</span>
               <XCircle className="h-4 w-4" />
-              <span className="text-sm font-medium">Unpaid</span>
             </div>
-            <div className="text-2xl font-bold">{formatCurrency(data.statistics.totalUnpaid)}</div>
-            <div className="text-sm text-muted-foreground">
-              {Math.round((data.statistics.totalUnpaid / data.statistics.totalAmount) * 100)}% of total
+            <div className="text-2xl font-bold text-left">{formatCurrency(data.statistics.totalUnpaid)}</div>
+            <div className="text-sm text-muted-foreground text-left">
+              {Math.round((data.statistics.totalUnpaid / data.statistics.totalAmount) * 100)}% من الإجمالي
             </div>
           </div>
         </div>
 
         <div className="mt-6 rounded-lg border p-4">
-          <div className="flex items-center space-x-2 text-muted-foreground mb-2">
+          <div className="flex items-center justify-end space-x-2 text-muted-foreground mb-2">
+            <span className="text-sm font-medium">فترة الإحصائيات</span>
             <Calendar className="h-4 w-4" />
-            <span className="text-sm font-medium">Statistics Duration</span>
           </div>
-          <div className="text-sm">
+          <div className="text-sm text-right">
             {data.year} {data.monthName}
           </div>
         </div>

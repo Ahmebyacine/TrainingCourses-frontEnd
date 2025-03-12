@@ -8,8 +8,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 const courseSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  price: z.coerce.number().min(0, { message: "Price must be a positive number" }),
+  name: z.string().min(2, { message: "يجب أن يتكون الاسم من حرفين على الأقل" }),
+  price: z.coerce.number().min(0, { message: "يجب أن يكون السعر رقمًا موجبًا" }),
   duree: z.string().optional(),
 })
 
@@ -33,13 +33,13 @@ export default function AddCourseModal({ open, onOpenChange, onAddCourse }) {
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Add Course
+          إضافة دورة
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Course</DialogTitle>
-          <DialogDescription>Fill in the details to add a new course.</DialogDescription>
+          <DialogTitle>إضافة دورة جديدة</DialogTitle>
+          <DialogDescription>قم بملء التفاصيل لإضافة دورة جديدة.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -48,9 +48,9 @@ export default function AddCourseModal({ open, onOpenChange, onAddCourse }) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name *</FormLabel>
+                  <FormLabel>الاسم *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Course name" {...field} />
+                    <Input placeholder="اسم الدورة" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -61,9 +61,9 @@ export default function AddCourseModal({ open, onOpenChange, onAddCourse }) {
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price *</FormLabel>
+                  <FormLabel>السعر *</FormLabel>
                   <FormControl>
-                    <Input type="number" min="0" placeholder="Course price" {...field} />
+                    <Input type="number" min="0" placeholder="سعر الدورة" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -74,16 +74,16 @@ export default function AddCourseModal({ open, onOpenChange, onAddCourse }) {
               name="duree"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Duration</FormLabel>
+                  <FormLabel>المدة</FormLabel>
                   <FormControl>
-                    <Input placeholder="Course duration (e.g., 3 months)" {...field} />
+                    <Input placeholder="مدة الدورة (على سبيل المثال، 3 أشهر)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <DialogFooter>
-              <Button type="submit">Add Course</Button>
+              <Button type="submit">إضافة دورة</Button>
             </DialogFooter>
           </form>
         </Form>

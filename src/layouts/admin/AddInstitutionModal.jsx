@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 const institutionSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  name: z.string().min(2, { message: "يجب أن يتكون الاسم من حرفين على الأقل" }),
   address: z.string().optional(),
   phone: z.string().optional(),
 })
@@ -33,13 +33,13 @@ export default function AddInstitutionModal({ open, onOpenChange, onAddInstituti
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Add Institution
+          إضافة مؤسسة
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Institution</DialogTitle>
-          <DialogDescription>Fill in the details to add a new institution.</DialogDescription>
+          <DialogTitle>إضافة مؤسسة جديدة</DialogTitle>
+          <DialogDescription>قم بملء التفاصيل لإضافة مؤسسة جديدة.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -48,9 +48,9 @@ export default function AddInstitutionModal({ open, onOpenChange, onAddInstituti
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name *</FormLabel>
+                  <FormLabel>الاسم *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Institution name" {...field} />
+                    <Input placeholder="اسم المؤسسة" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -61,9 +61,9 @@ export default function AddInstitutionModal({ open, onOpenChange, onAddInstituti
               name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Address</FormLabel>
+                  <FormLabel>العنوان</FormLabel>
                   <FormControl>
-                    <Input placeholder="Institution address" {...field} />
+                    <Input placeholder="عنوان المؤسسة" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -74,16 +74,16 @@ export default function AddInstitutionModal({ open, onOpenChange, onAddInstituti
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone</FormLabel>
+                  <FormLabel>الهاتف</FormLabel>
                   <FormControl>
-                    <Input placeholder="Phone number" {...field} />
+                    <Input placeholder="رقم الهاتف" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <DialogFooter>
-              <Button type="submit">Add Institution</Button>
+              <Button type="submit">إضافة مؤسسة</Button>
             </DialogFooter>
           </form>
         </Form>

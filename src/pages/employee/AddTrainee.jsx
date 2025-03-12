@@ -36,11 +36,11 @@ export default function AddTrainee() {
         const response = await api.post("/api/trainee",data)
         setTrainee(response.data)
         setSuccess(true)
-        toast.success("Trainee has been Added", {
-          description: `the Trainee ${response.data.name} has Added`
+        toast.success("تمت إضافة متدرب", {
+          description: `لقد أضاف المتدرب ${response.data.name}`
         })
     } catch (error) {
-      toast.error("Trainee has been Not Added")
+      toast.error("لم تتم إضافة المتدرب")
     } finally {
       setIsLoading(false)
     }

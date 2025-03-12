@@ -25,28 +25,28 @@ export default function ProgramStatistics() {
 
   if (loading) {
     return (
-      <div className="container mx-auto py-10">
-        <div className="text-center">Loading program statistics...</div>
+      <div className="container mx-auto py-10" dir="rtl">
+        <div className="text-center">جاري تحميل إحصائيات البرنامج...</div>
       </div>
     )
   }
-
+  
   if (error) return <ErrorPage error={error} />
-
+  
   return (
-    <div className="container mx-auto p-10">
+    <div className="container mx-auto p-10" dir="rtl">
       {programData.length > 0 ? (
-           <div className='space-y-4'>
-             {programData.map((program) => (
-               <StatisticsCard 
-                 key={program.program._id} 
-                 data={program} 
-               />
-             ))}
-           </div>
-         ) : (
-           <div className="text-center">No program data available</div>
-         )}
+        <div className='space-y-4 text-right'>
+          {programData.map((program) => (
+            <StatisticsCard 
+              key={program.program._id} 
+              data={program} 
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center">لا توجد بيانات متاحة للبرنامج</div>
+      )}
     </div>
   )
 }

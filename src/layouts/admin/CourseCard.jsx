@@ -10,8 +10,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 const courseSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  price: z.coerce.number().min(0, { message: "Price must be a positive number" }),
+  name: z.string().min(2, { message: "يجب أن يتكون الاسم من حرفين على الأقل" }),
+  price: z.coerce.number().min(0, { message: "يجب أن يكون السعر رقمًا موجبًا" }),
   duree: z.string().optional(),
 })
 
@@ -80,7 +80,7 @@ export default function CourseCard({ course, editingId, formatPrice, onStartEdit
                 name="price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel>السعر</FormLabel>
                     <FormControl>
                       <Input type="number" min="0" {...field} />
                     </FormControl>
@@ -93,7 +93,7 @@ export default function CourseCard({ course, editingId, formatPrice, onStartEdit
                 name="duree"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Duration</FormLabel>
+                    <FormLabel>المدة</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -107,7 +107,7 @@ export default function CourseCard({ course, editingId, formatPrice, onStartEdit
           <div className="space-y-2">
             <div className="flex items-start">
               <Clock className="h-4 w-4 mr-2 mt-0.5 text-muted-foreground" />
-              <span>{course.duree || "Duration not specified"}</span>
+              <span>{course.duree || "المدة غير محددة"}</span>
             </div>
           </div>
         )}
@@ -118,37 +118,37 @@ export default function CourseCard({ course, editingId, formatPrice, onStartEdit
           <div className="flex justify-end gap-2 w-full">
             <Button variant="outline" size="sm" onClick={() => onStartEditing(null)}>
               <X className="h-4 w-4 mr-1" />
-              Cancel
+              إلغاء
             </Button>
             <Button size="sm" onClick={form.handleSubmit(handleSubmit)}>
               <Check className="h-4 w-4 mr-1" />
-              Save
+              حفظ
             </Button>
           </div>
         ) : (
           <div className="flex justify-end gap-2 w-full">
             <Button variant="outline" size="sm" onClick={() => onStartEditing(course._id)}>
               <Pencil className="h-4 w-4 mr-1" />
-              Edit
+               تعديل
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" size="sm">
                   <Trash2 className="h-4 w-4 mr-1" />
-                  Delete
+                  حذف
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogTitle>هل أنت متأكد؟</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will permanently delete the course "{course.name}". This action cannot be undone.
+                  سيؤدي هذا إلى حذف الدورة التدريبية "{course.name}" نهائيًا. لا يمكن التراجع عن هذا الإجراء.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel>إلغاء</AlertDialogCancel>
                   <AlertDialogAction onClick={() => onDeleteCourse(course._id)}>
-                    Delete
+                    حذف  
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

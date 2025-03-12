@@ -11,33 +11,33 @@ export const StatisticsTable = ({ statistics, showTotal }) => {
   };
 
   return (
-    <Table>
+    <Table dir="rtl">
       <TableHeader>
         <TableRow>
-          <TableHead>Course Name</TableHead>
-          <TableHead className="text-right">Total Trainees</TableHead>
-          <TableHead className="text-right">Total Amount (DZD)</TableHead>
-          <TableHead className="text-right">Paid Amount (DZD)</TableHead>
-          <TableHead className="text-right">Unpaid Amount (DZD)</TableHead>
-          <TableHead className="text-right">Payment Rate</TableHead>
+          <TableHead className="text-right">اسم الدورة</TableHead>
+          <TableHead className="text-right">عدد المتدربين</TableHead>
+          <TableHead className="text-right">المبلغ الإجمالي (د.ج)</TableHead>
+          <TableHead className="text-right">المبلغ المدفوع (د.ج)</TableHead>
+          <TableHead className="text-right">المبلغ المتبقي (د.ج)</TableHead>
+          <TableHead className="text-right">نسبة الدفع</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {statistics.map((stat) => (
           <TableRow key={stat.course._id}>
-            <TableCell className="font-medium">{stat.course.name}</TableCell>
+            <TableCell className="font-medium text-right">{stat.course.name}</TableCell>
             <TableCell className="text-right">{stat.yearlyTotal.totalTrainees}</TableCell>
             <TableCell className="text-right">{stat.yearlyTotal.totalAmount.toLocaleString()}</TableCell>
             <TableCell className="text-right">{stat.yearlyTotal.totalPaid.toLocaleString()}</TableCell>
             <TableCell className="text-right">{stat.yearlyTotal.totalUnpaid.toLocaleString()}</TableCell>
             <TableCell className="text-right">
-              {stat.totalAmount > 0 ? `${((stat.yearlyTotal.totalPaid / stat.yearlyTotal.totalAmount) * 100).toFixed(0)}%` : "N/A"}
+              {stat.yearlyTotal.totalAmount > 0 ? `${((stat.yearlyTotal.totalPaid / stat.yearlyTotal.totalAmount) * 100).toFixed(0)}%` : "N/A"}
             </TableCell>
           </TableRow>
         ))}
         {showTotal && (
           <TableRow className="font-bold">
-            <TableCell>Total</TableCell>
+            <TableCell className="text-right">المجموع</TableCell>
             <TableCell className="text-right">{totalRow.totalTrainees}</TableCell>
             <TableCell className="text-right">{totalRow.totalAmount.toLocaleString()}</TableCell>
             <TableCell className="text-right">{totalRow.totalPaid.toLocaleString()}</TableCell>

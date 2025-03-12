@@ -17,10 +17,10 @@ import { toast } from "sonner";
 
 // Define the trainee form schema
 const traineeSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }).optional().or(z.literal("")),
-  phone: z.string().min(10, { message: "Please enter a valid phone number" }),
-  program: z.string({ required_error: "Please select a program" }),
+  name: z.string().min(2, { message: "يجب أن يتكون الاسم من حرفين على الأقل" }),
+  email: z.string().email({ message: "يرجى إدخال عنوان بريد إلكتروني صالح" }).optional().or(z.literal("")),
+  phone: z.string().min(10, { message: "يرجى إدخال رقم هاتف صحيح" }),
+  program: z.string({ required_error: "الرجاء اختيار البرنامج" }),
   inialTranche: z.coerce.number().min(0),
   secondTranche: z.coerce.number().min(0).optional(),
   rest: z.coerce.number().min(0),
@@ -28,32 +28,6 @@ const traineeSchema = z.object({
   note: z.string().optional().or(z.literal("")),
 })
 
-const mockPrograms = [
-  {
-    _id: "PROG123",
-    course: {
-      name: "Web Development Bootcamp",
-      price: 1500,
-    },
-    institution: {
-      name: "Tech Academy",
-    },
-    start_date: "2023-09-01",
-    end_date: "2023-12-15",
-  },
-  {
-    _id: "PROG456",
-    course: {
-      name: "Data Science Fundamentals",
-      price: 1800,
-    },
-    institution: {
-      name: "Data Institute",
-    },
-    start_date: "2023-10-15",
-    end_date: "2024-02-15",
-  },
-]
 
 export default function EditTrainee() {
   const { id } = useParams();
@@ -99,7 +73,7 @@ export default function EditTrainee() {
           note: response.data.note,
         })
       } catch (error) {
-        console.error("Error fetching trainee:", error)
+        toast.error("Error fetching trainee")
       } finally {
         setIsLoading(false)
       }
@@ -110,7 +84,7 @@ export default function EditTrainee() {
        const response = await api.get('/api/program/employee')
        setPrograms(response.data)
      } catch (error) {
-       console.error("Error fetching programs:", error)
+      toast.error("Error fetching programs")
      }
    }
 
@@ -136,8 +110,8 @@ export default function EditTrainee() {
       
      await api.put(`/api/trainee/${id}`,values)
 
-      toast.success( "Success",{
-        description: "Trainee information updated successfully",
+      toast.success( "نجاح",{
+        description: "تم تحديث معلومات المتدرب بنجاح",
       })
 
       // Navigate back to search page
@@ -145,8 +119,7 @@ export default function EditTrainee() {
         navigate(`/search-trainee`)
       }, 1000)
     } catch (error) {
-      console.error("Error updating trainee:", error)
-      toast.error("the tainee has not updated")
+      toast.error("لم يتم تحديث المتدرب")
     } finally {
       setIsSaving(false)
     }
@@ -156,12 +129,12 @@ export default function EditTrainee() {
     <div className="container py-8 max-w-3xl mx-auto">
       <Button variant="outline" size="sm" className="mb-4" onClick={() => navigate(`/search-trainee`)}>
         <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to Search
+        العودة إلى البحث
       </Button>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Edit Trainee</CardTitle>
+          <CardTitle className="text-2xl font-bold">تعديل بيانات متدرب</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -178,9 +151,9 @@ export default function EditTrainee() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name *</FormLabel>
+                        <FormLabel>الاسم *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter full name" {...field} />
+                          <Input placeholder="أدخل الاسم الكامل" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -192,9 +165,9 @@ export default function EditTrainee() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>البريد الإلكتروني</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="Enter email address" {...field} />
+                          <Input type="email" placeholder="أدخل عنوان البريد الإلكتروني" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -206,9 +179,9 @@ export default function EditTrainee() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone *</FormLabel>
+                        <FormLabel>الهاتف *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter phone number" {...field} />
+                          <Input placeholder="أدخل رقم الهاتف" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -220,12 +193,12 @@ export default function EditTrainee() {
                     name="program"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Program *</FormLabel>
+                        <FormLabel>البرنامج *</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue
-                                placeholder={programs.length === 0 ? "Loading programs..." : "Select a program"}
+                                placeholder={programs.length === 0 ? "جاري تحميل البرامج..." : "اختر برنامجًا"}
                               />
                             </SelectTrigger>
                           </FormControl>
@@ -250,7 +223,7 @@ export default function EditTrainee() {
                 </div>
                 {/* Payment Information */}
                 <div className="bg-muted/50 p-4 rounded-lg">
-                  <h3 className="text-lg font-medium mb-4">Payment Information</h3>
+                  <h3 className="text-lg font-medium mb-4">معلومات الدفع</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Initial Tranche Field */}
                     <FormField
@@ -258,7 +231,7 @@ export default function EditTrainee() {
                       name="inialTranche"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Initial Tranche</FormLabel>
+                          <FormLabel>القسط الأولي</FormLabel>
                           <FormControl>
                             <Input type="number" min="0" step="0.01" {...field} />
                           </FormControl>
@@ -272,7 +245,7 @@ export default function EditTrainee() {
                       name="secondTranche"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Second Tranche</FormLabel>
+                          <FormLabel>القسط الثاني</FormLabel>
                           <FormControl>
                             <Input type="number" min="0" step="0.01" {...field} />
                           </FormControl>
@@ -286,7 +259,7 @@ export default function EditTrainee() {
                       name="rest"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Rest</FormLabel>
+                          <FormLabel>المتبقي</FormLabel>
                           <FormControl>
                             <Input type="number" min="0" step="0.01" {...field} />
                           </FormControl>
@@ -300,11 +273,10 @@ export default function EditTrainee() {
                       name="totalPrice"
                       render={({ field }) => (
                         <FormItem className="col-span-full">
-                          <FormLabel>Total Price</FormLabel>
+                          <FormLabel>المبلغ الإجمالي</FormLabel>
                           <FormControl>
                             <Input type="number" min="0" readOnly disabled={true} {...field} />
                           </FormControl>
-                          <FormDescription>Automatically calculated from the selected program</FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -317,9 +289,9 @@ export default function EditTrainee() {
                   name="note"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Note</FormLabel>
+                      <FormLabel>ملاحظات</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Add any additional notes here" {...field} />
+                        <Textarea placeholder="أضف أي ملاحظات إضافية هنا" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -329,12 +301,12 @@ export default function EditTrainee() {
                   {isSaving ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Saving Changes...
+                      جاري الحفظ...
                     </>
                   ) : (
                     <>
                       <Save className="h-4 w-4 mr-2" />
-                      Save Changes
+                      حفظ التغييرات
                     </>
                   )}
                 </Button>
@@ -344,7 +316,7 @@ export default function EditTrainee() {
         </CardContent>
         <CardFooter className="flex justify-between border-t pt-6">
           <Button variant="outline" onClick={() => (window.location.href = "/trainees/search")}>
-            Cancel
+            إلغاء
           </Button>
         </CardFooter>
       </Card>

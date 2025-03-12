@@ -36,7 +36,6 @@ export default function SignIn() {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
   
   const form = useForm({
     resolver: zodResolver(signInSchema),
@@ -65,7 +64,7 @@ export default function SignIn() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12" dir="rtl">
       <div className="w-full max-w-md">
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2 text-primary">
@@ -77,16 +76,16 @@ export default function SignIn() {
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center">
-              Sign in
+              تسجيل الدخول
             </CardTitle>
             <CardDescription className="text-center">
-              Enter your email and password to access your account
+              أدخل بريدك الإلكتروني وكلمة المرور للوصول إلى حسابك
             </CardDescription>
           </CardHeader>
 
           <CardContent>
             {error && (
-              <Alert variant="destructive" className="mb-4">
+              <Alert variant="destructive" className="mb-4 text-right">
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
@@ -102,12 +101,13 @@ export default function SignIn() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>البريد الإلكتروني</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your email"
+                          placeholder="أدخل بريدك الإلكتروني"
                           type="email"
                           autoComplete="email"
+                          className="text-right"
                           {...field}
                           disabled={isLoading}
                         />
@@ -121,13 +121,14 @@ export default function SignIn() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>كلمة المرور</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Input
-                            placeholder="Enter your password"
+                            placeholder="أدخل كلمة المرور"
                             type="password"
                             autoComplete="current-password"
+                            className="text-right"
                             {...field}
                             disabled={isLoading}
                           />
@@ -146,11 +147,11 @@ export default function SignIn() {
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in...
+                      <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                      جاري التسجيل...
                     </>
                   ) : (
-                    "Sign in"
+                    "تسجيل الدخول"
                   )}
                 </Button>
               </form>
@@ -159,5 +160,5 @@ export default function SignIn() {
         </Card>
       </div>
     </div>
-  )
+)
 }

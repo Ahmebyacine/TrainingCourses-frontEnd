@@ -19,10 +19,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 // Define the form schema with validation
 const programSchema = z.object({
-  course: z.string({ required_error: "Course is required" }),
-  institution: z.string({ required_error: "Institution is required" }),
-  start_date: z.string({ required_error: "Start date is required" }),
-  end_date: z.string({ required_error: "End date is required" }),
+  course: z.string({ required_error: "الدورة مطلوبة" }),
+  institution: z.string({ required_error: "المؤسسة مطلوبة" }),
+  start_date: z.string({ required_error: "تاريخ البدء مطلوب" }),
+  end_date: z.string({ required_error: "تاريخ الانتهاء مطلوب" }),
 })
 
 export default function AddProgramModal({
@@ -80,9 +80,9 @@ export default function AddProgramModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{mode === "add" ? "Add New Program" : "Edit Program"}</DialogTitle>
+          <DialogTitle>{mode === "add" ? "إضافة برنامج جديد" : "تعديل البرنامج"}</DialogTitle>
           <DialogDescription>
-            {mode === "add" ? "Fill in the details to add a new program." : "Update the program details."}
+            {mode === "add" ? "قم بملء التفاصيل لإضافة برنامج جديد." : "تحديث تفاصيل البرنامج."}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -92,11 +92,11 @@ export default function AddProgramModal({
               name="course"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Course *</FormLabel>
+                  <FormLabel>الدورة *</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a course" />
+                        <SelectValue placeholder="اختر الدورة" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -116,11 +116,11 @@ export default function AddProgramModal({
               name="institution"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Institution *</FormLabel>
+                  <FormLabel>المؤسسة *</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select an institution" />
+                        <SelectValue placeholder="اختر مؤسسة" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -141,7 +141,7 @@ export default function AddProgramModal({
                 name="start_date"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Start Date *</FormLabel>
+                    <FormLabel>تاريخ البدء *</FormLabel>
                     <FormControl>
                       <Input type="date" {...field} />
                     </FormControl>
@@ -154,7 +154,7 @@ export default function AddProgramModal({
                 name="end_date"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>End Date *</FormLabel>
+                    <FormLabel>تاريخ النهاية *</FormLabel>
                     <FormControl>
                       <Input type="date" {...field} />
                     </FormControl>
@@ -166,9 +166,9 @@ export default function AddProgramModal({
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                 <X className="h-4 w-4 mr-1" />
-                Cancel
+                إلغاء
               </Button>
-              <Button type="submit">{mode === "add" ? "Add Program" : "Update Program"}</Button>
+              <Button type="submit">{mode === "add" ? "إضافة برنامج" : "تحديث البرنامج"}</Button>
             </DialogFooter>
           </form>
         </Form>

@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MonthlyTrendChart } from './Charts';
+import { MonthlyTrendChart } from '../Charts';
 import { StatisticsTableMonthly } from './StatisticsTableMonthly';
+import { MONTHS_ORDER } from '@/assets/Data';
 
-// Month order for sorting
-const MONTHS_ORDER = [
-  'January', 'February', 'March', 'April',
-  'May', 'June', 'July', 'August',
-  'September', 'October', 'November', 'December'
-];
 
 export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
   const [selectedMonth, setSelectedMonth] = useState(() => {
@@ -17,8 +12,8 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
     return now.toLocaleString('en-US', { month: 'long' });
   });
 
-  if (loading) return <div className="text-center py-4">Loading monthly data...</div>;
-  if (!monthlyData?.statistics) return <div className="text-center py-4 text-destructive">No data available for {selectedYear}</div>;
+  if (loading) return <div className="text-center py-4">جاري تحميل البيانات الشهرية...</div>;
+  if (!monthlyData?.statistics) return <div className="text-center py-4 text-destructive">لا توجد بيانات متاحة لسنة {selectedYear}</div>;
 
   // Process monthly trend data
   const processMonthlyTrend = (statistics) => {
@@ -63,7 +58,6 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
       };
     });
   };
-
   const monthlyTrendData = processMonthlyTrend(monthlyData.statistics);
   const currentMonthStats = getCurrentMonthStats(monthlyData.statistics, selectedMonth);
 
@@ -72,12 +66,12 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
       <div className="flex items-center gap-4 mb-6">
         <Select value={selectedMonth} onValueChange={setSelectedMonth}>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Month" />
+            <SelectValue placeholder="اختر الشهر" />
           </SelectTrigger>
           <SelectContent>
             {MONTHS_ORDER.map(month => (
-              <SelectItem key={month} value={month}>
-                {month}
+              <SelectItem key={month.value} value={month.value}>
+                {month.label}
               </SelectItem>
             ))}
           </SelectContent>
@@ -86,8 +80,8 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Monthly Trends {selectedYear}</CardTitle>
-          <CardDescription>Trainees and revenue by month</CardDescription>
+          <CardTitle>التوجهات الشهرية لسنة {selectedYear}</CardTitle>
+          <CardDescription>المتدربون والإيرادات حسب الشهر</CardDescription>
         </CardHeader>
         <CardContent className="h-80">
           <MonthlyTrendChart data={monthlyTrendData} />
@@ -96,8 +90,8 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Course Statistics for {selectedMonth} {selectedYear}</CardTitle>
-          <CardDescription>Detailed breakdown by course</CardDescription>
+          <CardTitle>إحصائيات الدورة لشهر {selectedMonth} سنة {selectedYear}</CardTitle>
+          <CardDescription>تفصيل حسب الدورة</CardDescription>
         </CardHeader>
         <CardContent>
           <StatisticsTableMonthly 

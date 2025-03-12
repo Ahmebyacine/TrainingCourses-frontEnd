@@ -40,13 +40,13 @@ export default function AddUserModal({ open, onOpenChange, institutions, onAddUs
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Add User
+          إضافة مستخدم
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Add New User</DialogTitle>
-          <DialogDescription>Fill in the details to add a new user.</DialogDescription>
+          <DialogTitle>إضافة مستخدم جديد</DialogTitle>
+          <DialogDescription>قم بملء التفاصيل لإضافة مستخدم جديد.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -55,9 +55,9 @@ export default function AddUserModal({ open, onOpenChange, institutions, onAddUs
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name *</FormLabel>
+                  <FormLabel>اسم *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Full name" {...field} />
+                    <Input placeholder="الاسم الكامل" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -68,9 +68,9 @@ export default function AddUserModal({ open, onOpenChange, institutions, onAddUs
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email *</FormLabel>
+                  <FormLabel>البريد الإلكتروني *</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="Email address" {...field} />
+                    <Input type="email" placeholder="عنوان البريد الإلكتروني" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -81,9 +81,9 @@ export default function AddUserModal({ open, onOpenChange, institutions, onAddUs
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password *</FormLabel>
+                  <FormLabel>كلمة المرور *</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
+                    <Input type="password" placeholder="كلمة المرور" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,9 +94,9 @@ export default function AddUserModal({ open, onOpenChange, institutions, onAddUs
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone *</FormLabel>
+                  <FormLabel>الهاتف *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Phone number" {...field} />
+                    <Input placeholder="رقم الهاتف" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,9 +107,9 @@ export default function AddUserModal({ open, onOpenChange, institutions, onAddUs
               name="nationalId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>National ID *</FormLabel>
+                  <FormLabel>الرقم الوطني *</FormLabel>
                   <FormControl>
-                    <Input placeholder="National ID" {...field} />
+                    <Input placeholder="الرقم الوطني" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -120,7 +120,7 @@ export default function AddUserModal({ open, onOpenChange, institutions, onAddUs
               name="institutions"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Institutions</FormLabel>
+                  <FormLabel>المؤسسات</FormLabel>
                   <FormControl>
                     <div className="border rounded-md p-2">
                       <ScrollArea className="h-32">
@@ -153,7 +153,7 @@ export default function AddUserModal({ open, onOpenChange, institutions, onAddUs
               )}
             />
             <DialogFooter>
-              <Button type="submit">Add User</Button>
+              <Button type="submit">إضافة مستخدم</Button>
             </DialogFooter>
           </form>
         </Form>

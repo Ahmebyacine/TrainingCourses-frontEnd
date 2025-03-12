@@ -14,15 +14,12 @@ const receiptData = {
   totalPrice: 25000
 };
 
-// In your component render method
-
-
 const PDFDownload = ({ trainee }) => {
   console.log(trainee)
     return (
        <PDFDownloadLink
          document={<Receipt data={trainee} />}
-         fileName="receipt.pdf"
+         fileName={`receipt-${trainee.name}.pdf`}
          className='w-full'
        >
          {({ blob, url, loading, error }) =>

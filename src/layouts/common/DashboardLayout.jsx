@@ -38,61 +38,61 @@ export default function DashboardLayout() {
 
   const navItemsAdmin = [
     {
-      title: "Programs",
+      title: "البرامج",
       href: "/",
       icon: <Calendar className="h-5 w-5" />,
     },
     {
-      title: "Courses",
+      title: "الدورات",
       href: "/courses",
       icon: <BookOpen className="h-5 w-5" />,
     },
     {
-      title: "Institutions",
+      title: "المؤسسات",
       href: "/institutions",
       icon: <Building2 className="h-5 w-5" />,
     },
     {
-      title: "Users",
+      title: "المستخدمين",
       href: "/users",
       icon: <Users className="h-5 w-5" />,
     }
   ];
   const navItemsAdminStatistics = [
     {
-      title: "Program Statistics",
+      title: "إحصائيات البرامج",
       href: "/program-statistics",
       icon: <Calendar className="h-5 w-5" />,
     },
     {
-      title: "Courses Statistics",
+      title: "إحصائيات الدورات",
       href: "/course-statistics",
       icon: <Calendar className="h-5 w-5" />,
     },
     {
-      title: "Institutions Statistics",
+      title: "إحصائيات المؤسسات",
       href: "/institution-statistics",
       icon: <Building2 className="h-5 w-5" />,
     },
     {
-      title: "Employee Statistics",
+      title: "إحصائيات الموظفين",
       href: "/employee-statistics",
       icon: <Users className="h-5 w-5" />,
     },
   ];
   const navItemsEmployee = [
     {
-      title: "Add Treinee",
+      title: "إضافة متدرب",
       href: "/add-trainee",
       icon: <Users className="h-5 w-5" />,
     },
     {
-      title: "Search Treinee",
+      title: "بحث عن المتدرب",
       href: "/search-trainee",
       icon: <Search className="h-5 w-5" />,
     },
     {
-      title: "Statistics",
+      title: "إحصائيات",
       href: "/user-statistics",
       icon: <LayoutDashboard className="h-5 w-5" />,
     },
@@ -145,7 +145,7 @@ export default function DashboardLayout() {
            <DropdownMenuTrigger asChild>
              <Button variant="outline" className='w-full flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors text-muted-foreground hover:bg-muted hover:text-foreground'>
                <ChartBarStacked />
-               Statistics
+               إحصائيات
               </Button>
            </DropdownMenuTrigger>
            <DropdownMenuContent className="w-56">
@@ -196,7 +196,7 @@ export default function DashboardLayout() {
                 </Button>
               </SheetTrigger>
               <SheetContent 
-                side="left" 
+                side="right" 
                 className="p-0 w-64"
                 onInteractOutside={(e) => {
                   const formElements = document.querySelectorAll(
@@ -246,7 +246,7 @@ export default function DashboardLayout() {
                         <DropdownMenuTrigger asChild>
                           <Button variant="outline" className='w-full flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors text-muted-foreground hover:bg-muted hover:text-foreground'>
                             <ChartBarStacked />
-                            Statistics
+                            إحصائيات
                            </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
@@ -296,7 +296,7 @@ export default function DashboardLayout() {
                 )}
               >
                 <User className="mr-2 h-4 w-4" />
-                New Trainee
+                متدرب جديد
               </Link>
             )}
           </div>

@@ -25,8 +25,8 @@ export default function UserStatistics() {
 
   if (loading) {
     return (
-      <div className="container mx-auto py-10">
-        <div className="text-center">Loading User statistics...</div>
+      <div className="container mx-auto py-10" dir="rtl">
+        <div className="text-center">جاري تحميل إحصائيات المستخدم...</div>
       </div>
     )
   }

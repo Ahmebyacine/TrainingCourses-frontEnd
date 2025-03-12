@@ -11,8 +11,8 @@ const UserMenu = () => {
         <div className="border-t p-4">
          <div className="flex items-center gap-3">
            <div className="flex-1 overflow-hidden">
-             <p className="text-sm font-medium leading-none">{name || 'unknown user'}</p>
-             <p className="text-xs text-muted-foreground truncate">{email || 'unknown user'}</p>
+             <p className="text-sm font-medium leading-none">{name || 'مستخدم غير معروف'}</p>
+             <p className="text-xs text-muted-foreground truncate">{email || 'مستخدم غير معروف'}</p>
            </div>
            <DropdownMenu>
              <DropdownMenuTrigger asChild>
@@ -21,7 +21,7 @@ const UserMenu = () => {
                </Button>
              </DropdownMenuTrigger>
              <DropdownMenuContent align="end">
-               <DropdownMenuLabel>My Account</DropdownMenuLabel>
+               <DropdownMenuLabel>حسابي</DropdownMenuLabel>
                <DropdownMenuSeparator />
                <DropdownMenuItem>
                  <LogoutButton/>
