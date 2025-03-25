@@ -131,7 +131,7 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                                  <div className="font-medium">{program.course.name}</div>
                                  <div className="text-xs text-muted-foreground">
                                    {program.institution?.name} • {format(new Date(program.start_date), "MMM d, yyyy")} -{" "}
-                                   {format(new Date(program.end_date), "MMM d, yyyy")}
+                                   {format(new Date(program.end_date), "MMM d, yyyy")} • {program.trainer?.name}
                                  </div>
                                </div>
                              </SelectItem>

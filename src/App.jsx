@@ -15,6 +15,7 @@ import UserStatistics from './pages/employee/UserStatistics'
 import Unauthorized from './pages/common/Unauthorized'
 import TraineeSearch from './pages/employee/TraineeSearch'
 import EditTrainee from './layouts/employee/EditTrainee'
+import Trainers from './pages/admin/Trainers'
 
 const router = createHashRouter([
   {
@@ -37,6 +38,10 @@ const router = createHashRouter([
           {
             path: "courses",
             element: <Courses />,
+          },
+          {
+            path: "trainers",
+            element: <Trainers />,
           },
           {
             path: "course-statistics",

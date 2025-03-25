@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 700,
-    marginBottom: 8,
+    marginBottom: 4,
     borderBottomWidth: 1,
     borderBottomColor: '#666',
     paddingBottom: 4,
@@ -194,7 +194,13 @@ const Receipt = ({ data }) => {
         <View style={[styles.section, styles.totalSection]}>
           <View style={styles.labelValuePair}>
             <Text style={styles.label}>تاريخ الدفع:</Text>
-            <Text style={styles.value}>{new Date().toLocaleDateString()}</Text>
+            <Text style={styles.value}>
+              {new Date().toLocaleDateString("fr", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+              })}
+            </Text>
           </View>
         </View>
 

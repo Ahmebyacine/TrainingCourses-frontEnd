@@ -21,6 +21,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const programSchema = z.object({
   course: z.string({ required_error: "الدورة مطلوبة" }),
   institution: z.string({ required_error: "المؤسسة مطلوبة" }),
+  trainer: z.string({ required_error: "المدرب مطلوب" }),
   start_date: z.string({ required_error: "تاريخ البدء مطلوب" }),
   end_date: z.string({ required_error: "تاريخ الانتهاء مطلوب" }),
 })
@@ -30,6 +31,7 @@ export default function AddProgramModal({
   onOpenChange,
   courses,
   institutions,
+  trainers,
   onSubmit,
   mode = "add",
   initialData = null,
@@ -46,6 +48,7 @@ export default function AddProgramModal({
     defaultValues: {
       course: "",
       institution: "",
+      trainer: "",
       start_date: "",
       end_date: "",
     },
@@ -57,6 +60,7 @@ export default function AddProgramModal({
       form.reset({
         course: initialData.course._id,
         institution: initialData.institution._id,
+        trainer: initialData.trainer._id,
         start_date: formatDateForInput(initialData.start_date),
         end_date: formatDateForInput(initialData.end_date),
       })
@@ -64,6 +68,7 @@ export default function AddProgramModal({
       form.reset({
         course: "",
         institution: "",
+        trainer: "",
         start_date: "",
         end_date: "",
       })
@@ -127,6 +132,30 @@ export default function AddProgramModal({
                       {institutions.map((institution) => (
                         <SelectItem key={institution._id} value={institution._id}>
                           {institution.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="trainer"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>المدرب *</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="اختر المدرب" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {trainers.map((trainer) => (
+                        <SelectItem key={trainer._id} value={trainer._id}>
+                          {trainer.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

@@ -11,6 +11,7 @@ export default function Programs() {
   const [programs, setPrograms] = useState([])
   const [courses, setCourses] = useState([])
   const [institutions, setInstitutions] = useState([])
+  const [trainers, setTrainers] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [error, setError] = useState(null)
@@ -23,14 +24,16 @@ export default function Programs() {
       setIsLoading(true)
       try {
         // Replace with your actual API endpoints
-        const [programsResponse, coursesResponse, institutionsResponse] = await Promise.all([
+        const [programsResponse, coursesResponse, institutionsResponse, trainersResponse] = await Promise.all([
           api.get("/api/program"),
           api.get("/api/course"),
           api.get("/api/institution"),
+          api.get("/api/trainer"),
         ])
         setPrograms(programsResponse.data)
         setCourses(coursesResponse.data)
         setInstitutions(institutionsResponse.data)
+        setTrainers(trainersResponse.data)
       } catch (error) {
         setError(err.response?.data?.message);
       } finally {
@@ -146,6 +149,7 @@ export default function Programs() {
         onOpenChange={setAddDialogOpen}
         courses={courses}
         institutions={institutions}
+        trainers={trainers}
         onSubmit={handleAddProgram}
         mode="add"
       />
@@ -156,6 +160,7 @@ export default function Programs() {
           onOpenChange={(open) => !open && setEditingId(null)}
           courses={courses}
           institutions={institutions}
+          trainers={trainers}
           onSubmit={handleUpdateProgram}
           mode="edit"
           initialData={programs.find((p) => p._id === editingId)}

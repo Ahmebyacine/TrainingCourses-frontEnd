@@ -37,10 +37,10 @@ export default function Users() {
   const handleAddUser = async (data) => {
     try {
       const response = await api.post("/api/user",data)
-        setUsers([...users, response.data[0]])
+        setUsers([...users, response.data])
         setAddDialogOpen(false)
         toast.success("تمت إضافة المستخدم", {
-          description: `قام المستخدم ${response.data[0].name} بإضافة`
+          description: `قام المستخدم ${response.data.name} بإضافة`
         })
     } catch (error) {
       toast.error("لم تتم إضافة المستخدم")
@@ -54,14 +54,12 @@ export default function Users() {
 
     try {
       const response = await api.put(`/api/user/${id}`,updateData)
-      console.log(response.data)
       setUsers(users.map(user => user._id === id ? response.data : user))
       setEditingId(null)
       toast.success("تم تحديث المستخدم", {
         description: `قام المستخدم ${response.data.name} بالتحديث`
       })
     } catch (error) {
-      console.log(error)
       setEditingId(null)
       toast.error("لم يتم تحديث المستخدم")
     }

@@ -31,7 +31,7 @@ export default function ProgramCard({
 
   // Format date for display
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("ar", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -91,6 +91,7 @@ export default function ProgramCard({
                 <span className={`text-xs px-2 py-1 rounded-full ${status.color}`}>{status.label}</span>
               </div>
               <CardDescription className="mt-1">في {program.institution?.name || 'مؤسسة غير معروفة'}</CardDescription>
+              <CardDescription className="mt-1">{program.trainer?.name || 'مدرب غير معروف'}</CardDescription>
             </div>
             <CollapsibleTrigger asChild>
               <Button variant="ghost" size="sm" className="gap-1">

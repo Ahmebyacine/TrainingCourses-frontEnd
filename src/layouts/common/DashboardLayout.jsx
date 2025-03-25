@@ -5,10 +5,12 @@ import {
   Building2,
   Calendar,
   ChartBarStacked,
+  Contact,
   LayoutDashboard,
   Menu,
   Search,
   User,
+  UserMinus2,
   Users,
   X,
 } from "lucide-react";
@@ -56,6 +58,11 @@ export default function DashboardLayout() {
       title: "المستخدمين",
       href: "/users",
       icon: <Users className="h-5 w-5" />,
+    },
+    {
+      title: "المدربين",
+      href: "/trainers",
+      icon: <Contact className="h-5 w-5" />,
     }
   ];
   const navItemsAdminStatistics = [
