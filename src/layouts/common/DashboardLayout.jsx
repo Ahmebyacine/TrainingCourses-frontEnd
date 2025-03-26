@@ -123,7 +123,7 @@ export default function DashboardLayout() {
         <div className="flex h-16 items-center justify-between border-b px-4">
           <Link to="/dashboard" className="flex items-center gap-2 font-bold text-xl">
             <Calendar className="h-6 w-6 text-primary" />
-            <span>Training CH</span>
+            <span>EasyCole Platform</span>
           </Link>
           <Button
             variant="ghost"
@@ -225,7 +225,7 @@ export default function DashboardLayout() {
                     <SheetTitle asChild>
                       <Link to="/" className="flex items-center gap-2 font-bold text-xl">
                         <Calendar className="h-6 w-6 text-primary" />
-                        <span>Training CH</span>
+                        <span>EasyCole Platform</span>
                       </Link>
                     </SheetTitle>
                     <SheetTrigger asChild>

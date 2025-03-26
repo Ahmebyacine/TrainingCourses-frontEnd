@@ -69,7 +69,7 @@ export default function SignIn() {
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2 text-primary">
             <Calendar className="h-8 w-8" />
-            <span className="text-2xl font-bold">Training CH</span>
+            <span className="text-2xl font-bold">EasyCole Platform</span>
           </div>
         </div>
 
