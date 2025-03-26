@@ -1,5 +1,6 @@
 import StatisticsCard from '@/layouts/statistics/program/StatisticsCard'
 import api from '@/services/api'
+import PdfViewer from '@/utils/PDF/PDFReport'
 import { useState, useEffect } from 'react'
 import ErrorPage from '../common/ErrorPage'
 
@@ -34,7 +35,7 @@ export default function ProgramStatistics() {
   if (error) return <ErrorPage error={error} />
   
   return (
-    <div className="container mx-auto p-10" dir="rtl">
+    <div className="container mx-auto p-5 md:p-10" dir="rtl">
       {programData.length > 0 ? (
         <div className='space-y-4 text-right'>
           {programData.map((program) => (

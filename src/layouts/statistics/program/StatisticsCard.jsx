@@ -1,9 +1,18 @@
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, DollarSign, CheckCircle, XCircle, Calendar } from "lucide-react"
+import { Users, DollarSign, CheckCircle, XCircle, Calendar, Download } from "lucide-react"
 import { format } from 'date-fns'
 import ar from 'date-fns/locale/ar'
+import { Button } from "@/components/ui/button"
+import api from "@/services/api"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import PDFReport from "@/utils/PDF/PDFReport"
 
 export default function StatisticsCard({ data }) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [reportData, setReportData] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("ar-DZ", {
       style: "currency",
@@ -15,11 +24,55 @@ export default function StatisticsCard({ data }) {
   const startDate = new Date(data.program.startDate)
   const endDate = new Date(data.program.endDate)
 
+  const fetchReportData = async () => {
+    setIsLoading(true)
+    try {
+      const response = await api.get(`/api/trainee/program/${data.program.id}`)
+      setReportData(response.data)
+    } catch (error) {
+      console.error("Error fetching report data:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <Card className="w-full" dir="rtl">
       <CardHeader>
         <CardTitle className="text-2xl text-right">برنامج {data.program.courseName}</CardTitle>
         <CardDescription className="text-right">{data.program.institutionName}</CardDescription>
+        <Dialog
+          open={isDialogOpen}
+          onOpenChange={(open) => {
+            setIsDialogOpen(open)
+            if (open) fetchReportData()
+          }}
+        >
+          <DialogTrigger asChild>
+            <Button variant="outline">تقرير البرنامج</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md" dir="rtl">
+            <DialogHeader>
+              <DialogTitle className="text-right">تقرير برنامج {data.program.courseName}</DialogTitle>
+              <DialogDescription className="text-right">تفاصيل البرنامج والمدفوعات</DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              {isLoading ? (
+                <div className="text-center py-4">جاري تحميل البيانات...</div>
+              ) : reportData ? (
+                <Button
+                className="w-full flex items-center justify-center gap-2"
+                disabled={isLoading || !reportData}
+                onClick={()=> setIsDialogOpen(false)}>
+                <Download className="h-4 w-4" />
+                 <PDFReport data={reportData}/>
+              </Button>
+              ) : (
+                <div className="text-center py-4">لا توجد بيانات متاحة</div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
