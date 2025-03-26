@@ -1,8 +1,20 @@
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Download, Edit, Trash2 } from "lucide-react";
 import { format } from "date-fns"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import PDFDownload from "@/utils/PDF/PDFDownload";
 
-const TraineeDetailsCard = ({ trainee, onEdit }) => {
+const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-start">
@@ -11,10 +23,38 @@ const TraineeDetailsCard = ({ trainee, onEdit }) => {
           <p className="text-muted-foreground">{trainee.phone}</p>
           {trainee.email && <p className="text-muted-foreground">{trainee.email}</p>}
         </div>
-        <Button variant="outline" size="sm" onClick={onEdit}>
-          <Edit className="h-4 w-4 mr-2" />
-          تعديل
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={onEdit}>
+            <Edit className="h-4 w-4 mr-2" />
+            تعديل
+          </Button>
+          <Button variant="outline" size="sm" >
+            <Download className="h-4 w-4 mr-2" />
+             <PDFDownload trainee={trainee}/>
+          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" size="sm">
+                <Trash2 className="h-4 w-4 mr-2" />
+                حذف
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>هل أنت متأكد من الحذف؟</AlertDialogTitle>
+                <AlertDialogDescription>
+                  سيتم حذف المتدرب نهائيًا مع جميع البيانات المرتبطة به. لا يمكن التراجع عن هذا الإجراء.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                <AlertDialogAction onClick={onDelete}>
+                  تأكيد الحذف
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -63,6 +103,6 @@ const TraineeDetailsCard = ({ trainee, onEdit }) => {
       </div>
     </div>
   )
-  }
+}
 
-  export default TraineeDetailsCard;
+export default TraineeDetailsCard;

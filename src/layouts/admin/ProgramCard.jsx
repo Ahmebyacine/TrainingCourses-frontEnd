@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import api from "@/services/api"
 import { toast } from "sonner"
+import ExpenseDialog from "./ExpenseDialog"
 
 export default function ProgramCard({
   program,
@@ -93,13 +94,16 @@ export default function ProgramCard({
               <CardDescription className="mt-1">في {program.institution?.name || 'مؤسسة غير معروفة'}</CardDescription>
               <CardDescription className="mt-1">{program.trainer?.name || 'مدرب غير معروف'}</CardDescription>
             </div>
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="sm" className="gap-1">
-                <Users className="h-4 w-4" />
-                المتدربون
-                {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-              </Button>
-            </CollapsibleTrigger>
+            <div className="flex gap-2">
+              <ExpenseDialog programId={program._id} programName={program.course?.name || "البرنامج"} />
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-1">
+                  <Users className="h-4 w-4" />
+                  المتدربون
+                  {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                </Button>
+              </CollapsibleTrigger>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="pb-2">

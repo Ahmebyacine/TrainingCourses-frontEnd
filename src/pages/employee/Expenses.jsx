@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
 import { Coins } from "lucide-react"
-import ExpenseCard from "@/layouts/admin/ExpenseCard"
-import AddExpenseModal from "@/layouts/admin/AddExpenseModal"
+import ExpenseCard from "@/layouts/employee/ExpenseCard"
+import AddExpenseModal from "@/layouts/employee/AddExpenseModal"
 import api from "@/services/api"
 import { toast } from "sonner"
 import ErrorPage from "../common/ErrorPage"
 
 export default function Expenses() {
   const [expenses, setExpenses] = useState([])
+  const [programs, setPrograms] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const [editingId, setEditingId] = useState(null)
@@ -17,7 +18,7 @@ export default function Expenses() {
     const fetchExpenses = async () => {
       setIsLoading(true)
       try {
-        const response = await api.get("/api/expenses?populate=employee,program")
+        const response = await api.get("/api/expense")
         setExpenses(response.data)
       } catch (err) {
         setError(err.response?.data?.message)
@@ -25,15 +26,22 @@ export default function Expenses() {
         setIsLoading(false)
       }
     }
+    const fetchData = async () => {
+      try {
+        const programsResponse = await api.get("/api/program/employee")
+        setPrograms(programsResponse.data)
+      } catch (error) {
+        setError(err.response?.data?.message);
+      }
+    }
+    fetchData()
     fetchExpenses()
   }, [])
 
   const handleAddExpense = async (data) => {
     try {
       const response = await api.post('/api/expense', {
-        ...data,
-        employee: "current_user_id", // Replace with actual user ID
-        program: "selected_program_id" // Replace with actual program ID
+        ...data
       })
       setAddDialogOpen(false)
       setExpenses([...expenses, response.data])
@@ -48,7 +56,7 @@ export default function Expenses() {
 
   const handleUpdateExpense = async (data) => {
     try {
-      const response = await api.put(`/api/expenses/${editingId}`, data)
+      const response = await api.put(`/api/expense/${editingId}`, data)
       const updatedExpense = response.data
       setExpenses(expenses.map(e => 
         e._id === editingId ? updatedExpense : e
@@ -68,13 +76,14 @@ export default function Expenses() {
 
   const handleDeleteExpense = async (id) => {
     try {
-      await api.delete(`/api/expenses/${id}`)
+      await api.delete(`/api/expense/${id}`)
       setExpenses(expenses.filter(e => e._id !== id))
       toast.success("تم حذف المصاريف", {
         description: "تمت إزالة المصاريف بنجاح"
       })
     } catch (error) {
       toast.error("لم يتم حذف المصاريف")
+      console.error(error)
     }
   }
 
@@ -86,6 +95,7 @@ export default function Expenses() {
         <h1 className="md:text-3xl text-xl font-bold text-right">المصاريف</h1>
         <AddExpenseModal 
           open={addDialogOpen}
+          programs={programs}
           onOpenChange={setAddDialogOpen}
           onAddExpense={handleAddExpense}
         />
@@ -107,6 +117,7 @@ export default function Expenses() {
             <ExpenseCard
               key={expense._id}
               expense={expense}
+              programs={programs}
               editingId={editingId}
               onStartEditing={setEditingId}
               onUpdateExpense={handleUpdateExpense}

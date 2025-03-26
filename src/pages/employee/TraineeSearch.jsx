@@ -70,6 +70,16 @@ export default function TraineeSearch() {
     navigate(`/edit-trainee/${trainee._id}`);
   }
 
+  const handleDelete = async() =>{
+    try {
+      await api.delete(`/api/trainee/${trainee._id}`)
+      setTrainee(null)
+      toast.success('تم الحذف بنجاح')
+    } catch (error) {
+      toast.error('فشل في الحذف')
+    }
+  }
+
   return (
     <div className="container py-8 max-w-3xl mx-auto" dir="rtl">
       <Card>
@@ -175,7 +185,7 @@ export default function TraineeSearch() {
 
           {trainee && (
             <div className="mt-8 border-t pt-6">
-              <TraineeDetailsCard trainee={trainee} onEdit={handleEdit} />
+              <TraineeDetailsCard trainee={trainee} onEdit={handleEdit} onDelete={handleDelete} />
             </div>
           )}
         </CardContent>

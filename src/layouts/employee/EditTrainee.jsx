@@ -9,11 +9,12 @@ import { Loader2, Save, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import api from "@/services/api";
 import { toast } from "sonner";
+import Receipt from "@/utils/PDF/Receipt";
 
 // Define the trainee form schema
 const traineeSchema = z.object({
@@ -33,7 +34,7 @@ export default function EditTrainee() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
-  const [programs, setPrograms] = useState(mockPrograms);
+  const [programs, setPrograms] = useState();
 
   const navigate = useNavigate();
 
@@ -95,7 +96,7 @@ export default function EditTrainee() {
   // Update total price when program changes
   useEffect(() => {
     const selectedProgramId = form.watch("program")
-    const selectedProgram = programs.find((program) => program._id === selectedProgramId)
+    const selectedProgram = programs?.find((program) => program._id === selectedProgramId)
 
     if (selectedProgram) {
       form.setValue("totalPrice", selectedProgram.course.price)
@@ -105,14 +106,12 @@ export default function EditTrainee() {
   // Handle form submission
   const onSubmit = async (values) => {
     setIsSaving(true)
-    console.log(values)
     try {
-      
-     await api.put(`/api/trainee/${id}`,values)
+    await api.put(`/api/trainee/${id}`,values)
 
-      toast.success( "نجاح",{
-        description: "تم تحديث معلومات المتدرب بنجاح",
-      })
+    toast.success( "نجاح",{
+      description: "تم تحديث معلومات المتدرب بنجاح",
+    })
 
       // Navigate back to search page
       setTimeout(() => {
@@ -120,6 +119,7 @@ export default function EditTrainee() {
       }, 1000)
     } catch (error) {
       toast.error("لم يتم تحديث المتدرب")
+      console.error(error)
     } finally {
       setIsSaving(false)
     }
@@ -198,12 +198,12 @@ export default function EditTrainee() {
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue
-                                placeholder={programs.length === 0 ? "جاري تحميل البرامج..." : "اختر برنامجًا"}
+                                placeholder={programs?.length === 0 ? "جاري تحميل البرامج..." : "اختر برنامجًا"}
                               />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {programs.map((program) => (
+                            {programs?.map((program) => (
                               <SelectItem key={program._id} value={program._id} className="py-3">
                                 <div className="flex flex-col gap-1">
                                   <div className="font-medium">{program.course.name}</div>

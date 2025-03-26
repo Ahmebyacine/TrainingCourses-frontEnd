@@ -128,7 +128,7 @@ const Receipt = ({ data }) => {
       <Page size="A4" style={styles.page}>
         {/* Header Section */}
         <View style={styles.header}>
-          <Text style={styles.institution}>{data.program.institution.name}</Text>
+          <Text style={styles.institution}>{data.program.institution?.name}</Text>
           <Text style={styles.institution}>{data.program.institution.address}</Text>
           <Text style={styles.institution}>الاتصال: {data.program.institution.phone}</Text>
           <Text style={styles.title}>وصل استلام</Text>
@@ -139,7 +139,7 @@ const Receipt = ({ data }) => {
           <Text style={styles.sectionTitle}>معلومات الموظف</Text>
           <View style={styles.labelValuePair}>
             <Text style={styles.label}>الاسم:</Text>
-            <Text style={styles.value}>{data.employee.name}</Text>
+            <Text style={styles.value}>{data?.employee?.name}</Text>
           </View>
         </View>
 
@@ -148,15 +148,15 @@ const Receipt = ({ data }) => {
           <Text style={styles.sectionTitle}>معلومات العميل</Text>
           <View style={styles.labelValuePair}>
             <Text style={styles.label}>الاسم:</Text>
-            <Text style={styles.value}>{data.name}</Text>
+            <Text style={styles.value}>{data?.name}</Text>
           </View>
           <View style={styles.labelValuePair}>
             <Text style={styles.label}>البريد الإلكتروني:</Text>
-            <Text style={styles.value}>{data.email}</Text>
+            <Text style={styles.value}>{data?.email}</Text>
           </View>
           <View style={styles.labelValuePair}>
             <Text style={styles.label}>الهاتف:</Text>
-            <Text style={styles.value}>{data.phone}</Text>
+            <Text style={styles.value}>{data?.phone}</Text>
           </View>
         </View>
 
@@ -165,11 +165,11 @@ const Receipt = ({ data }) => {
           <Text style={styles.sectionTitle}>تفاصيل البرنامج</Text>
           <View style={styles.labelValuePair}>
             <Text style={styles.label}>اسم الدورة:</Text>
-            <Text style={styles.value}>{data.program.course.name}</Text>
+            <Text style={styles.value}>{data?.program?.course?.name}</Text>
           </View>
           <View style={styles.labelValuePair}>
             <Text style={styles.label}>سعر البرنامج:</Text>
-            <Text style={styles.value}>{data.program.course.price}</Text>
+            <Text style={styles.value}>{data?.totalPrice}</Text>
           </View>
         </View>
 
@@ -178,11 +178,11 @@ const Receipt = ({ data }) => {
           <Text style={styles.sectionTitle}>معلومات الدفع</Text>
           <View style={styles.labelValuePair}>
             <Text style={styles.label}>المبلغ المدفوع:</Text>
-            <Text style={styles.value}>{data.inialTranche}</Text>
+            <Text style={styles.value}>{data?.inialTranche}</Text>
           </View>
           <View style={styles.labelValuePair}>
             <Text style={styles.label}>المبلغ الإجمالي:</Text>
-            <Text style={[styles.value, { fontWeight: 700 }]}>{data.totalPrice}</Text>
+            <Text style={[styles.value, { fontWeight: 700 }]}>{data?.totalPrice}</Text>
           </View>
           <View style={styles.labelValuePair}>
             <Text style={[styles.label, { color: '#e74c3c' }]}>المبلغ المتبقي:</Text>

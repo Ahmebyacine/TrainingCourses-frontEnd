@@ -5,6 +5,7 @@ import {
   Building2,
   Calendar,
   ChartBarStacked,
+  CoinsIcon,
   Contact,
   LayoutDashboard,
   Menu,
@@ -102,6 +103,11 @@ export default function DashboardLayout() {
       title: "إحصائيات",
       href: "/user-statistics",
       icon: <LayoutDashboard className="h-5 w-5" />,
+    },
+    {
+      title: "المصاريف",
+      href: "/expenses",
+      icon: <CoinsIcon className="h-5 w-5" />,
     },
   ];
 

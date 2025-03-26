@@ -6,19 +6,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { format } from "date-fns"
 
 const expenseSchema = z.object({
   title: z.string().min(2, { message: "يجب أن يتكون العنوان من حرفين على الأقل" }),
+  program: z.string(),
   amount: z.number().min(1, { message: "يجب أن يكون المبلغ أكبر من الصفر" }),
   note: z.string().optional(),
 })
 
-export default function AddExpenseModal({ open, onOpenChange, onAddExpense }) {
+export default function AddExpenseModal({ open, onOpenChange, onAddExpense, programs }) {
   const form = useForm({
     resolver: zodResolver(expenseSchema),
     defaultValues: {
       title: "",
       amount: 0,
+      program:"",
       note: "",
     }
   })
@@ -43,6 +47,42 @@ export default function AddExpenseModal({ open, onOpenChange, onAddExpense }) {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+             <FormField
+               control={form.control}
+               name="program"
+               render={({ field }) => (
+                 <FormItem>
+                   <FormLabel>البرنامج *</FormLabel>
+                   <Select onValueChange={field.onChange} defaultValue={field.value[0]}>
+                     <FormControl>
+                       <SelectTrigger>
+                       <SelectValue
+                         placeholder={
+                           programs.length === 0 
+                             ? "جاري تحميل البرامج..." 
+                             : "اختر برنامجًا"
+                         } 
+                       />
+                       </SelectTrigger>
+                     </FormControl>
+                     <SelectContent>
+                       {programs.map((program) => (
+                         <SelectItem key={program._id} value={program._id} className="py-3">
+                           <div className="flex flex-col gap-1">
+                             <div className="font-medium">{program.course.name}</div>
+                             <div className="text-xs text-muted-foreground">
+                               {program.institution?.name} • {format(new Date(program.start_date), "MMM d, yyyy")} -{" "}
+                               {format(new Date(program.end_date), "MMM d, yyyy")} • {program.trainer?.name}
+                             </div>
+                           </div>
+                         </SelectItem>
+                       ))}
+                     </SelectContent>
+                   </Select>
+                   <FormMessage />
+                 </FormItem>
+               )}
+             />
             <FormField
               control={form.control}
               name="title"
