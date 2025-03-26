@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   labelValuePair: {
     flexDirection: 'row-reverse',
     gap: 5,
-    marginBottom: 6,
+    marginBottom: 5,
     direction: 'rtl',
     textAlign: 'right',
   },
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   paymentGrid: {
     flexDirection: 'row-reverse',
     gap: 20,
-    marginTop: 10,
+    marginTop: 8,
   },
   footer: {
     position: 'absolute',
