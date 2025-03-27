@@ -44,8 +44,11 @@ export default function StatisticsCard({ data }) {
         <Dialog
           open={isDialogOpen}
           onOpenChange={(open) => {
-            setIsDialogOpen(open)
-            if (open) fetchReportData()
+            setIsDialogOpen(open);
+            if (open) {
+              setReportData(null);
+              fetchReportData();
+            }
           }}
         >
           <DialogTrigger asChild>
@@ -60,13 +63,7 @@ export default function StatisticsCard({ data }) {
               {isLoading ? (
                 <div className="text-center py-4">جاري تحميل البيانات...</div>
               ) : reportData ? (
-                <Button
-                className="w-full flex items-center justify-center gap-2"
-                disabled={isLoading || !reportData}
-                onClick={()=> setIsDialogOpen(false)}>
-                <Download className="h-4 w-4" />
                  <PDFReport data={reportData}/>
-              </Button>
               ) : (
                 <div className="text-center py-4">لا توجد بيانات متاحة</div>
               )}

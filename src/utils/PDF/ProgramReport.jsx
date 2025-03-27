@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProgramReport = ({ data }) => {
+const ProgramReport = ({ data = [] }) => {
   const programDetails = data[0]?.program || {};
   const institutionName = programDetails?.institution?.name || 'N/A';
   const courseName = programDetails?.course?.name || 'N/A';
@@ -132,7 +132,7 @@ const ProgramReport = ({ data }) => {
             </View>
           </View>
         {Object.values(groupedEmployees).map((group, index) => (
-          <View key={index} style={styles.table}>
+          <View key={`group-${index}-${group.employee._id}`} style={styles.table}>
             <Text style={styles.header}>
               الموظف: {group.employee.name} ({group.employee.email})
             </Text>
@@ -150,7 +150,7 @@ const ProgramReport = ({ data }) => {
 
             {/* بيانات المتدربين */}
             {group.trainees.map((trainee, idx) => (
-              <View key={idx} style={styles.tableRow}>
+              <View key={`trainee-${idx}-${trainee._id}`} style={styles.tableRow}>
                 <View style={styles.cell}><Text>{trainee.name}</Text></View>
                 <View style={styles.cell2}><Text>{trainee.email}</Text></View>
                 <View style={styles.cell2}><Text>{trainee.phone}</Text></View>
