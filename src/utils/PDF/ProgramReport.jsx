@@ -1,5 +1,4 @@
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-
 import CairoRegular from '@/assets/fonts/Cairo-Regular.ttf';
 import CairoBold from '@/assets/fonts/Cairo-Bold.ttf';
 import { format } from 'date-fns';
@@ -23,7 +22,6 @@ const styles = StyleSheet.create({
     padding: 30,
     fontSize: 10,
     fontFamily: 'Cairo',
-    direction:'rtl',
     textAlign: 'right'
   },
   header: {
@@ -78,33 +76,39 @@ const styles = StyleSheet.create({
     width: '20%',
   },
 });
-
 const ProgramReport = ({ data = [] }) => {
+  console.log(data)
   const programDetails = data[0]?.program || {};
   const institutionName = programDetails?.institution?.name || 'N/A';
   const courseName = programDetails?.course?.name || 'N/A';
   const trainerName = programDetails?.trainer?.name || 'N/A';
 
-  const groupedEmployees = data.reduce((acc, trainee) => {
-    const empId = trainee.employee._id;
-    if (!acc[empId]) {
-      acc[empId] = {
-        employee: trainee.employee,
-        trainees: [],
-      };
+  // Safely get start and end dates with fallbacks
+  const startDate = data[0]?.program?.start_date ? new Date(data[0].program.start_date) : null;
+  const endDate = data[0]?.program?.end_date ? new Date(data[0].program.end_date) : null;
+
+  const groupedEmployees = data?.reduce((acc, trainee) => {
+    const empId = trainee?.employee?._id;
+    if (empId) {
+      if (!acc[empId]) {
+        acc[empId] = {
+          employee: trainee.employee || {},
+          trainees: [],
+        };
+      }
+      acc[empId].trainees.push(trainee);
     }
-    acc[empId].trainees.push(trainee);
     return acc;
   }, {});
 
-  const totals = data.reduce((acc, trainee) => {
-    acc.totalTrainees += 1;
-    acc.totalInitial += trainee.inialTranche;
-    acc.totalSecond += trainee.secondTranche;
-    acc.totalRest += trainee.rest;
-    acc.totalPrice += trainee.totalPrice;
-    return acc;
-  }, {
+  // Calculate totals with safe defaults
+  const totals = data.reduce((acc, trainee) => ({
+    totalTrainees: acc.totalTrainees + 1,
+    totalInitial: acc.totalInitial + (trainee.inialTranche || 0),
+    totalSecond: acc.totalSecond + (trainee.secondTranche || 0),
+    totalRest: acc.totalRest + (trainee.rest || 0),
+    totalPrice: acc.totalPrice + (trainee.totalPrice || 0),
+  }), {
     totalTrainees: 0,
     totalInitial: 0,
     totalSecond: 0,
@@ -126,7 +130,8 @@ const ProgramReport = ({ data = [] }) => {
                 <Text style={{direction:'rtl'}} >المؤسسة: {institutionName}</Text>
               </View>
               <View>
-                <Text style={{direction:'rtl'}} >الفترة: من {format(data[0]?.program.start_date, " MM/d/ yyyy")} إلى {format(data[0]?.program.end_date, "MM/d/yyyy")} </Text>
+                <Text style={{direction:'rtl'}} >الفترة: من {startDate ? format(startDate, "MM/dd/yyyy") : 'N/A'} إلى{' '}
+                {endDate ? format(endDate, "MM/dd/yyyy") : 'N/A'} </Text>
                 <Text style={{direction:'rtl'}} >المدرب:{trainerName}</Text>
               </View>
             </View>
@@ -134,7 +139,7 @@ const ProgramReport = ({ data = [] }) => {
         {Object.values(groupedEmployees).map((group, index) => (
           <View key={`group-${index}-${group.employee._id}`} style={styles.table}>
             <Text style={styles.header}>
-              الموظف: {group.employee.name} ({group.employee.email})
+              الموظف: {group.employee?.name || 'N/A'} ({group.employee?.email || 'N/A'})
             </Text>
 
             {/* عناوين جدول الموظفين */}
@@ -151,9 +156,9 @@ const ProgramReport = ({ data = [] }) => {
             {/* بيانات المتدربين */}
             {group.trainees.map((trainee, idx) => (
               <View key={`trainee-${idx}-${trainee._id}`} style={styles.tableRow}>
-                <View style={styles.cell}><Text>{trainee.name}</Text></View>
-                <View style={styles.cell2}><Text>{trainee.email}</Text></View>
-                <View style={styles.cell2}><Text>{trainee.phone}</Text></View>
+                <View style={styles.cell}><Text>{trainee.name || ''}</Text></View>
+                <View style={styles.cell2}><Text>{trainee.email || ''}</Text></View>
+                <View style={styles.cell2}><Text>{trainee.phone || ''}</Text></View>
                 <View style={styles.cell}><Text>{trainee.inialTranche + trainee.secondTranche}</Text></View>
                 <View style={styles.cell}><Text>{trainee.rest}</Text></View>
                 <View style={styles.cell}><Text>{trainee.totalPrice}</Text></View>
@@ -177,7 +182,7 @@ const ProgramReport = ({ data = [] }) => {
 
           {/* بيانات الملخص */}
           <View style={styles.tableRow}>
-            <View style={styles.summaryCell}><Text>{totals.totalTrainees}</Text></View>
+            <View style={styles.summaryCell}><Text>{totals.totalTrainees || ''}</Text></View>
             <View style={styles.summaryCell}><Text>{totals.totalInitial + totals.totalSecond}</Text></View>
             <View style={styles.summaryCell}><Text>{totals.totalRest}</Text></View>
             <View style={styles.summaryCell}><Text>{totals.totalPrice}</Text></View>
