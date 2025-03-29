@@ -5,20 +5,9 @@ import ProgramReport from './ProgramReport';
 
 const PDFReport = ({ data }) => {
 
-  // Add more robust data checking
-  if (!data || !Array.isArray(data) || data.length === 0) {
-    console.error('Invalid data passed to PDFReport');
-    return (
-      <Button variant="outline" disabled>
-        <XCircle className="h-4 w-4 mr-2" />
-        لا توجد بيانات
-      </Button>
-    );
-  }
-
-  const fileName = data[0]?.program?.course?.name 
-    ? `report-program-${data[0].program.course.name}.pdf`
-    : 'program-report.pdf';
+  const fileName = data?.program?.name 
+    ? `report-program-${data.program.name}.pdf`
+    : 'N/A.pdf';
 
   return (
     <PDFDownloadLink

@@ -17,6 +17,7 @@ import TraineeSearch from './pages/employee/TraineeSearch'
 import EditTrainee from './layouts/employee/EditTrainee'
 import Trainers from './pages/admin/Trainers'
 import Expenses from './pages/employee/Expenses'
+import ProgramReportPage from './pages/admin/ProgramReportPage'
 
 const router = createHashRouter([
   {
@@ -88,6 +89,14 @@ const router = createHashRouter([
         ]
       },
     ],
+  },
+  {
+    path: "/program-report/:id",
+    element: (
+      <ProtectedRoute roles={['admin']}>
+        <ProgramReportPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/login",

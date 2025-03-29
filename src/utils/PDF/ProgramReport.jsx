@@ -1,34 +1,19 @@
-import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-import CairoRegular from '@/assets/fonts/Cairo-Regular.ttf';
-import CairoBold from '@/assets/fonts/Cairo-Bold.ttf';
-import { format } from 'date-fns';
-
-Font.register({
-  family: 'Cairo',
-  fonts: [
-    {
-      src: CairoRegular,
-      fontWeight: 400,
-    },
-    {
-      src: CairoBold,
-      fontWeight: 700,
-    },
-  ],
-});
+import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
+import FontLoader from './FontLoader';
 
 const styles = StyleSheet.create({
   page: {
     padding: 30,
     fontSize: 10,
     fontFamily: 'Cairo',
-    textAlign: 'right'
+    dirctint:'rtl',
+    textAlign: 'right',
+    writingMode: 'horizontal-tb',
   },
   header: {
     fontSize: 14,
     marginBottom: 10,
     fontWeight: 'bold',
-    direction:'rtl',
   },
   headerContainer: {
     marginBottom: 20,
@@ -37,7 +22,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   headerRow: {
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 5,
   },
@@ -51,10 +36,10 @@ const styles = StyleSheet.create({
   },
   tableHeader: {
     backgroundColor: '#f0f0f0',
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
   },
   tableRow: {
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
     paddingVertical: 5,
@@ -76,116 +61,87 @@ const styles = StyleSheet.create({
     width: '20%',
   },
 });
-const ProgramReport = ({ data = [] }) => {
+const ProgramReport = ({ data = {} }) => {
   console.log(data)
-  const programDetails = data[0]?.program || {};
-  const institutionName = programDetails?.institution?.name || 'N/A';
-  const courseName = programDetails?.course?.name || 'N/A';
-  const trainerName = programDetails?.trainer?.name || 'N/A';
 
-  // Safely get start and end dates with fallbacks
-  const startDate = data[0]?.program?.start_date ? new Date(data[0].program.start_date) : null;
-  const endDate = data[0]?.program?.end_date ? new Date(data[0].program.end_date) : null;
-
-  const groupedEmployees = data?.reduce((acc, trainee) => {
-    const empId = trainee?.employee?._id;
-    if (empId) {
-      if (!acc[empId]) {
-        acc[empId] = {
-          employee: trainee.employee || {},
-          trainees: [],
-        };
-      }
-      acc[empId].trainees.push(trainee);
-    }
-    return acc;
-  }, {});
-
-  // Calculate totals with safe defaults
-  const totals = data.reduce((acc, trainee) => ({
-    totalTrainees: acc.totalTrainees + 1,
-    totalInitial: acc.totalInitial + (trainee.inialTranche || 0),
-    totalSecond: acc.totalSecond + (trainee.secondTranche || 0),
-    totalRest: acc.totalRest + (trainee.rest || 0),
-    totalPrice: acc.totalPrice + (trainee.totalPrice || 0),
-  }), {
-    totalTrainees: 0,
-    totalInitial: 0,
-    totalSecond: 0,
-    totalRest: 0,
-    totalPrice: 0,
-  });
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ar');
+  };
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        <FontLoader />
+        {/* Program Header */}
         <View style={styles.headerContainer}>
-            <View style={styles.headerRow}>
-              <Text style={styles.headerTitle}>تقرير البرنامج التدريبي</Text>
-              <Text style={{direction:'rtl'}} >التاريخ: {format(new Date(), "MM/dd/yyyy hh:mm")}</Text>
-            </View>
-            <View style={styles.headerRow}>
-              <View>
-                <Text style={{direction:'rtl'}}>اسم الدورة: {courseName}</Text>
-                <Text style={{direction:'rtl'}} >المؤسسة: {institutionName}</Text>
-              </View>
-              <View>
-                <Text style={{direction:'rtl'}} >الفترة: من {startDate ? format(startDate, "MM/dd/yyyy") : 'N/A'} إلى{' '}
-                {endDate ? format(endDate, "MM/dd/yyyy") : 'N/A'} </Text>
-                <Text style={{direction:'rtl'}} >المدرب:{trainerName}</Text>
-              </View>
-            </View>
+          <Text style={styles.headerTitle}>{data.program.name}</Text>
+          <View style={styles.headerRow}>
+            <Text>المؤسسة: {data.program.institution}</Text>
+            <Text>المدرب: {data.program.trainer}</Text>
           </View>
-        {Object.values(groupedEmployees).map((group, index) => (
-          <View key={`group-${index}-${group.employee._id}`} style={styles.table}>
-            <Text style={styles.header}>
-              الموظف: {group.employee?.name || 'N/A'} ({group.employee?.email || 'N/A'})
-            </Text>
+          <View style={styles.headerRow}>
+            <Text>تاريخ النهاية: {formatDate(data.program.end_date)}</Text>
+            <Text>تاريخ البداية: {formatDate(data.program.start_date)}</Text>
+          </View>
+        </View>
 
-            {/* عناوين جدول الموظفين */}
-            <View style={[styles.tableRow, styles.tableHeader]}>
-              <View style={styles.cell}><Text>الاسم</Text></View>
-              <View style={styles.cell2}><Text>البريد الإلكتروني</Text></View>
-              <View style={styles.cell2}><Text>الهاتف</Text></View>
-              <View style={styles.cell}><Text>المدفوع</Text></View>
-              <View style={styles.cell}><Text>المتبقي</Text></View>
-              <View style={styles.cell}><Text>الإجمالي</Text></View>
-              <View style={styles.cell}><Text>ملاحظات</Text></View>
+        {/* Employees List */}
+        {data.employees.map((employee, index) => (
+          <View key={index} wrap={false}>
+            {/* Employee Header */}
+            <View style={styles.header}>
+              <Text>{employee.employee.name} - {employee.employee.email}</Text>
             </View>
 
-            {/* بيانات المتدربين */}
-            {group.trainees.map((trainee, idx) => (
-              <View key={`trainee-${idx}-${trainee._id}`} style={styles.tableRow}>
-                <View style={styles.cell}><Text>{trainee.name || ''}</Text></View>
-                <View style={styles.cell2}><Text>{trainee.email || ''}</Text></View>
-                <View style={styles.cell2}><Text>{trainee.phone || ''}</Text></View>
-                <View style={styles.cell}><Text>{trainee.inialTranche + trainee.secondTranche}</Text></View>
-                <View style={styles.cell}><Text>{trainee.rest}</Text></View>
-                <View style={styles.cell}><Text>{trainee.totalPrice}</Text></View>
-                <View style={styles.cell}><Text>{trainee.note || '-'}</Text></View>
+            {/* Trainees Table */}
+            <View style={styles.table}>
+              {/* Table Header */}
+              <View style={styles.tableHeader}>
+                <Text style={styles.cell}>ملاحظات</Text>
+                <Text style={styles.cell}>المبلغ الكلي</Text>
+                <Text style={styles.cell}>المتبقي</Text>
+                <Text style={styles.cell}>المدفوع</Text>
+                <Text style={styles.cell2}>الهاتف</Text>
+                <Text style={styles.cell2}>البريد</Text>
+                <Text style={styles.cell2}>الاسم</Text>
               </View>
-            ))}
+
+              {/* Table Rows */}
+              {employee.trainees.map((trainee, idx) => (
+                <View style={styles.tableRow} key={idx}>
+                  <Text style={styles.cell}>{trainee.note}</Text>
+                  <Text style={styles.cell}>{trainee.totalPrice}</Text>
+                  <Text style={styles.cell}>{trainee.unpaidAmount}</Text>
+                  <Text style={styles.cell}>{trainee.paidAmount}</Text>
+                  <Text style={styles.cell2}>{trainee.phone}</Text>
+                  <Text style={styles.cell2}>{trainee.email}</Text>
+                  <Text style={styles.cell2}>{trainee.name}</Text>
+                </View>
+              ))}
+            </View>
+
+            {/* Employee Summary */}
+            <View style={[styles.table, styles.summaryTable]}>
+              <View style={styles.tableRow}>
+                <Text style={styles.summaryCell}>المجموع</Text>
+                <Text style={styles.summaryCell}>{employee.summary.totalPrice}</Text>
+                <Text style={styles.summaryCell}>{employee.summary.totalUnpaid}</Text>
+                <Text style={styles.summaryCell}>{employee.summary.totalPaid}</Text>
+                <Text style={styles.summaryCell}>عدد المتدربين: {employee.summary.totalTrainees}</Text>
+              </View>
+            </View>
           </View>
         ))}
 
-        {/* ملخص البرنامج */}
-        <View style={styles.summaryTable}>
-          <Text style={styles.header}>ملخص البرنامج</Text>
-          
-          {/* عناوين جدول الملخص */}
-          <View style={[styles.tableRow, styles.tableHeader]}>
-            <View style={styles.summaryCell}><Text>إجمالي المتدربين</Text></View>
-            <View style={styles.summaryCell}><Text>إجمالي المدفوع</Text></View>
-            <View style={styles.summaryCell}><Text>إجمالي المتبقي</Text></View>
-            <View style={styles.summaryCell}><Text>إجمالي السعر</Text></View>
-          </View>
-
-          {/* بيانات الملخص */}
+        {/* Overall Summary */}
+        <View style={[styles.table, styles.summaryTable]}>
           <View style={styles.tableRow}>
-            <View style={styles.summaryCell}><Text>{totals.totalTrainees || ''}</Text></View>
-            <View style={styles.summaryCell}><Text>{totals.totalInitial + totals.totalSecond}</Text></View>
-            <View style={styles.summaryCell}><Text>{totals.totalRest}</Text></View>
-            <View style={styles.summaryCell}><Text>{totals.totalPrice}</Text></View>
+            <Text style={styles.summaryCell}>المجموع العام</Text>
+            <Text style={styles.summaryCell}>{data.summary.totalPrice}</Text>
+            <Text style={styles.summaryCell}>{data.summary.totalUnpaid}</Text>
+            <Text style={styles.summaryCell}>{data.summary.totalPaid}</Text>
+            <Text style={styles.summaryCell}>عدد المتدربين الكلي: {data.summary.totalTrainees}</Text>
           </View>
         </View>
       </Page>

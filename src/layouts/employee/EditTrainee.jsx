@@ -14,7 +14,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import api from "@/services/api";
 import { toast } from "sonner";
-import Receipt from "@/utils/PDF/Receipt";
 
 // Define the trainee form schema
 const traineeSchema = z.object({

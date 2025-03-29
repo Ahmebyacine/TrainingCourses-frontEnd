@@ -1,6 +1,5 @@
 import StatisticsCard from '@/layouts/statistics/program/StatisticsCard'
 import api from '@/services/api'
-import PdfViewer from '@/utils/PDF/PDFReport'
 import { useState, useEffect } from 'react'
 import ErrorPage from '../common/ErrorPage'
 
