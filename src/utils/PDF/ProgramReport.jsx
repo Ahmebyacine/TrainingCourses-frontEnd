@@ -62,8 +62,7 @@ const styles = StyleSheet.create({
   },
 });
 const ProgramReport = ({ data = {} }) => {
-  console.log(data)
-
+  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('ar');

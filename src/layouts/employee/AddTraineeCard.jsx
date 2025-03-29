@@ -27,6 +27,7 @@ const formSchema = z.object({
 export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
 
     const form = useForm({
+      mode: "onChange",
       resolver: zodResolver(formSchema),
       defaultValues: {
         name: "",
@@ -35,7 +36,6 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
         program: [],
         inialTranche: 0,
         secondTranche: 0,
-        rest: 0,
         totalPrice:0,
         note: "",
       },
@@ -160,21 +160,7 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                          <FormMessage />
                        </FormItem>
                      )}
-                   /> 
-                   {/* Rest Field */}
-                   <FormField
-                     control={form.control}
-                     name="rest"
-                     render={({ field }) => (
-                       <FormItem>
-                         <FormLabel>المتبقي</FormLabel>
-                         <FormControl>
-                           <Input type="number" min="0" step="0.01" {...field} />
-                         </FormControl>
-                         <FormMessage />
-                       </FormItem>
-                     )}
-                   />   
+                   />
                    {/* Total Price Field */}
                    <FormField
                      control={form.control}
