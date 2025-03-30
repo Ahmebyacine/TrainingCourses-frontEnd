@@ -12,12 +12,14 @@ import { ar } from "date-fns/locale"
 import api from "@/services/api"
 import PDFReport from "@/utils/PDF/PDFReport"
 import { Button } from "@/components/ui/button"
+import ErrorPage from "../common/ErrorPage"
 
 export default function ProgramReportPage() {
   const { id } = useParams();
   const [reportData, setReportData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [activeEmployee, setActiveEmployee] = useState('')
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchReportData = async () => {
@@ -26,9 +28,8 @@ export default function ProgramReportPage() {
         const response = await api.get(`/api/program/${id}/report`)
         setReportData(response.data)
         setActiveEmployee(response.data?.employees[0]?.employee.id)
-        console.log(response.data)
       } catch (error) {
-        console.error("Error fetching report data:", error)
+        setError(error.response?.data?.message);
       } finally {
         setIsLoading(false)
       }
@@ -51,7 +52,15 @@ export default function ProgramReportPage() {
     return (paid / total) * 100
   }
 
-  if (isLoading) return <div>Loading ....</div>
+  if (isLoading) {
+    return (
+      <div className="container mx-auto py-10" dir="rtl">
+        <div className="text-center">جاري تحميل تقرير البرنامج...</div>
+      </div>
+    )
+  }
+  
+  if (error) return <ErrorPage error={error} />
   return (
     <div className="container mx-auto py-6 px-4 md:px-6 rtl" dir="rtl">
       {/* Program Header */}
