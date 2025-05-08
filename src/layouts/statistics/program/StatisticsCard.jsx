@@ -1,13 +1,11 @@
-import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, DollarSign, CheckCircle, XCircle, Calendar, Download } from "lucide-react"
+import { Users, DollarSign, CheckCircle, XCircle, Calendar } from "lucide-react"
 import { format } from 'date-fns'
 import ar from 'date-fns/locale/ar'
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 
 export default function StatisticsCard({ data }) {
-  const [isLoading, setIsLoading] = useState(false)
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("ar-DZ", {
@@ -19,8 +17,6 @@ export default function StatisticsCard({ data }) {
 
   const startDate = new Date(data.program.startDate)
   const endDate = new Date(data.program.endDate)
-
-  
 
   return (
     <Card className="w-full" dir="rtl">

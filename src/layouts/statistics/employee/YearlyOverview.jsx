@@ -26,9 +26,9 @@ export const YearlyOverview = ({ selectedYear, yearlyData, loading }) => {
   ];
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <Card>
+        <Card dir="rtl">
           <CardHeader>
             <CardTitle className="text-right">نظرة عامة على الإيرادات لسنة {selectedYear}</CardTitle>
             <CardDescription className="text-right">الإيرادات الكاملة وحالة المدفوعات</CardDescription>
