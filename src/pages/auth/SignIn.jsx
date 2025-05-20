@@ -20,8 +20,7 @@ import {
 import { 
   Card, 
   CardContent, 
-  CardDescription, 
-  CardFooter, 
+  CardDescription,
   CardHeader, 
   CardTitle 
 } from "@/components/ui/card"
@@ -55,7 +54,13 @@ export default function SignIn() {
       setToken(token)
       
       const { role } = getTokenData()
-      navigate(role === 'admin' ? "/" : "/add-trainee")
+      const rolePaths = {
+        admin: "/",
+        manager: "/programs-manager",
+        member: "/certificat-conformite",
+        employee: "/add-trainee"
+      }
+      navigate(rolePaths[role])
     } catch (error) {
       setError(error.response?.data?.message || "An error occurred. Please try again.")
     } finally {

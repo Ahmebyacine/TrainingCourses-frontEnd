@@ -15,7 +15,7 @@ const institutionSchema = z.object({
   phone: z.string().optional(),
 })
 
-export default function InstitutionCard({ institution, editingId, onStartEditing, onUpdateInstitution, onDeleteInstitution }) {
+export default function InstitutionCard({ institution, editingId, onStartEditing, onUpdateInstitution, onDeleteInstitution, isManager=false }) {
   const form = useForm({
     resolver: zodResolver(institutionSchema),
     defaultValues: {
@@ -128,8 +128,14 @@ export default function InstitutionCard({ institution, editingId, onStartEditing
               <Pencil className="h-4 w-4 mr-1" />
               تعديل
             </Button>
+            {!isManager && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
+                
+                  <Button variant="destructive" size="sm">
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    حذف
+                  </Button>
                 <Button variant="destructive" size="sm">
                   <Trash2 className="h-4 w-4 mr-1" />
                   حذف
@@ -150,6 +156,7 @@ export default function InstitutionCard({ institution, editingId, onStartEditing
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+            )}
           </div>
         )}
       </CardFooter>

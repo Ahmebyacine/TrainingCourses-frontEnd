@@ -1,6 +1,4 @@
 import { Font } from '@react-pdf/renderer';
-import CairoRegular from '@/assets/fonts/Cairo-Regular.ttf';
-import CairoBold from '@/assets/fonts/Cairo-Bold.ttf';
 
 const FontLoader = () => {
   Font.register({

@@ -21,8 +21,7 @@ export default function Courses() {
         const response = await api.get("/api/course")
         setCourses(response.data)
       } catch (error) {
-        console.log(error)
-        setError(err.response?.data?.message);
+        setError(error.response?.data?.message);
       } finally {
         setIsLoading(false)
       }
@@ -38,7 +37,7 @@ export default function Courses() {
       toast.success("تمت إضافة الدورة", {
         description: `تمت إضافة الدورة ${response.data.name}`
       })
-    } catch (error) {
+    } catch {
       toast.error("لم تتم إضافة الدورة")
       setAddDialogOpen(false)
     }
@@ -54,7 +53,7 @@ export default function Courses() {
       toast.success("تم تحديث الدورة", {
         description: `تم تحديث الدورة ${response.data.name}`
       })
-    } catch (error) {
+    } catch {
       toast.error("لم يتم تحديث الدورة")
       setEditingId(null)
     }
@@ -65,7 +64,7 @@ export default function Courses() {
       await api.delete(`/api/course/${id}`)
       setCourses(courses.filter(course => course._id !== id))
       toast.success("تم حذف الدورة")
-    } catch (error) {
+    } catch {
       toast.error("لم يتم حذف الدورة")
     }
   }
@@ -82,12 +81,12 @@ export default function Courses() {
   return (
     <div className="container mx-auto py-8 px-5 md:px-10" dir="rtl">
       <div className="flex justify-between items-center mb-6 flex-row-reverse">
-        <h1 className="md:text-3xl text-xl font-bold text-right">الدورات التدريبية</h1>
         <AddCourseModal 
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}
           onAddCourse={handleAddCourse}
         />
+        <h1 className="md:text-3xl text-xl font-bold text-right">الدورات التدريبية</h1>
       </div>
 
       {isLoading ? (

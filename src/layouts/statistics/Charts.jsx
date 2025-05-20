@@ -6,10 +6,12 @@ import {
   Bar,
   XAxis,
   CartesianGrid,
-  Legend,
   Cell,
   AreaChart,
   Area,
+  YAxis,
+  LabelList,
+  Legend,
 } from "recharts";
 
 import {
@@ -21,16 +23,17 @@ import {
 } from "@/components/ui/chart";
 
 export function RevenueBarChart({ data }) {
+  console.log("data", data);
   return (
     <ChartContainer
       config={{
         totalPaid: {
           label: "المبلغ المدفوع",
-          color: "var(--chart-1)",
+          color: "var(--chart-2)",
         },
         totalUnpaid: {
           label: "المبلغ غير المدفوع",
-          color: "var(--chart-2)",
+          color: "var(--chart-1)",
         },
       }}
       className="h-full w-full"
@@ -38,30 +41,51 @@ export function RevenueBarChart({ data }) {
       <BarChart
         accessibilityLayer
         data={data}
-        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        layout="vertical"
+        margin={{
+          left: 10,
+        }}
+        barGap={0}
+        height={600}
       >
-        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-        <XAxis
+        <YAxis
           dataKey="name"
           type="category"
-          width={100}
           tickLine={false}
           axisLine={false}
+          width={90}
+          tick={{ fontSize: 11, padding: 8 }}
         />
+        <XAxis type="number" />
         <ChartTooltip
-          cursor={false}
+          cursor={true}
           content={
             <ChartTooltipContent
-              indicator="dashed"
+              indicator="line"
               formatter={(value) =>
                 `د.ج ${Number(value).toLocaleString("ar-DZ")}`
               }
             />
           }
         />
-        <Legend />
-        <Bar dataKey="totalPaid" fill="var(--color-totalPaid)" radius={4} />
-        <Bar dataKey="totalUnpaid" fill="var(--color-totalUnpaid)" radius={4} />
+        <Bar dataKey="totalPaid" fill="var(--color-totalPaid)" radius={4}>
+          <LabelList
+            dataKey="totalPaid"
+            position="right"
+            className="fill-foreground"
+            fontSize={10}
+            formatter={(value) => `د.ج ${value.toLocaleString("ar-DZ")}`}
+          />
+        </Bar>
+        <Bar dataKey="totalUnpaid" fill="var(--color-totalUnpaid)" radius={4}>
+          <LabelList
+            dataKey="totalUnpaid"
+            position="right"
+            className="fill-foreground"
+            fontSize={10}
+            formatter={(value) => `د.ج ${value.toLocaleString("ar-DZ")}`}
+          />
+        </Bar>
       </BarChart>
     </ChartContainer>
   );
@@ -158,9 +182,7 @@ export function MonthlyTrendChart({ data }) {
           tickMargin={8}
           minTickGap={32}
         />
-        <ChartTooltip
-          cursor={false}
-        />
+        <ChartTooltip cursor={false} />
         <Area
           dataKey="totalTrainees"
           type="natural"

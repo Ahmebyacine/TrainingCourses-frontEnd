@@ -20,7 +20,7 @@ export default function Institutions() {
         const response = await api.get("/api/institution")
         setInstitutions(response.data)
       } catch (error) {
-        setError(err.response?.data?.message);
+        setError(error.response?.data?.message);
       } finally {
         setIsLoading(false)
       }
@@ -36,7 +36,7 @@ export default function Institutions() {
       toast.success("تمت إضافة المؤسسة", {
         description: `لقد أضافت المؤسسة ${response.data.name}`
       })
-    } catch (error) {
+    } catch {
       toast.error("لم تتم إضافة المؤسسة")
       setAddDialogOpen(false)
     }
@@ -53,7 +53,7 @@ export default function Institutions() {
       toast.success("تم تحديث المؤسسة", {
         description: `قامت المؤسسة ${response.data.name} بالتحديث`
       })
-    } catch (error) {
+    } catch {
       setInstitutions(institutions.map(inst => 
         inst._id === editingId ? { ...inst, ...data } : inst
       ))
@@ -67,9 +67,9 @@ export default function Institutions() {
       await api.delete(`/api/institution/${id}`,)
       setInstitutions(institutions.filter(inst => inst._id !== id))
       toast.success("تم حذف المؤسسة", {
-        description: `قامت المؤسسة ${response.data.name} بحذف`
+        description: `قمت المؤسسة بحذف`
       })
-    } catch (error) {
+    } catch {
       toast.error("لم يتم حذف المؤسسة")
     }
   }
@@ -80,12 +80,12 @@ export default function Institutions() {
   return (
     <div className="w-full mx-auto py-8 px-5 md:px-10" dir="rtl">
       <div className="flex justify-between items-center mb-6 flex-row-reverse">
-        <h1 className="md:text-3xl text-xl font-bold text-right">المؤسسات</h1>
         <AddInstitutionModal 
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}
           onAddInstitution={handleAddInstitution}
         />
+        <h1 className="md:text-3xl text-xl font-bold text-right">المؤسسات</h1>
       </div>
 
       {isLoading ? (

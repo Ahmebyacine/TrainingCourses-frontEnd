@@ -42,7 +42,7 @@ export default function ProgramReportPage() {
   const formatDate = (dateString) => {
     try {
       return format(new Date(dateString), "dd MMMM yyyy", { locale: ar })
-    } catch (error) {
+    } catch {
       return dateString
     }
   }

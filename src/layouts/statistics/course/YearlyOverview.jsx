@@ -20,15 +20,11 @@ export const YearlyOverview = ({ selectedYear, yearlyData, loading }) => {
     totalUnpaid: stat.yearlyTotal.totalUnpaid,
   }));
 
-  const paymentStatusData = [
-    { name: "المدفوع", value: yearlyData?.statistics.reduce((sum, stat) => sum + stat.yearlyTotal.totalPaid, 0) },
-    { name: "غير المدفوع", value: yearlyData?.statistics.reduce((sum, stat) => sum + stat.yearlyTotal.totalUnpaid, 0) },
-  ];
 
   return (
     <div className="space-y-6">
       <div className="w-full">
-        <Card dir="rtl">
+        <Card>
           <CardHeader>
             <CardTitle className="text-right">نظرة عامة على الإيرادات لسنة {selectedYear}</CardTitle>
             <CardDescription className="text-right">الإيرادات الكاملة وحالة المدفوعات</CardDescription>

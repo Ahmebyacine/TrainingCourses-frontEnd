@@ -35,49 +35,49 @@ export default function StatisticsCard({ data }) {
           </Link>
         </Button>
       </CardHeader>
-      <CardContent>
+      <CardContent >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           <div className="flex flex-col space-y-2 rounded-lg border p-4">
-            <div className="flex items-center justify-end space-x-2 text-muted-foreground">
+            <div className="flex items-center justify-start space-x-2 text-muted-foreground">
               <span className="text-sm font-medium">المتدربين</span>
               <Users className="h-4 w-4" />
             </div>
-            <div className="text-2xl font-bold text-left">{data.totalTrainees}</div>
+            <div className="text-2xl font-bold text-right">{data.totalTrainees}</div>
           </div>
 
           <div className="flex flex-col space-y-2 rounded-lg border p-4">
-            <div className="flex items-center justify-end space-x-2 text-muted-foreground">
+            <div className="flex items-center justify-start space-x-2 text-muted-foreground">
               <span className="text-sm font-medium">المبلغ الإجمالي</span>
               <DollarSign className="h-4 w-4" />
             </div>
-            <div className="text-2xl font-bold text-left">{formatCurrency(data.totalAmount)}</div>
+            <div className="text-2xl font-bold text-right">{formatCurrency(data.totalAmount)}</div>
           </div>
 
           <div className="flex flex-col space-y-2 rounded-lg border p-4">
-            <div className="flex items-center justify-end space-x-2 text-green-600">
+            <div className="flex items-center justify-start space-x-2 text-green-600">
               <span className="text-sm font-medium">المدفوع</span>
               <CheckCircle className="h-4 w-4" />
             </div>
-            <div className="text-2xl font-bold text-left">{formatCurrency(data.totalPaid)}</div>
-            <div className="text-sm text-muted-foreground text-left">
+            <div className="text-2xl font-bold text-right">{formatCurrency(data.totalPaid)}</div>
+            <div className="text-sm text-muted-foreground text-right">
               {Math.round((data.totalPaid / data.totalAmount) * 100)}% من الإجمالي
             </div>
           </div>
 
           <div className="flex flex-col space-y-2 rounded-lg border p-4">
-            <div className="flex items-center justify-end space-x-2 text-red-600">
+            <div className="flex items-center justify-start space-x-2 text-red-600">
               <span className="text-sm font-medium">غير المدفوع</span>
               <XCircle className="h-4 w-4" />
             </div>
-            <div className="text-2xl font-bold text-left">{formatCurrency(data.totalUnpaid)}</div>
-            <div className="text-sm text-muted-foreground text-left">
+            <div className="text-2xl font-bold text-right">{formatCurrency(data.totalUnpaid)}</div>
+            <div className="text-sm text-muted-foreground text-right">
               {Math.round((data.totalUnpaid / data.totalAmount) * 100)}% من الإجمالي
             </div>
           </div>
         </div>
 
         <div className="mt-6 rounded-lg border p-4">
-          <div className="flex items-center justify-end space-x-2 text-muted-foreground mb-2">
+          <div className="flex items-center justify-start space-x-2 text-muted-foreground mb-2">
             <span className="text-sm font-medium">مدة البرنامج</span>
             <Calendar className="h-4 w-4" />
           </div>

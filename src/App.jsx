@@ -18,6 +18,12 @@ import EditTrainee from './layouts/employee/EditTrainee'
 import Trainers from './pages/admin/Trainers'
 import Expenses from './pages/employee/Expenses'
 import ProgramReportPage from './pages/admin/ProgramReportPage'
+import EquipmentInspection from './pages/member/EquipmentInspection'
+import AttestationDeFormation from './pages/member/AttestationDeFormation'
+import CertificateDAptitude from './pages/member/CertificateDAptitude'
+import AttestationDeFormationDuree from './pages/member/AttestationDeFormationDuree'
+import ProgramsManager from './pages/manager/ProgramsManager'
+import InstitutionsManager from './pages/manager/InstitutionsManager'
 
 const router = createHashRouter([
   {
@@ -85,6 +91,44 @@ const router = createHashRouter([
           {
             path: "expenses",
             element: <Expenses />,
+          },
+        ]
+      },
+      {
+        element: <ProtectedRoute roles={['member']} />,
+        children: [
+          {
+            path: "certificat-conformite",
+            element: <EquipmentInspection />,
+          },
+          {
+            path: "attestation-de-formation",
+            element: <AttestationDeFormation />,
+          },
+          {
+            path: "certificate-d-aptitude",
+            element: <CertificateDAptitude />,
+          },
+          {
+            path: "attestation-de-formationDuree",
+            element: <AttestationDeFormationDuree />,
+          }
+        ]
+      },
+      {
+        element: <ProtectedRoute roles={['manager']} />,
+        children: [
+          {
+            path: "programs-manager",
+            element: <ProgramsManager />,
+          },
+          {
+            path: "Courses-manager",
+            element: <Courses />,
+          },
+          {
+            path: "institutions-manager",
+            element: <InstitutionsManager />,
           },
         ]
       },
