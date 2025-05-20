@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import CheckCertRow from "./CheckCertRow";
-import img from "@/assets/images/210_SMART_PLUS.png";
+import img from "@/assets/images/210_SMART_Plus.png";
 import { formatFrenchDate } from "@/utils/formatSafeDate";
 const styles = StyleSheet.create({
   fontFr: {
