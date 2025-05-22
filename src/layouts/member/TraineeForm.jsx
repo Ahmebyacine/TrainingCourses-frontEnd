@@ -81,7 +81,7 @@ export default function TraineeForm({
           />
         </div>
       </div>
-      <div className="flex items-end mt-5 w-[30%]">
+      <div className="flex items-end mt-5 md:w-[30%] w-full">
         <Button
           type="button"
           onClick={handleSaveTrainee}

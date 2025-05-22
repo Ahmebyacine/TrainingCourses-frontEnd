@@ -1,24 +1,47 @@
-import { useState, useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { useParams, useNavigate } from 'react-router-dom';
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { format } from "date-fns"
-import { Loader2, Save, ArrowLeft } from "lucide-react"
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useParams, useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Loader2, Save, ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import api from "@/services/api";
 import { toast } from "sonner";
+import { formatDate } from "@/utils/formatSafeDate";
 
 // Define the trainee form schema
 const traineeSchema = z.object({
   name: z.string().min(2, { message: "يجب أن يتكون الاسم من حرفين على الأقل" }),
-  email: z.string().email({ message: "يرجى إدخال عنوان بريد إلكتروني صالح" }).optional().or(z.literal("")),
+  email: z
+    .string()
+    .email({ message: "يرجى إدخال عنوان بريد إلكتروني صالح" })
+    .optional()
+    .or(z.literal("")),
   phone: z.string().min(10, { message: "يرجى إدخال رقم هاتف صحيح" }),
   program: z.string({ required_error: "الرجاء اختيار البرنامج" }),
   inialTranche: z.coerce.number().min(0),
@@ -26,13 +49,12 @@ const traineeSchema = z.object({
   rest: z.coerce.number().min(0),
   totalPrice: z.coerce.number().min(0),
   note: z.string().optional().or(z.literal("")),
-})
-
+});
 
 export default function EditTrainee() {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(true)
-  const [isSaving, setIsSaving] = useState(false)
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const [programs, setPrograms] = useState();
 
   const navigate = useNavigate();
@@ -50,15 +72,14 @@ export default function EditTrainee() {
       totalPrice: 0,
       note: "",
     },
-  })
+  });
 
   // Fetch trainee data when component mounts
   useEffect(() => {
     const fetchTrainee = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
-        
-       const response = await api.get(`/api/trainee/${id}`)
+        const response = await api.get(`/api/trainee/${id}`);
 
         // Set form values
         form.reset({
@@ -71,69 +92,78 @@ export default function EditTrainee() {
           rest: response.data.rest,
           totalPrice: response.data.totalPrice,
           note: response.data.note,
-        })
-      } catch (error) {
-        toast.error("Error fetching trainee")
+        });
+      } catch {
+        toast.error("Error fetching trainee");
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-   const fetchPrograms = async () => {
-     try {
-       const response = await api.get('/api/program/employee')
-       setPrograms(response.data)
-     } catch (error) {
-      toast.error("Error fetching programs")
-     }
-   }
+    const fetchPrograms = async () => {
+      try {
+        const response = await api.get("/api/program/employee");
+        setPrograms(response.data);
+      } catch {
+        toast.error("Error fetching programs");
+      }
+    };
 
-    fetchTrainee()
-    fetchPrograms()
-  }, [id, form, toast])
+    fetchTrainee();
+    fetchPrograms();
+  }, [id, form, toast]);
 
   // Update total price when program changes
   useEffect(() => {
-    const selectedProgramId = form.watch("program")
-    const selectedProgram = programs?.find((program) => program._id === selectedProgramId)
+    const selectedProgramId = form.watch("program");
+    const selectedProgram = programs?.find(
+      (program) => program._id === selectedProgramId
+    );
 
     if (selectedProgram) {
-      form.setValue("totalPrice", selectedProgram.course.price)
+      form.setValue("totalPrice", selectedProgram.course.price);
     }
-  }, [form.watch("program"), programs, form])
+  }, [form.watch("program"), programs, form]);
 
   // Handle form submission
   const onSubmit = async (values) => {
-    setIsSaving(true)
+    setIsSaving(true);
     try {
-    await api.put(`/api/trainee/${id}`,values)
+      await api.put(`/api/trainee/${id}`, values);
 
-    toast.success( "نجاح",{
-      description: "تم تحديث معلومات المتدرب بنجاح",
-    })
+      toast.success("نجاح", {
+        description: "تم تحديث معلومات المتدرب بنجاح",
+      });
 
       // Navigate back to search page
       setTimeout(() => {
-        navigate(`/search-trainee`)
-      }, 1000)
+        navigate(`/search-trainee`);
+      }, 1000);
     } catch (error) {
-      toast.error("لم يتم تحديث المتدرب")
-      console.error(error)
+      toast.error("لم يتم تحديث المتدرب");
+      console.error(error);
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   return (
     <div className="container py-8 max-w-3xl mx-auto">
-      <Button variant="outline" size="sm" className="mb-4" onClick={() => navigate(`/search-trainee`)}>
-        <ArrowLeft className="h-4 w-4 mr-2" />
+      <Button
+        variant="outline"
+        size="sm"
+        className="mb-4"
+        onClick={() => navigate(`/search-trainee`)}
+      >
+        <ArrowRight className="h-4 w-4 mr-2" />
         العودة إلى البحث
       </Button>
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">تعديل بيانات متدرب</CardTitle>
+          <CardTitle className="text-2xl font-bold">
+            تعديل بيانات متدرب
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -142,7 +172,10 @@ export default function EditTrainee() {
             </div>
           ) : (
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Name Field */}
                   <FormField
@@ -166,7 +199,11 @@ export default function EditTrainee() {
                       <FormItem>
                         <FormLabel>البريد الإلكتروني</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="أدخل عنوان البريد الإلكتروني" {...field} />
+                          <Input
+                            type="email"
+                            placeholder="أدخل عنوان البريد الإلكتروني"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -186,6 +223,7 @@ export default function EditTrainee() {
                       </FormItem>
                     )}
                   />
+                  <br />
                   {/* Program Field */}
                   <FormField
                     control={form.control}
@@ -193,22 +231,45 @@ export default function EditTrainee() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>البرنامج *</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue
-                                placeholder={programs?.length === 0 ? "جاري تحميل البرامج..." : "اختر برنامجًا"}
+                                placeholder={
+                                  programs?.length === 0
+                                    ? "جاري تحميل البرامج..."
+                                    : "اختر برنامجًا"
+                                }
                               />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             {programs?.map((program) => (
-                              <SelectItem key={program._id} value={program._id} className="py-3">
+                              <SelectItem
+                                key={program._id}
+                                value={program._id}
+                                className="py-3"
+                              >
                                 <div className="flex flex-col gap-1">
-                                  <div className="font-medium">{program.course.name}</div>
-                                  <div className="text-xs text-muted-foreground">
-                                    {program.institution?.name} • {format(new Date(program.start_date), "MMM d, yyyy")}{" "}
-                                    - {format(new Date(program.end_date), "MMM d, yyyy")}
+                                  <div className="font-medium">
+                                    {program.course.name}
+                                  </div>
+                                  <div className="text-xs text-muted-foreground flex flex-col sm:flex-row sm:items-center">
+                                    <span>{program.institution?.name}</span>
+                                    <span className="hidden sm:inline-block sm:mx-1">
+                                      •
+                                    </span>
+                                    <span>
+                                      {formatDate(program.start_date)} -{" "}
+                                      {formatDate(program.end_date)}
+                                    </span>
+                                    <span className="hidden sm:inline-block sm:mx-1">
+                                      •
+                                    </span>
+                                    <span>{program.trainer?.name}</span>
                                   </div>
                                 </div>
                               </SelectItem>
@@ -232,7 +293,12 @@ export default function EditTrainee() {
                         <FormItem>
                           <FormLabel>القسط الأولي</FormLabel>
                           <FormControl>
-                            <Input type="number" min="0" step="0.01" {...field} />
+                            <Input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -246,7 +312,12 @@ export default function EditTrainee() {
                         <FormItem>
                           <FormLabel>القسط الثاني</FormLabel>
                           <FormControl>
-                            <Input type="number" min="0" step="0.01" {...field} />
+                            <Input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -260,7 +331,12 @@ export default function EditTrainee() {
                         <FormItem>
                           <FormLabel>المتبقي</FormLabel>
                           <FormControl>
-                            <Input type="number" min="0" step="0.01" {...field} />
+                            <Input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -274,7 +350,13 @@ export default function EditTrainee() {
                         <FormItem className="col-span-full">
                           <FormLabel>المبلغ الإجمالي</FormLabel>
                           <FormControl>
-                            <Input type="number" min="0" readOnly disabled={true} {...field} />
+                            <Input
+                              type="number"
+                              min="0"
+                              readOnly
+                              disabled={true}
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -290,7 +372,10 @@ export default function EditTrainee() {
                     <FormItem>
                       <FormLabel>ملاحظات</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="أضف أي ملاحظات إضافية هنا" {...field} />
+                        <Textarea
+                          placeholder="أضف أي ملاحظات إضافية هنا"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -314,11 +399,14 @@ export default function EditTrainee() {
           )}
         </CardContent>
         <CardFooter className="flex justify-between border-t pt-6">
-          <Button variant="outline" onClick={() => (window.location.href = "/trainees/search")}>
+          <Button
+            variant="outline"
+            onClick={() => (window.location.href = "/trainees/search")}
+          >
             إلغاء
           </Button>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

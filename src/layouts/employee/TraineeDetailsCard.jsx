@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Download, Edit, Trash2 } from "lucide-react";
-import { format } from "date-fns"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,30 +10,42 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 import PDFDownload from "@/utils/PDF/PDFDownload";
+import { formatDate } from "@/utils/formatSafeDate";
 
 const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div>
           <h3 className="text-xl font-bold">{trainee.name}</h3>
           <p className="text-muted-foreground">{trainee.phone}</p>
-          {trainee.email && <p className="text-muted-foreground">{trainee.email}</p>}
+          {trainee.email && (
+            <p className="text-muted-foreground">{trainee.email}</p>
+          )}
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={onEdit}>
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onEdit}
+            className="w-full sm:w-auto"
+          >
             <Edit className="h-4 w-4 mr-2" />
             تعديل
           </Button>
-          <Button variant="outline" size="sm" >
+          <Button variant="outline" size="sm" className="w-full sm:w-auto">
             <Download className="h-4 w-4 mr-2" />
-             <PDFDownload trainee={trainee}/>
+            <PDFDownload trainee={trainee} />
           </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive" size="sm">
+              <Button
+                variant="destructive"
+                size="sm"
+                className="w-full sm:w-auto"
+              >
                 <Trash2 className="h-4 w-4 mr-2" />
                 حذف
               </Button>
@@ -43,7 +54,8 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
               <AlertDialogHeader>
                 <AlertDialogTitle>هل أنت متأكد من الحذف؟</AlertDialogTitle>
                 <AlertDialogDescription>
-                  سيتم حذف المتدرب نهائيًا مع جميع البيانات المرتبطة به. لا يمكن التراجع عن هذا الإجراء.
+                  سيتم حذف المتدرب نهائيًا مع جميع البيانات المرتبطة به. لا يمكن
+                  التراجع عن هذا الإجراء.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -62,11 +74,13 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
           <h4 className="font-medium mb-2">تفاصيل البرنامج</h4>
           <p className="font-medium">{trainee.program.course.name}</p>
           {trainee.program.institution && (
-            <p className="text-sm text-muted-foreground">{trainee.program.institution.name}</p>
+            <p className="text-sm text-muted-foreground">
+              {trainee.program.institution.name}
+            </p>
           )}
           <p className="text-sm text-muted-foreground">
-            {format(new Date(trainee.program.start_date), "MMM d, yyyy")} -{" "}
-            {format(new Date(trainee.program.end_date), "MMM d, yyyy")}
+            {formatDate(trainee.program.start_date)} -{" "}
+            {formatDate(trainee.program.end_date)}
           </p>
         </div>
 
@@ -80,7 +94,9 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
             {trainee.secondTranche !== undefined && (
               <div>
                 <p className="text-sm text-muted-foreground">القسط الثاني</p>
-                <p className="font-medium">{trainee.secondTranche.toFixed(2)}</p>
+                <p className="font-medium">
+                  {trainee.secondTranche.toFixed(2)}
+                </p>
               </div>
             )}
             <div>
@@ -102,7 +118,7 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default TraineeDetailsCard;

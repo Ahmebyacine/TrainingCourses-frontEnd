@@ -90,6 +90,7 @@ function FormControl({
           : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
+      className="h-auto"
       {...props} />)
   );
 }

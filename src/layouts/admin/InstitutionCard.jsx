@@ -131,11 +131,6 @@ export default function InstitutionCard({ institution, editingId, onStartEditing
             {!isManager && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                
-                  <Button variant="destructive" size="sm">
-                    <Trash2 className="h-4 w-4 mr-1" />
-                    حذف
-                  </Button>
                 <Button variant="destructive" size="sm">
                   <Trash2 className="h-4 w-4 mr-1" />
                   حذف

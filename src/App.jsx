@@ -1,29 +1,32 @@
-import DashboardLayout from './layouts/common/DashboardLayout'
-import Courses from './pages/admin/Courses'
-import Institutions from './pages/admin/Institutions'
-import Programs from './pages/admin/Programs'
-import Users from './pages/admin/Users'
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import AddTrainee from './pages/employee/AddTrainee'
-import SignIn from './pages/auth/SignIn'
-import ProtectedRoute from './services/ProtectedRoute'
-import { CourseStatistics } from './pages/admin/CourseStatistics'
-import { InstitutionStatistics } from './pages/admin/InstitutionStatistics'
-import { EmployeeStatistics } from './pages/admin/EmployeeStatistics'
-import ProgramStatistics from './pages/admin/ProgramStatistics'
-import UserStatistics from './pages/employee/UserStatistics'
-import Unauthorized from './pages/common/Unauthorized'
-import TraineeSearch from './pages/employee/TraineeSearch'
-import EditTrainee from './layouts/employee/EditTrainee'
-import Trainers from './pages/admin/Trainers'
-import Expenses from './pages/employee/Expenses'
-import ProgramReportPage from './pages/admin/ProgramReportPage'
-import EquipmentInspection from './pages/member/EquipmentInspection'
-import AttestationDeFormation from './pages/member/AttestationDeFormation'
-import CertificateDAptitude from './pages/member/CertificateDAptitude'
-import AttestationDeFormationDuree from './pages/member/AttestationDeFormationDuree'
-import ProgramsManager from './pages/manager/ProgramsManager'
-import InstitutionsManager from './pages/manager/InstitutionsManager'
+import DashboardLayout from "./layouts/common/DashboardLayout";
+import Courses from "./pages/admin/Courses";
+import Institutions from "./pages/admin/Institutions";
+import Programs from "./pages/admin/Programs";
+import Users from "./pages/admin/Users";
+import AddTrainee from "./pages/employee/AddTrainee";
+import SignIn from "./pages/auth/SignIn";
+import ProtectedRoute from "./services/ProtectedRoute";
+import { CourseStatistics } from "./pages/admin/CourseStatistics";
+import { InstitutionStatistics } from "./pages/admin/InstitutionStatistics";
+import { EmployeeStatistics } from "./pages/admin/EmployeeStatistics";
+import ProgramStatistics from "./pages/admin/ProgramStatistics";
+import UserStatistics from "./pages/employee/UserStatistics";
+import Unauthorized from "./pages/common/Unauthorized";
+import TraineeSearch from "./pages/employee/TraineeSearch";
+import EditTrainee from "./layouts/employee/EditTrainee";
+import Trainers from "./pages/admin/Trainers";
+import Expenses from "./pages/manager/Expenses";
+import ProgramReportPage from "./pages/admin/ProgramReportPage";
+import EquipmentInspection from "./pages/member/EquipmentInspection";
+import AttestationDeFormation from "./pages/member/AttestationDeFormation";
+import CertificateDAptitude from "./pages/member/CertificateDAptitude";
+import AttestationDeFormationDuree from "./pages/member/AttestationDeFormationDuree";
+import ProgramsManager from "./pages/manager/ProgramsManager";
+import InstitutionsManager from "./pages/manager/InstitutionsManager";
+import ExpensesStatistics from "./pages/admin/ExpensesStatistics";
+import ProgramStatisticsManager from "./pages/manager/ProgramStatisticsManager";
+import { EmployeeStatisticsManager } from "./pages/manager/EmployeeStatisticsManager";
 
 const router = createHashRouter([
   {
@@ -35,14 +38,14 @@ const router = createHashRouter([
     ),
     children: [
       {
-        element: <ProtectedRoute roles={['admin']} />,
+        element: <ProtectedRoute roles={["admin"]} />,
         children: [
-          { path: "users", element: <Users /> },
-          { path: "institutions", element: <Institutions /> },
           {
             index: true,
             element: <Programs />,
           },
+          { path: "users", element: <Users /> },
+          { path: "institutions", element: <Institutions /> },
           {
             path: "courses",
             element: <Courses />,
@@ -67,10 +70,14 @@ const router = createHashRouter([
             path: "program-statistics",
             element: <ProgramStatistics />,
           },
-        ]
+          {
+            path: "expenses-statistics",
+            element: <ExpensesStatistics />,
+          },
+        ],
       },
       {
-        element: <ProtectedRoute roles={['employee']} />,
+        element: <ProtectedRoute roles={["employee"]} />,
         children: [
           {
             path: "add-trainee",
@@ -88,14 +95,10 @@ const router = createHashRouter([
             path: "user-statistics",
             element: <UserStatistics />,
           },
-          {
-            path: "expenses",
-            element: <Expenses />,
-          },
-        ]
+        ],
       },
       {
-        element: <ProtectedRoute roles={['member']} />,
+        element: <ProtectedRoute roles={["member"]} />,
         children: [
           {
             path: "certificat-conformite",
@@ -112,11 +115,11 @@ const router = createHashRouter([
           {
             path: "attestation-de-formationDuree",
             element: <AttestationDeFormationDuree />,
-          }
-        ]
+          },
+        ],
       },
       {
-        element: <ProtectedRoute roles={['manager']} />,
+        element: <ProtectedRoute roles={["manager"]} />,
         children: [
           {
             path: "programs-manager",
@@ -130,14 +133,26 @@ const router = createHashRouter([
             path: "institutions-manager",
             element: <InstitutionsManager />,
           },
-        ]
+          {
+            path: "expenses",
+            element: <Expenses />,
+          },
+          {
+            path: "program-statistics-manager",
+            element: <ProgramStatisticsManager />,
+          },
+          {
+            path: "employee-statistics-manager",
+            element: <EmployeeStatisticsManager />,
+          },
+        ],
       },
     ],
   },
   {
     path: "/program-report/:id",
     element: (
-      <ProtectedRoute roles={['admin']}>
+      <ProtectedRoute roles={["admin","manager"]}>
         <ProgramReportPage />
       </ProtectedRoute>
     ),

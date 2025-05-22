@@ -116,15 +116,15 @@ export default function ProgramReportPage() {
           <div className="mt-6 p-4 bg-muted/30 rounded-lg">
             <h3 className="text-lg font-medium mb-4">ملخص البرنامج</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white p-4 rounded-lg shadow-sm">
+              <div className="bg-card p-4 rounded-lg shadow-sm">
                 <p className="text-sm text-muted-foreground">المبلغ المدفوع</p>
                 <p className="text-xl font-bold text-green-600">{reportData.summary.totalPaid.toLocaleString()} دج</p>
               </div>
-              <div className="bg-white p-4 rounded-lg shadow-sm">
+              <div className="bg-card p-4 rounded-lg shadow-sm">
                 <p className="text-sm text-muted-foreground">المبلغ المتبقي</p>
                 <p className="text-xl font-bold text-red-600">{reportData.summary.totalUnpaid.toLocaleString()} دج</p>
               </div>
-              <div className="bg-white p-4 rounded-lg shadow-sm">
+              <div className="bg-card p-4 rounded-lg shadow-sm">
                 <p className="text-sm text-muted-foreground">المبلغ الإجمالي</p>
                 <p className="text-xl font-bold">{reportData.summary.totalPrice.toLocaleString()} دج</p>
               </div>
@@ -165,7 +165,7 @@ export default function ProgramReportPage() {
           <TabsContent key={emp.employee.id} value={emp.employee.id}>
             <Card>
               <CardHeader>
-                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4" dir="rtl">
                   <div>
                     <CardTitle>{emp.employee.name}</CardTitle>
                     <CardDescription>{emp.employee.email}</CardDescription>
@@ -225,18 +225,18 @@ export default function ProgramReportPage() {
                 </div>
 
                 {/* Employee Summary */}
-                <div className="mt-6 p-4 bg-muted/30 rounded-lg">
+                <div className="mt-6 p-4 bg-muted/30 rounded-lg" dir="rtl">
                   <h3 className="text-lg font-medium mb-4">ملخص المشرف</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-white p-4 rounded-lg shadow-sm">
+                    <div className="bg-card p-4 rounded-lg shadow-sm">
                       <p className="text-sm text-muted-foreground">المبلغ المدفوع</p>
                       <p className="text-xl font-bold text-green-600">{emp.summary.totalPaid.toLocaleString()} دج</p>
                     </div>
-                    <div className="bg-white p-4 rounded-lg shadow-sm">
+                    <div className="bg-card p-4 rounded-lg shadow-sm">
                       <p className="text-sm text-muted-foreground">المبلغ المتبقي</p>
                       <p className="text-xl font-bold text-red-600">{emp.summary.totalUnpaid.toLocaleString()} دج</p>
                     </div>
-                    <div className="bg-white p-4 rounded-lg shadow-sm">
+                    <div className="bg-card p-4 rounded-lg shadow-sm">
                       <p className="text-sm text-muted-foreground">المبلغ الإجمالي</p>
                       <p className="text-xl font-bold">{emp.summary.totalPrice.toLocaleString()} دج</p>
                     </div>

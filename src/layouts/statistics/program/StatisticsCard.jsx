@@ -1,9 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, DollarSign, CheckCircle, XCircle, Calendar } from "lucide-react"
-import { format } from 'date-fns'
-import ar from 'date-fns/locale/ar'
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
+import { calculateDuration, formatDate } from "@/utils/formatSafeDate"
 
 export default function StatisticsCard({ data }) {
 
@@ -82,9 +81,9 @@ export default function StatisticsCard({ data }) {
             <Calendar className="h-4 w-4" />
           </div>
           <div className="text-sm text-right">
-            {format(startDate, "MMMM d, yyyy", { locale: ar })} - {format(endDate, "MMMM d, yyyy", { locale: ar })}
+            {formatDate(startDate)} - {formatDate(endDate)}
             <span className="ml-2 text-muted-foreground">
-              ({Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))} يوم)
+              ({calculateDuration(startDate, endDate)})
             </span>
           </div>
         </div>

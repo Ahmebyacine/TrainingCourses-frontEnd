@@ -190,7 +190,7 @@ export default function AddUserModal({
                   <FormLabel>المؤسسات</FormLabel>
                   <FormControl>
                     <div className="border rounded-md p-2">
-                      <ScrollArea className="h-32">
+                      <ScrollArea className="h-15">
                         <div className="space-y-2">
                           {institutions.map((institution) => (
                             <div

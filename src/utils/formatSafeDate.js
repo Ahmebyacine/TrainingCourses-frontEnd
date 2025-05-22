@@ -28,3 +28,31 @@ export const addOneYear = (date) => {
   newDate.setFullYear(newDate.getFullYear() + 1);
   return newDate;
 };
+export const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString("ar-DZ", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+// Calculate program duration in days
+export const calculateDuration = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const diffTime = Math.abs(end - start);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+  // Format number in Arabic numerals
+  const arabicNumber = diffDays.toLocaleString("ar");
+
+  // Arabic pluralization rules
+  if (diffDays === 1) {
+    return `${arabicNumber} يوم`;
+  } else if (diffDays === 2) {
+    return `${arabicNumber} يومين`;
+  } else if (diffDays >= 3 && diffDays <= 10) {
+    return `${arabicNumber} أيام`;
+  } else {
+    return `${arabicNumber} يومًا`;
+  }
+};

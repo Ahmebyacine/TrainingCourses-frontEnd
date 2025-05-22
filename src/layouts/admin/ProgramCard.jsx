@@ -44,7 +44,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import api from "@/services/api";
 import { toast } from "sonner";
-import ExpenseDialog from "./ExpenseDialog";
+import { calculateDuration, formatDate } from "@/utils/formatSafeDate";
 
 export default function ProgramCard({
   program,
@@ -55,36 +55,6 @@ export default function ProgramCard({
   const [trainees, setTrainees] = useState([]);
   const [isLoadingTrainees, setIsLoadingTrainees] = useState(false);
 
-  // Format date for display
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("ar", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
-  // Calculate program duration in days
-  const calculateDuration = (startDate, endDate) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const diffTime = Math.abs(end - start);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-  
-    // Format number in Arabic numerals
-    const arabicNumber = diffDays.toLocaleString('ar');
-    
-    // Arabic pluralization rules
-    if (diffDays === 1) {
-      return `${arabicNumber} يوم`;
-    } else if (diffDays === 2) {
-      return `${arabicNumber} يومين`;
-    } else if (diffDays >= 3 && diffDays <= 10) {
-      return `${arabicNumber} أيام`;
-    } else {
-      return `${arabicNumber} يومًا`;
-    }
-  };
 
   // Get program status based on dates
   const getProgramStatus = (startDate, endDate) => {
@@ -161,11 +131,6 @@ export default function ProgramCard({
                   )}
                 </Button>
               </CollapsibleTrigger>
-              <ExpenseDialog
-                programId={program._id}
-                programName={program.course?.name || "البرنامج"}
-                className="w-full sm:w-auto"
-              />
             </div>
           </div>
         </CardHeader>

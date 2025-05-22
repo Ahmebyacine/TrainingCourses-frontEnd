@@ -95,7 +95,7 @@ export default function CertificateDAptitude() {
       </h1>
 
       <form onSubmit={handleSubmit(handleGeneratePDF)}>
-        <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+        <div className="bg-background p-6 rounded-lg shadow-md mb-6">
           <TrainingInfoForm
             control={control}
             register={register}

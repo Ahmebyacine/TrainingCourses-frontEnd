@@ -39,7 +39,7 @@ function CardTitle({
   return (
     (<div
       data-slot="card-title"
-      className={cn("leading-none font-semibold", className)}
+      className={cn("leading-none font-semibold text-right", className)}
       {...props} />)
   );
 }
@@ -51,7 +51,7 @@ function CardDescription({
   return (
     (<div
       data-slot="card-description"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-muted-foreground text-sm text-right", className)}
       {...props} />)
   );
 }

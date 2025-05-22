@@ -57,7 +57,7 @@ export default function EquipmentInspectionForm() {
     defaultValues: {
       description: "PELLE HYDRAULIQUE",
       customer: "SARL SOCIETE GABOUS TRAVAUX PUBLICS",
-      manufacturer: "[à] [s] [ult]",
+      manufacturer: "Hyundai",
       model: "R210LC-7",
       workingLoadLimit: "12TONNE",
       yearOfManufacture: "2010",

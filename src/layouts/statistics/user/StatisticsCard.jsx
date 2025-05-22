@@ -50,7 +50,7 @@ export default function StatisticsCard({ data }) {
         </div>
 
         <div className="mt-6 rounded-lg border p-4">
-          <div className="flex items-center justify-end space-x-2 text-muted-foreground mb-2">
+          <div className="flex items-center justify-start space-x-2 text-muted-foreground mb-2">
             <span className="text-sm font-medium">فترة الإحصائيات</span>
             <Calendar className="h-4 w-4" />
           </div>

@@ -1,6 +1,6 @@
+import { useState, useEffect } from 'react'
 import StatisticsCard from '@/layouts/statistics/user/StatisticsCard'
 import api from '@/services/api'
-import { useState, useEffect } from 'react'
 import ErrorPage from '../common/ErrorPage'
 
 export default function UserStatistics() {
@@ -34,7 +34,7 @@ export default function UserStatistics() {
   if (error) return <ErrorPage error={error} />
 
   return (
-    <div className="container mx-auto p-10">
+    <div className="container mx-auto md:px-10 px-3 ">
       <div className='space-y-4'>
           <StatisticsCard 
             key={userData.user._id} 
