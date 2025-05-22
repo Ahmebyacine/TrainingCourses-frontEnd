@@ -255,7 +255,7 @@ export default function ExpensesStatistics() {
                                 {expense.title}
                               </h3>
                               <p className="text-sm text-muted-foreground">
-                                الموظف: {expense.employee.name || "غير معروف"}
+                                الموظف: {expense.employee?.name || "غير معروف"}
                               </p>
                             </div>
                             <Badge variant="outline" className="mr-2">
