@@ -6,10 +6,26 @@ import {
   View,
   StyleSheet,
   Image,
+  Font,
 } from "@react-pdf/renderer";
-import bgImage from "@/assets/images/borderV1.png";
 import { addOneYear, formatFrenchDate } from "@/utils/formatSafeDate";
+import bgImage from "@/assets/images/image.png";
+import carlitoFont from "@/assets/fonts/Carlito-Regular.ttf"
+import carlitoBold from "@/assets/fonts/Carlito-bold.ttf"
 
+Font.register({
+  family: 'Carlito',
+  fonts: [
+    {
+      src: carlitoFont,
+      fontWeight: 'normal',
+    },
+    {
+      src: carlitoBold,
+      fontWeight: 'bold',
+    },
+  ],
+});
 const styles = StyleSheet.create({
   page: {
     position: "relative",
@@ -34,19 +50,22 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Times-Roman",
     color: "#000",
-    marginHorizontal: 30,
-    marginTop: 30,
+    marginHorizontal: 7,
+    marginTop: 7,
   },
   header: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
+    fontFamily:"Carlito"
   },
   subHeader: {
-    fontSize: 12,
+    fontSize: 14,
     marginBottom: 10,
     textAlign: "center",
+    fontWeight:"semiBold",
+    fontFamily:"Carlito"
   },
   subHeader2: {
     fontSize: 12,
@@ -57,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "bold",
     marginTop: 10,
     textAlign: "center",
@@ -65,14 +84,15 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
   },
   body: {
-    fontSize: 14,
+    fontSize: 16,
     textAlign: "left",
     fontWeight: 500,
-    marginTop: 10,
-    lineHeight: 1.8,
+    marginTop: 20,
+    fontFamily:"Carlito",
+    lineHeight:1.6
   },
   footer: {
-    marginTop: 20,
+    marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 40,

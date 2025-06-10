@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 // Set token in cookies
 export const setToken = (token, expires = 7) => {
