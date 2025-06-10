@@ -11,7 +11,7 @@ import {
 import bgImage from "@/assets/images/image.png";
 import { formatFrenchDate } from "@/utils/formatSafeDate";
 import carlitoFont from "@/assets/fonts/Carlito-Regular.ttf"
-import carlitoBold from "@/assets/fonts/Carlito-bold.ttf"
+import carlitoBold from "@/assets/fonts/Carlito-Bold.ttf"
 
 Font.register({
   family: 'Carlito',
