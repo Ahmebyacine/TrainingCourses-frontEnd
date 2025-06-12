@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
 });
 
 const CertificatConformite = ({ values }) => {
-  console.log(values)
   return (
     <Document>
       <Page size="A4" style={styles.page}>

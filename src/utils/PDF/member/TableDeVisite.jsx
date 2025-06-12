@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import CheckCertRow from "./CheckCertRow";
-import img from "@/assets/images/210_SMART_Plus.png";
 import { formatFrenchDate } from "@/utils/formatSafeDate";
 const styles = StyleSheet.create({
   fontFr: {
@@ -248,7 +247,7 @@ const TableDeVisite = ({ values }) => {
       </View>
       <View style={styles.certRow}>
         <View style={[styles.certLeft, { paddingTop: 85 }]}>
-          <Image src={img} />
+          <Image src={values?.equipmentImage} />
         </View>
         <View style={styles.certTablePicture}>
           <CheckCertRow>
