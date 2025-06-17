@@ -58,14 +58,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     textAlign: "center",
-    fontFamily:"Carlito"
+    fontFamily: "Carlito",
   },
   subHeader: {
     fontSize: 14,
     marginBottom: 10,
     textAlign: "center",
-    fontWeight:"semiBold",
-    fontFamily:"Carlito"
+    fontWeight: "bold",
+    fontFamily: "Carlito",
   },
   subHeader2: {
     fontSize: 12,
@@ -74,10 +74,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    fontWeight: "bold",
+    fontFamily: "Carlito",
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 700,
     marginTop: 10,
     textAlign: "center",
     lineHeight: 2,
@@ -86,13 +88,13 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 16,
     textAlign: "left",
-    fontWeight: 500,
-    marginTop: 20,
-    fontFamily:"Carlito",
-    lineHeight:1.6
+    fontWeight: 520,
+    marginTop: 15,
+    lineHeight: 1.5,
+    fontFamily: "Carlito",
   },
   footer: {
-    marginTop: 10,
+    marginTop: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 40,
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
   signature: {
     fontSize: 12,
     textAlign: "left",
+    fontWeight: 550,
   },
 });
 
@@ -119,12 +122,15 @@ const CertificateDAptitudePDF = ({ values }) => (
 
           <Text style={styles.body}>
             La Direction de l’Etablissement Privé de la Formation Professionnelle WADFOR :{"\n"}
-            Vu le décret n°01-419 du 5 chaoual 1422 correspondant au 20 décembre 2001...{"\n"}
+            Vu le décret n°01-419 du 5 chaoual 1422 correspondant au 20 décembre 2001 fixan les conditions de 
+            création d'ouverture, de contrôle des établissement privés de démâtions professionnelle.{"\n"}
             Vu la décision d’agrément n° 1904 du 18 AOUT 2018.{"\n"}
             Vu le procès-verbal des délibérations en date du : {formatFrenchDate(values?.trainingDate)}{"\n"}
-            Il est attribué à Mr : <Text style={{ color: "#0070c0" }}>{trainee?.fullName}</Text>{"\n"}
-            Né le : <Text style={{ color: "#0070c0" }}>{formatFrenchDate(trainee?.birthDate)}</Text> à :
-            <Text style={{ color: "#0070c0" }}>{trainee?.birthPlace}</Text> wilaya :{" "}
+            Il est attribué à Mr/Ms : <Text style={{ color: "#0070c0" }}>{trainee?.fullName}</Text>{"\n"}
+            Né le : <Text style={{ color: "#0070c0" }}>{formatFrenchDate(trainee?.birthDate)}</Text> 
+            {"              "}à :
+            <Text style={{ color: "#0070c0" }}>{trainee?.birthPlace}</Text> 
+            {"              "} wilaya :{" "}
             <Text style={{ color: "#0070c0" }}>{trainee?.wilaya}</Text>{"\n"}
             L’attestation de formation qualifiante intensif dans la spécialité :{" "}
             <Text style={{ color: "#0070c0" }}>{values?.specialty}</Text>
@@ -136,7 +142,7 @@ const CertificateDAptitudePDF = ({ values }) => (
 
           <View style={styles.footer}>
             <Text style={styles.signature}>Le Directeur :</Text>
-            <Text style={{ alignSelf: "flex-end" }}>Le : {formatFrenchDate(values?.trainingDate)}</Text>
+            <Text style={{ alignSelf: "flex-end", fontWeight: 550 }}>Le : {formatFrenchDate(values?.trainingDate)}</Text>
           </View>
         </View>
 

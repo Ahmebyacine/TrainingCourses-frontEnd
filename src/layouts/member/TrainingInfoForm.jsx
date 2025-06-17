@@ -11,7 +11,7 @@ import { format } from "date-fns";
 import { Controller } from "react-hook-form";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { fr } from "date-fns/locale";
+import { arDZ } from "date-fns/locale";
 
 export default function TrainingInfoForm({ control, register, errors }) {
   return (
@@ -29,7 +29,6 @@ export default function TrainingInfoForm({ control, register, errors }) {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    dir="ltr"
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
@@ -37,13 +36,13 @@ export default function TrainingInfoForm({ control, register, errors }) {
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {field.value ? format(field.value, "PPP", { locale: fr }) : "اختر تاريخًا"}
+                    {field.value ? format(field.value, "PPP", { locale: arDZ }) : "اختر تاريخًا"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
                   <Calendar
                     mode="single"
-                    locale={fr}
+                    locale={arDZ}
                     selected={field.value}
                     onSelect={field.onChange}
                     initialFocus
@@ -56,7 +55,7 @@ export default function TrainingInfoForm({ control, register, errors }) {
 
         <div className="space-y-2">
           <Label htmlFor="initialCertificateNumber">
-            رقم الشهادة الأولي
+             رقم الشهادة الأولى
           </Label>
           <Input
             type="number"
@@ -76,7 +75,7 @@ export default function TrainingInfoForm({ control, register, errors }) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="certificateNumber">رقم الشهادة</Label>
+          <Label htmlFor="certificateNumber">رقم الشهادة (refrence)</Label>
           <Input
             id="certificateNumber"
             {...register("certificateNumber", {
