@@ -1,7 +1,6 @@
-import React from "react";
 import { Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import CheckCertRow from "./CheckCertRow";
-import { formatFrenchDate } from "@/utils/formatSafeDate";
+import { addOneYear, formatFrenchDate, formatShortFrenchDate } from "@/utils/formatSafeDate";
 const styles = StyleSheet.create({
   fontFr: {
     fontWeight: "semibold",
@@ -359,14 +358,14 @@ const TableDeVisite = ({ values }) => {
         <View style={[styles.certContainerFooter, { borderLeftWidth: 0 }]}>
           <View style={[styles.certContainer1, { width: "33%" }]}>
             <Text>PROCHAIN CONTROLE/Next inspection</Text>
-            <Text>PERIODIQUE: {formatFrenchDate(values?.dateOfInspection)} Periodic</Text>
-            <Text>NTERMEDIAIRE: -10 jours/{formatFrenchDate(values?.dateOfInspection)}/+10 jours Intermediate</Text>
+            <Text>PERIODIQUE: {formatShortFrenchDate(addOneYear(values?.dateOfInspection))}{`\n`} Periodic</Text>
+            <Text>NTERMEDIAIRE: -10 jours/{formatShortFrenchDate(addOneYear(values?.dateOfInspection))}/+10 jours{`\n`} Intermediate</Text>
           </View>
           <View
             style={[styles.certContainer2, { width: "33%", textAlign: "left" }]}
           >
             <Text>ETABLI A/Issued at: EL OUED</Text>
-            <Text>CONTROLE EFFECTUE'PAR/performed by: </Text>
+            <Text>CONTROLE EFFECTUE'PAR/performed by: {`\n${values?.manager}`} </Text>
             <View
               style={{
                 width: "100%",

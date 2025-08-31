@@ -38,6 +38,9 @@ const formSchema = z.object({
   reportRef: z.string().min(1, {
     message: "report reference is required.",
   }),
+  manager: z.string().min(1, {
+    message: "Manager name is required.",
+  }),
   equipmentImage: z.any().optional(),
 })
 
@@ -54,9 +57,10 @@ export default function EquipmentInspectionForm() {
       model: "R210LC-7",
       workingLoadLimit: "12TONNE",
       yearOfManufacture: "2010",
-      dateOfInspection: "02-04-2025",
+      dateOfInspection: new Date().toISOString().split("T")[0],
       serialNumber: "N6061A114(IMM: 42-04530-39)",
       reportRef: "RFC232/32",
+      manager: "AMMAR CHEKIMA",
       equipmentImage: null,
     },
   })
@@ -263,6 +267,19 @@ export default function EquipmentInspectionForm() {
                     <FormLabel>Report Reference (Numéro de rapport)</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter report Ref" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="manager"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Manager (Responsable)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter manager name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

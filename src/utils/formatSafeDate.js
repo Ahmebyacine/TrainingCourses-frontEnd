@@ -23,6 +23,14 @@ export const formatFrenchDate = (date) => {
     year: "numeric",
   });
 };
+export const formatShortFrenchDate = (date) => {
+  if (!date) return "N/A";
+
+  return new Date(date).toLocaleDateString("fr-FR", {
+    month: "long",
+    year: "numeric",
+  });
+};
 export const addOneYear = (date) => {
   const newDate = new Date(date);
   newDate.setFullYear(newDate.getFullYear() + 1);
