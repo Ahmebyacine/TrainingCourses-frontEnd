@@ -11,7 +11,6 @@ import {
   Area,
   YAxis,
   LabelList,
-  Legend,
 } from "recharts";
 
 import {
@@ -22,8 +21,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export function RevenueBarChart({ data }) {
-  console.log("data", data);
+export function RevenueBarChart({ data, isCourse = false }) {
   return (
     <ChartContainer
       config={{
@@ -36,19 +34,19 @@ export function RevenueBarChart({ data }) {
           color: "var(--chart-1)",
         },
       }}
-      className="h-full w-full"
+      className={`h-full w-full ${isCourse ? "min-w-[1200px]" : "min-w-[500px]"}`}
     >
       <BarChart
         accessibilityLayer
         data={data}
-        layout="vertical"
+        layout="horizontal"
         margin={{
           left: 10,
         }}
         barGap={0}
         height={600}
       >
-        <YAxis
+        <XAxis
           dataKey="name"
           type="category"
           tickLine={false}
@@ -56,7 +54,7 @@ export function RevenueBarChart({ data }) {
           width={90}
           tick={{ fontSize: 11, padding: 8 }}
         />
-        <XAxis type="number" />
+        <YAxis type="number" />
         <ChartTooltip
           cursor={true}
           content={
@@ -71,7 +69,7 @@ export function RevenueBarChart({ data }) {
         <Bar dataKey="totalPaid" fill="var(--color-totalPaid)" radius={4}>
           <LabelList
             dataKey="totalPaid"
-            position="right"
+            position="top"
             className="fill-foreground"
             fontSize={10}
             formatter={(value) => `د.ج ${value.toLocaleString("ar-DZ")}`}
@@ -80,7 +78,7 @@ export function RevenueBarChart({ data }) {
         <Bar dataKey="totalUnpaid" fill="var(--color-totalUnpaid)" radius={4}>
           <LabelList
             dataKey="totalUnpaid"
-            position="right"
+            position="top"
             className="fill-foreground"
             fontSize={10}
             formatter={(value) => `د.ج ${value.toLocaleString("ar-DZ")}`}
@@ -145,7 +143,7 @@ export function MonthlyTrendChart({ data }) {
           color: "var(--chart-1)",
         },
       }}
-      className="h-full w-full"
+      className="h-full w-full min-w-[800px]"
     >
       <AreaChart data={data}>
         <defs>

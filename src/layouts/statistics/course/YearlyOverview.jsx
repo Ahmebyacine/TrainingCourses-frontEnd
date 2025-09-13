@@ -29,8 +29,8 @@ export const YearlyOverview = ({ selectedYear, yearlyData, loading }) => {
             <CardTitle className="text-right">نظرة عامة على الإيرادات لسنة {selectedYear}</CardTitle>
             <CardDescription className="text-right">الإيرادات الكاملة وحالة المدفوعات</CardDescription>
           </CardHeader>
-          <CardContent className="h-80">
-            <RevenueBarChart data={yearlyChartData} />
+          <CardContent className="h-80 overflow-x-auto">
+            <RevenueBarChart data={yearlyChartData} isCourse />
           </CardContent>
         </Card>
       </div>

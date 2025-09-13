@@ -83,7 +83,7 @@ export const MonthlyBreakdown = ({ selectedYear, monthlyData, loading }) => {
           <CardTitle>التوجهات الشهرية لسنة {selectedYear}</CardTitle>
           <CardDescription>المتدربون والإيرادات حسب الشهر</CardDescription>
         </CardHeader>
-        <CardContent className="h-80">
+        <CardContent className="h-80 overflow-x-auto">
           <MonthlyTrendChart data={monthlyTrendData} />
         </CardContent>
       </Card>
