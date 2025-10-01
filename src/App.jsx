@@ -27,10 +27,13 @@ import InstitutionsManager from "./pages/manager/InstitutionsManager";
 import ExpensesStatistics from "./pages/admin/ExpensesStatistics";
 import ProgramStatisticsManager from "./pages/manager/ProgramStatisticsManager";
 import { EmployeeStatisticsManager } from "./pages/manager/EmployeeStatisticsManager";
+import ProgramStatisticsEmployee from "./pages/employee/ProgramStatisticsEmployee";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const router = createHashRouter([
   {
     path: "/",
+    errorElement: <ErrorBoundary />,
     element: (
       <ProtectedRoute>
         <DashboardLayout />
@@ -90,6 +93,10 @@ const router = createHashRouter([
           {
             path: "search-trainee",
             element: <TraineeSearch />,
+          },
+          {
+            path: "program-statistics",
+            element: <ProgramStatisticsEmployee />,
           },
           {
             path: "user-statistics",
@@ -152,7 +159,7 @@ const router = createHashRouter([
   {
     path: "/program-report/:id",
     element: (
-      <ProtectedRoute roles={["admin","manager"]}>
+      <ProtectedRoute roles={["admin","manager","employee"]}>
         <ProgramReportPage />
       </ProtectedRoute>
     ),

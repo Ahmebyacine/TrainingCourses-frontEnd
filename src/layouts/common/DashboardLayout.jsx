@@ -118,6 +118,11 @@ export default function DashboardLayout() {
       icon: <Search className="h-5 w-5" />,
     },
     {
+      title: "إحصائيات البرامج",
+      href: "/program-statistics",
+      icon: <Calendar className="h-5 w-5" />,
+    },
+    {
       title: "إحصائيات",
       href: "/user-statistics",
       icon: <LayoutDashboard className="h-5 w-5" />,
