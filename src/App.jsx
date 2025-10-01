@@ -95,7 +95,7 @@ const router = createHashRouter([
             element: <TraineeSearch />,
           },
           {
-            path: "program-statistics",
+            path: "program-statistics-employee",
             element: <ProgramStatisticsEmployee />,
           },
           {

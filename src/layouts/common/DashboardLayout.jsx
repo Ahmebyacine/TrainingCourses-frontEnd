@@ -119,7 +119,7 @@ export default function DashboardLayout() {
     },
     {
       title: "إحصائيات البرامج",
-      href: "/program-statistics",
+      href: "/program-statistics-employee",
       icon: <Calendar className="h-5 w-5" />,
     },
     {
