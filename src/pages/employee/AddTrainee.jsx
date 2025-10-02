@@ -22,7 +22,7 @@ export default function AddTrainee() {
         const programsResponse = await api.get("/api/program/employee")
         setPrograms(programsResponse.data)
       } catch (error) {
-        setError(err.response?.data?.message);
+        setError(error.response?.data?.message);
       }
     }
     fetchData()
@@ -39,7 +39,7 @@ export default function AddTrainee() {
         toast.success("تمت إضافة متدرب", {
           description: `لقد أضاف المتدرب ${response.data.name}`
         })
-    } catch (error) {
+    } catch {
       toast.error("لم تتم إضافة المتدرب")
     } finally {
       setIsLoading(false)

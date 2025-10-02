@@ -12,6 +12,7 @@ import {
   FileClock,
   GraduationCap,
   LayoutDashboard,
+  Loader,
   Menu,
   Search,
   User,
@@ -121,6 +122,11 @@ export default function DashboardLayout() {
       title: "إحصائيات البرامج",
       href: "/program-statistics-employee",
       icon: <Calendar className="h-5 w-5" />,
+    },
+    {
+      title: "قيد التسجيل",
+      href: "/whitelist",
+      icon: <Loader className="h-5 w-5" />,
     },
     {
       title: "إحصائيات",

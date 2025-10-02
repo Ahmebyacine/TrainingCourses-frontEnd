@@ -9,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -69,7 +68,7 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
       form.setValue("secondTranche", 0);
       form.setValue("rest", 0);
     }
-  }, [form.watch("program"), programs, form.setValue]);
+  }, [form, programs, form.setValue]);
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
