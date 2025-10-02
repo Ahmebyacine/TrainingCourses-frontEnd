@@ -91,17 +91,51 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
               <p className="text-sm text-muted-foreground">القسط الأولي</p>
               <p className="font-medium">{trainee.inialTranche.toFixed(2)}</p>
             </div>
+            <div>
+              <p className="text-sm text-muted-foreground">طريقة الدفع</p>
+              <p className="font-medium">
+                {trainee?.methodePaiement1
+                  ? trainee.methodePaiement1 === "cash"
+                    ? "نقدًا"
+                    : trainee.methodePaiement1 === "ccp"
+                    ? "تحويل بريدي"
+                    : trainee.methodePaiement1 === "baridimob"
+                    ? "بريدي موب"
+                    : "غير محدد"
+                  : "غير محدد"}
+              </p>
+            </div>
             {trainee.secondTranche !== undefined && (
-              <div>
-                <p className="text-sm text-muted-foreground">القسط الثاني</p>
-                <p className="font-medium">
-                  {trainee.secondTranche.toFixed(2)}
-                </p>
-              </div>
+              <>
+                <div>
+                  <p className="text-sm text-muted-foreground">القسط الثاني</p>
+                  <p className="font-medium">
+                    {trainee.secondTranche.toFixed(2)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">طريقة الدفع</p>
+                  <p className="font-medium">
+                    {trainee?.methodePaiement2
+                  ? trainee.methodePaiement2 === "cash"
+                    ? "نقدًا"
+                    : trainee.methodePaiement2 === "ccp"
+                    ? "تحويل بريدي"
+                    : trainee.methodePaiement2 === "baridimob"
+                    ? "بريدي موب"
+                    : "غير محدد"
+                  : "غير محدد"}
+                  </p>
+                </div>
+              </>
             )}
             <div>
               <p className="text-sm text-muted-foreground">المبلغ المتبقي</p>
               <p className="font-medium">{trainee.rest.toFixed(2)}</p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">التخفيض</p>
+              <p className="font-medium">{trainee?.discount?.toFixed(2) || "غير محدد"}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">المبلغ الإجمالي</p>

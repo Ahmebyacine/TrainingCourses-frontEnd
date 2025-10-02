@@ -33,7 +33,6 @@ import {
 import api from "@/services/api";
 import { toast } from "sonner";
 import { formatDate } from "@/utils/formatSafeDate";
-
 // Define the trainee form schema
 const traineeSchema = z.object({
   name: z.string().min(2, { message: "يجب أن يتكون الاسم من حرفين على الأقل" }),
@@ -46,6 +45,9 @@ const traineeSchema = z.object({
   program: z.string({ required_error: "الرجاء اختيار البرنامج" }),
   inialTranche: z.coerce.number().min(0),
   secondTranche: z.coerce.number().min(0).optional(),
+  methodePaiement1: z.string().optional().or(z.literal("")),
+  methodePaiement2: z.string().optional().or(z.literal("")),
+  discount: z.coerce.number().min(0).optional(),
   rest: z.coerce.number().min(0),
   totalPrice: z.coerce.number().min(0),
   note: z.string().optional().or(z.literal("")),
@@ -89,6 +91,9 @@ export default function EditTrainee() {
           program: response.data.program._id,
           inialTranche: response.data.inialTranche,
           secondTranche: response.data.secondTranche,
+          methodePaiement1: response?.data?.methodePaiement1 || "cash",
+          methodePaiement2: response?.data?.methodePaiement2 || "cash",
+          discount: response?.data?.discount || 0,
           rest: response.data.rest,
           totalPrice: response.data.totalPrice,
           note: response.data.note,
@@ -112,18 +117,6 @@ export default function EditTrainee() {
     fetchTrainee();
     fetchPrograms();
   }, [id, form, toast]);
-
-  // Update total price when program changes
-  useEffect(() => {
-    const selectedProgramId = form.watch("program");
-    const selectedProgram = programs?.find(
-      (program) => program._id === selectedProgramId
-    );
-
-    if (selectedProgram) {
-      form.setValue("totalPrice", selectedProgram.course.price);
-    }
-  }, [form.watch("program"), programs, form]);
 
   // Handle form submission
   const onSubmit = async (values) => {
@@ -232,8 +225,19 @@ export default function EditTrainee() {
                       <FormItem>
                         <FormLabel>البرنامج *</FormLabel>
                         <Select
-                          onValueChange={field.onChange}
                           value={field.value}
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            const selectedProgram = programs.find(
+                              (program) => program._id === value
+                            );
+                            if (selectedProgram) {
+                              form.setValue(
+                                "totalPrice",
+                                selectedProgram.course.price
+                              );
+                            }
+                          }}
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -284,7 +288,7 @@ export default function EditTrainee() {
                 {/* Payment Information */}
                 <div className="bg-muted/50 p-4 rounded-lg">
                   <h3 className="text-lg font-medium mb-4">معلومات الدفع</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Initial Tranche Field */}
                     <FormField
                       control={form.control}
@@ -304,6 +308,31 @@ export default function EditTrainee() {
                         </FormItem>
                       )}
                     />
+                    {/*methode paiement 1 */}
+                    <FormField
+                      control={form.control}
+                      name="methodePaiement1"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>طريقة الدفع (القسط الأول)</FormLabel>
+                          <FormControl>
+                            <Select {...field}>
+                              <SelectTrigger>
+                                <SelectValue placeholder="اختر طريقة الدفع" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="cash">نقدًا</SelectItem>
+                                <SelectItem value="ccp">تحويل بريدي</SelectItem>
+                                <SelectItem value="baridimob">
+                                  بريدي موب
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     {/* Second Tranche Field */}
                     <FormField
                       control={form.control}
@@ -318,6 +347,35 @@ export default function EditTrainee() {
                               step="0.01"
                               {...field}
                             />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    {/*methode paiement 2 */}
+                    <FormField
+                      control={form.control}
+                      name="methodePaiement2"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>طريقة الدفع (القسط الثاني)</FormLabel>
+                          <FormControl>
+                            <Select
+                              {...field}
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="اختر طريقة الدفع" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="cash">نقدًا</SelectItem>
+                                <SelectItem value="ccp">تحويل بريدي</SelectItem>
+                                <SelectItem value="baridimob">
+                                  بريدي موب
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
