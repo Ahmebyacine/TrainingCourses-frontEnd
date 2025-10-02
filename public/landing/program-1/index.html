@@ -83,9 +83,7 @@
                 style="width: 10px; height: 10px; background-color: #d1d5db; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
             <span class="dot"
                 style="width: 10px; height: 10px; background-color: #d1d5db; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
-            <span class="dot"
-                style="width: 10px; height: 10px; background-color: #d1d5db; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
-        </div>
+            </div>
     </section>
 
     <!-- Course Program Section -->
@@ -350,16 +348,6 @@
             let newIndex = (index - 1 + slides.length) % slides.length;
             showSlide(newIndex);
         }
-
-        document.querySelector(".next").addEventListener("click", () => {
-            nextSlide();
-            resetInterval();
-        });
-
-        document.querySelector(".prev").addEventListener("click", () => {
-            prevSlide();
-            resetInterval();
-        });
 
         dots.forEach((dot, i) => {
             dot.addEventListener("click", () => {
