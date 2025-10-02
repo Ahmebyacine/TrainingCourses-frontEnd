@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDate } from "@/utils/formatSafeDate";
+import { cn } from "@/lib/utils";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "يجب أن يتكون الاسم من حرفين على الأقل" }),
@@ -35,7 +37,8 @@ const formSchema = z.object({
   program: z.string({ required_error: "الرجاء اختيار البرنامج" }),
   inialTranche: z.coerce.number().min(0).optional(),
   secondTranche: z.coerce.number().min(0).optional(),
-  rest: z.coerce.number().min(0).optional(),
+  methodePaiement1: z.string().optional(),
+  discount: z.coerce.number().min(0).optional(),
   totalPrice: z.coerce.number().min(0).optional(),
   note: z.string().optional(),
 });
@@ -51,6 +54,8 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
       program: [],
       inialTranche: 0,
       secondTranche: 0,
+      methodePaiement1: "cash",
+      discount: 0,
       totalPrice: 0,
       note: "",
     },
@@ -68,7 +73,7 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
       form.setValue("secondTranche", 0);
       form.setValue("rest", 0);
     }
-  }, [form, programs, form.setValue]);
+  }, [form.watch("program"), programs, form.setValue]);
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
@@ -216,6 +221,80 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                           disabled={true}
                           {...field}
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* methode of payment Field */}
+                <FormField
+                  control={form.control}
+                  name="methodePaiement1"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>طريقة الدفع</FormLabel>
+                      <FormControl>
+                        <Select
+                          {...field}
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="اختر طريقة الدفع" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="cash">نقدي</SelectItem>
+                            <SelectItem value="baridimob">
+                              بريدي موب - Baridimob
+                            </SelectItem>
+                            <SelectItem value="cpp">
+                              تحويل بريدي - cpp
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Discount Field */}
+                <FormField
+                  control={form.control}
+                  name="discount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>الخصم</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          className="flex gap-4 overflow-auto"
+                        >
+                          {["2000", "4000", "5000"].map((val) => (
+                            <FormItem key={val}>
+                              <FormControl>
+                                <RadioGroupItem
+                                  value={val}
+                                  id={val}
+                                  className="peer hidden"
+                                />
+                              </FormControl>
+                              <FormLabel
+                                htmlFor={val}
+                                className={cn(
+                                  "cursor-pointer rounded-2xl border px-6 py-3 text-center transition",
+                                  "hover:border-primary/70",
+                                  form.watch("discount") === val
+                                    ? "bg-primary/20 text-white border-primary"
+                                    : ""
+                                )}
+                              >
+                                {val} دج
+                              </FormLabel>
+                            </FormItem>
+                          ))}
+                        </RadioGroup>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
