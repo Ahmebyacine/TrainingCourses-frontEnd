@@ -9,7 +9,7 @@
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Recaptcha -->
@@ -20,6 +20,7 @@
         html {
             scroll-behavior: smooth;
         }
+
         body {
             margin: 0;
             padding: 0;
@@ -61,20 +62,37 @@
             تواصل معنا عبر الواتساب
         </a>
 
-        <div style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 16px;">
-            <img src="/landing/program-1/carousal1.jpg" alt="فريق الخبراء"
-                style="width: 100%; height: auto; display: block; max-height: 300px; object-fit: cover;">
+        <div
+            style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 16px; max-width: 700px; margin:auto;">
+            <!-- Slides -->
+            <div class="carousel">
+                <img src="/landing/program-1/carousal1.jpg" alt="صورة 1" class="slide active"
+                    style="width:100%; height:300px; object-fit:cover; position:absolute; inset:0; opacity:1; transition:opacity 0.6s ease-in-out;">
+                <img src="/landing/program-1/carousal2.jpg" alt="صورة 2" class="slide"
+                    style="width:100%; height:300px; object-fit:cover; position:absolute; inset:0; opacity:0; transition:opacity 0.6s ease-in-out;">
+                <img src="/landing/program-1/carousal3.jpg" alt="صورة 3" class="slide"
+                    style="width:100%; height:300px; object-fit:cover; position:absolute; inset:0; opacity:0; transition:opacity 0.6s ease-in-out;">
+            </div>
+
+            <!-- Controls -->
+            <button class="prev"
+                style="position:absolute; top:50%; left:10px; transform:translateY(-50%); background:rgba(0,0,0,0.4); border:none; color:white; font-size:20px; padding:8px 12px; border-radius:50%; cursor:pointer;">&#10094;</button>
+
+            <button class="next"
+                style="position:absolute; top:50%; right:10px; transform:translateY(-50%); background:rgba(0,0,0,0.4); border:none; color:white; font-size:20px; padding:8px 12px; border-radius:50%; cursor:pointer;">&#10095;</button>
         </div>
 
+
+        <!-- Dots -->
         <div style="display: flex; justify-content: center; gap: 8px; margin-top: 16px;">
-            <span
-                style="width: 8px; height: 8px; background-color: #2563eb; border-radius: 50%; display: inline-block;"></span>
-            <span
-                style="width: 8px; height: 8px; background-color: #d1d5db; border-radius: 50%; display: inline-block;"></span>
-            <span
-                style="width: 8px; height: 8px; background-color: #d1d5db; border-radius: 50%; display: inline-block;"></span>
-            <span
-                style="width: 8px; height: 8px; background-color: #d1d5db; border-radius: 50%; display: inline-block;"></span>
+            <span class="dot active"
+                style="width: 10px; height: 10px; background-color: #2563eb; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
+            <span class="dot"
+                style="width: 10px; height: 10px; background-color: #d1d5db; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
+            <span class="dot"
+                style="width: 10px; height: 10px; background-color: #d1d5db; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
+            <span class="dot"
+                style="width: 10px; height: 10px; background-color: #d1d5db; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
         </div>
     </section>
 
@@ -232,7 +250,8 @@
             سجل الآن
         </h2>
 
-        <form id="registration-form" style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
+        <form id="registration-form"
+            style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
             <input type="text" placeholder="الإسم الكامل"
                 style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; box-sizing: border-box; outline: none; transition: border-color 0.2s;"
                 onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d1d5db'">
@@ -316,7 +335,52 @@
             © 2025 جميع الحقوق محفوظة
         </p>
     </section>
+    <script>
+        const slides = document.querySelectorAll(".slide");
+        const dots = document.querySelectorAll(".dot");
+        let index = 0;
+        let interval = setInterval(nextSlide, 4000);
 
+        function showSlide(i) {
+            slides.forEach((slide, idx) => {
+                slide.style.opacity = idx === i ? "1" : "0";
+                dots[idx].style.backgroundColor = idx === i ? "#2563eb" : "#d1d5db";
+            });
+            index = i;
+        }
+
+        function nextSlide() {
+            let newIndex = (index + 1) % slides.length;
+            showSlide(newIndex);
+        }
+
+        function prevSlide() {
+            let newIndex = (index - 1 + slides.length) % slides.length;
+            showSlide(newIndex);
+        }
+
+        document.querySelector(".next").addEventListener("click", () => {
+            nextSlide();
+            resetInterval();
+        });
+
+        document.querySelector(".prev").addEventListener("click", () => {
+            prevSlide();
+            resetInterval();
+        });
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener("click", () => {
+                showSlide(i);
+                resetInterval();
+            });
+        });
+
+        function resetInterval() {
+            clearInterval(interval);
+            interval = setInterval(nextSlide, 4000);
+        }
+    </script>
 </body>
 
 </html>
