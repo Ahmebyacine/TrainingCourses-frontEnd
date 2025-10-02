@@ -143,6 +143,11 @@ export function Whitelist() {
           onEditForm={UpdateWhiteList}
         />
       </div>
+      {!loading && bookings.length === 0 && (
+        <div className="text-center text-muted-foreground">
+          لا يوجد قيد تسجيلات حالياً.
+        </div>
+      )}
       {!loading &&
         bookings.length > 0 &&
         Object.entries(groupedBookings).map(([programId, group]) => (
