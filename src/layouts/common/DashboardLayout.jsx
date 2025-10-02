@@ -123,11 +123,12 @@ export default function DashboardLayout() {
       href: "/program-statistics-employee",
       icon: <Calendar className="h-5 w-5" />,
     },
-    {
-      title: "قيد التسجيل",
-      href: "/whitelist",
-      icon: <Loader className="h-5 w-5" />,
-    },
+    //TODO: remove this because is not tested and completed
+    //{
+    //  title: "قيد التسجيل",
+    //  href: "/whitelist",
+    //  icon: <Loader className="h-5 w-5" />,
+    //},
     {
       title: "إحصائيات",
       href: "/user-statistics",
