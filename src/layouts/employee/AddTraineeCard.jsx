@@ -287,7 +287,7 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                                   "cursor-pointer rounded-2xl border px-6 py-3 text-center transition",
                                   "hover:border-primary/70",
                                   field.value === val
-                                    ? "bg-primary/20 text-white border-primary"
+                                    ? "bg-primary/20 border-primary"
                                     : ""
                                 )}
                               >

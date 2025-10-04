@@ -8,7 +8,7 @@ const PDFDownload = ({ trainee }) => {
          fileName={`receipt-${trainee.name}.pdf`}
          className='w-full h-full'
        >
-         {({ blob, url, loading, error }) =>
+         {({ loading }) =>
            loading ? 'جارٍ تحميل ...' : 'تحميل الوصل'
          }
        </PDFDownloadLink>

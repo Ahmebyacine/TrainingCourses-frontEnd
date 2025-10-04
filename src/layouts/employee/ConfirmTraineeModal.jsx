@@ -32,6 +32,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { formatDate } from "@/utils/formatSafeDate";
+import { cn } from "@/lib/utils";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 // ✅ Validation schema
 const confirmTraineeSchema = z.object({
@@ -41,10 +43,11 @@ const confirmTraineeSchema = z.object({
     .email({ message: "يرجى إدخال عنوان بريد إلكتروني صالح" })
     .optional(),
   phone: z.string().min(10, { message: "يرجى إدخال رقم هاتف صحيح" }),
-  employee: z.string().optional(),
   program: z.string({ required_error: "الرجاء اختيار البرنامج" }),
   inialTranche: z.coerce.number().min(0).optional(),
   secondTranche: z.coerce.number().min(0).optional(),
+  methodePaiement1: z.string().optional(),
+  discount: z.coerce.number().min(0).optional(),
   rest: z.coerce.number().min(0).optional(),
   totalPrice: z.coerce.number().min(0).optional(),
   note: z.string().optional(),
@@ -63,9 +66,11 @@ export default function ConfirmTraineeModal({
       name: initialData?.name || "",
       email: initialData?.email || "",
       phone: initialData?.phone || "",
-      program: initialData?.program || "",
+      program: initialData?.program?._id || "",
       inialTranche: 0,
       secondTranche: 0,
+      methodePaiement1: "cash",
+      discount: 0,
       totalPrice: 0,
       note: initialData?.note || "",
     },
@@ -73,17 +78,21 @@ export default function ConfirmTraineeModal({
 
   useEffect(() => {
     const selectedProgramId = form.watch("program");
+    const selectedDiscount = form.watch("discount");
     const selectedProgram = programs.find(
       (program) => program._id === selectedProgramId
     );
 
     if (selectedProgram) {
-      form.setValue("totalPrice", selectedProgram.course.price);
+      form.setValue(
+        "totalPrice",
+        selectedProgram.course.price - (selectedDiscount || 0)
+      );
       form.setValue("initialTranche", 0);
       form.setValue("secondTranche", 0);
       form.setValue("rest", 0);
     }
-  }, [form, programs, form.setValue]);
+  }, [form.watch("program"), programs, form.setValue, form.watch("discount")]);
 
   const handleSubmit = async (data) => {
     await onSubmitForm(data);
@@ -94,15 +103,10 @@ export default function ConfirmTraineeModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {/* Trigger only for Add, not for edit mode */}
-
       <DialogTrigger asChild>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          تأكيد تسجيل المتدرب
-        </Button>
+        <Button className="gap-2">تأكيد المتدرب</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>تأكيد تسجيل المتدرب</DialogTitle>
           <DialogDescription>
@@ -144,6 +148,19 @@ export default function ConfirmTraineeModal({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>البريد الإلكتروني *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="أدخل البريد الإلكتروني" dir="ltr" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             {/* البرنامج */}
             <FormField
@@ -154,7 +171,7 @@ export default function ConfirmTraineeModal({
                   <FormLabel>البرنامج *</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value[0]}
+                    defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -205,7 +222,7 @@ export default function ConfirmTraineeModal({
             {/* Payment Information */}
             <div className="bg-muted/50 p-4 rounded-lg">
               <h3 className="text-lg font-medium mb-4">معلومات الدفع</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Initial Tranche Field */}
                 <FormField
                   control={form.control}
@@ -240,6 +257,80 @@ export default function ConfirmTraineeModal({
                     </FormItem>
                   )}
                 />
+                {/* methode of payment Field */}
+                <FormField
+                  control={form.control}
+                  name="methodePaiement1"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>طريقة الدفع</FormLabel>
+                      <FormControl>
+                        <Select
+                          {...field}
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="اختر طريقة الدفع" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="cash">نقدي</SelectItem>
+                            <SelectItem value="baridimob">
+                              بريدي موب - Baridimob
+                            </SelectItem>
+                            <SelectItem value="cpp">
+                              تحويل بريدي - cpp
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Discount Field */}
+                <FormField
+                  control={form.control}
+                  name="discount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>الخصم</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          className="flex col-span-2 gap-4 overflow-auto scroll-hidden"
+                        >
+                          {[0, 2000, 4000, 5000].map((val) => (
+                            <FormItem key={val}>
+                              <FormControl>
+                                <RadioGroupItem
+                                  value={val}
+                                  id={val}
+                                  className="peer hidden"
+                                />
+                              </FormControl>
+                              <FormLabel
+                                htmlFor={val}
+                                className={cn(
+                                  "cursor-pointer rounded-2xl border px-6 py-3 text-center transition",
+                                  "hover:border-primary/70",
+                                  field.value === val
+                                    ? "bg-primary/20 border-primary"
+                                    : ""
+                                )}
+                              >
+                                {val} دج
+                              </FormLabel>
+                            </FormItem>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
             {/* Note Field */}
@@ -264,7 +355,7 @@ export default function ConfirmTraineeModal({
               <Button type="submit" className="flex-1">
                 حفظ
               </Button>
-              <DialogClose>
+              <DialogClose asChild>
                 <Button type="button" variant="outline" className="flex-1">
                   إلغاء
                 </Button>

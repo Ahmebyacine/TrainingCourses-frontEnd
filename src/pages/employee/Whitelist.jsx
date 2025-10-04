@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,8 +15,11 @@ import { useEffect, useState } from "react";
 import ErrorPage from "../common/ErrorPage";
 import WhitelistModal from "@/layouts/employee/WhitelistModal";
 import ConfirmTraineeModal from "@/layouts/employee/ConfirmTraineeModal";
+import { formatDate } from "@/utils/formatSafeDate";
+import { toast } from "sonner";
 
 export function Whitelist() {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,7 +36,7 @@ export function Whitelist() {
 
   const fetchBookings = async () => {
     try {
-      const response = await api.get("/whitelist/employee");
+      const response = await api.get("/api/whitelist/employee");
       setBookings(response.data);
     } catch (error) {
       console.error("Error fetching bookings:", error);
@@ -51,8 +55,9 @@ export function Whitelist() {
     try {
       const response = await api.post("/api/whitelist", data);
       setBookings((prev) => [...prev, response.data]);
+      toast.success("تم إضافة القيد بنجاح");
     } catch (error) {
-      console.error("Error adding to whitelist:", error);
+      toast.error("حدث خطأ أثناء إضافة القيد");
       console.log(error.response?.data?.message);
     }
   };
@@ -65,8 +70,10 @@ export function Whitelist() {
           booking._id === data._id ? response.data : booking
         )
       );
+      toast.success("تم تحديث القيد بنجاح");
     } catch (error) {
       console.error("Error updating whitelist:", error);
+      toast.error("حدث خطأ أثناء تحديث القيد");
       console.log(error.response?.data?.message);
     }
   };
@@ -79,18 +86,26 @@ export function Whitelist() {
           booking._id === data._id ? response.data : booking
         )
       );
+      toast.success("تم تأكيد القيد وتحويله إلى متدرب بنجاح");
+      navigate("/add-trainee", {
+        state: { trainee: response.data, success: true },
+      });
     } catch (error) {
       console.error("Error confirming whitelist:", error);
       console.log(error.response?.data?.message);
+      toast.error("حدث خطأ أثناء تأكيد القيد");
     }
   };
+
   const deleteBooking = async (id) => {
     try {
       await api.delete(`/api/whitelist/${id}`);
       setBookings((prev) => prev.filter((booking) => booking._id !== id));
+      toast.success("تم حذف القيد بنجاح");
     } catch (error) {
       console.error("Error deleting booking:", error);
       console.log(error.response?.data?.message);
+      toast.error("حدث خطأ أثناء حذف القيد");
     }
   };
   // Group bookings by program
@@ -98,7 +113,10 @@ export function Whitelist() {
     const programId = booking.program._id;
     if (!acc[programId]) {
       acc[programId] = {
-        programName: booking?.program?.name || "بدون برنامج",
+        programName: booking?.program?.course?.name || "بدون برنامج",
+        programDate: booking?.program?.start_date || "بدون تاريخ",
+        programEndDate: booking?.program?.end_date || "بدون تاريخ",
+        programInstitution: booking?.program?.institution?.name || "بدون مؤسسة",
         bookings: [],
       };
     }
@@ -106,18 +124,20 @@ export function Whitelist() {
     return acc;
   }, {});
 
-  const [bookingStatuses, setBookingStatuses] = useState(
-    bookings.reduce((acc, booking) => {
-      acc[booking._id] = booking.status;
-      return acc;
-    }, {})
-  );
-
-  const handleCancel = (bookingId) => {
-    setBookingStatuses((prev) => ({
-      ...prev,
-      [bookingId]: "canceled",
-    }));
+  const handleCancel = async (bookingId) => {
+    try {
+      await api.put(`/api/whitelist/${bookingId}`, {
+        status: "canceled",
+      });
+      setBookings((prev) =>
+        prev.map((b) =>
+          b._id === bookingId ? { ...b, status: "canceled" } : b
+        )
+      );
+    } catch (error) {
+      toast.error("حدث خطأ أثناء إلغاء القيد");
+      console.log(error.response?.data?.message);
+    }
     // TODO: Add API call here to update the backend
   };
   if (loading) {
@@ -137,11 +157,7 @@ export function Whitelist() {
           <h1 className="text-3xl font-bold">قيد التسجيل</h1>
           <p className="text-muted-foreground">إدارة قائمة قيد التسجيل</p>
         </div>
-        <WhitelistModal
-          programs={programs}
-          onAddForm={AddWhiteList}
-          onEditForm={UpdateWhiteList}
-        />
+        <WhitelistModal programs={programs} onAddForm={AddWhiteList} />
       </div>
       {!loading && bookings.length === 0 && (
         <div className="text-center text-muted-foreground">
@@ -156,6 +172,10 @@ export function Whitelist() {
               <h2 className="text-2xl font-semibold text-foreground">
                 {group.programName}
               </h2>
+              <h3 className="text-l font-medium text-foreground">
+                {formatDate(group.programDate)} -{" "}
+                {formatDate(group.programEndDate)} | {group.programInstitution}
+              </h3>
               <p className="text-sm text-muted-foreground">
                 {group.bookings.length} قيد التسجيل
               </p>
@@ -188,14 +208,10 @@ export function Whitelist() {
                       <TableCell>
                         <Badge
                           variant={
-                            bookingStatuses[booking._id] === "new"
-                              ? "default"
-                              : "destructive"
+                            booking.status === "new" ? "default" : "destructive"
                           }
                         >
-                          {bookingStatuses[booking._id] === "new"
-                            ? "جديد"
-                            : "ملغي"}
+                          {booking.status === "new" ? "جديد" : "ملغي"}
                         </Badge>
                       </TableCell>
                       <TableCell className="max-w-xs">
@@ -203,8 +219,8 @@ export function Whitelist() {
                           {booking.note || "-"}
                         </span>
                       </TableCell>
-                      <TableCell>
-                        {bookingStatuses[booking._id] === "new" && (
+                      <TableCell className="space-x-2">
+                        {booking.status === "new" && (
                           <Button
                             variant="ghost"
                             size="sm"
@@ -218,14 +234,13 @@ export function Whitelist() {
                         <WhitelistModal
                           initialData={booking}
                           programs={programs}
-                          onConfirm={confirmTrainee}
-                          onDelete={deleteBooking}
+                          onEditForm={UpdateWhiteList}
                         />
                         <ConfirmTraineeModal
                           initialData={booking}
                           programs={programs}
-                          onConfirm={confirmTrainee}
-                          onDelete={deleteBooking}
+                          onSubmitForm={confirmTrainee}
+                          onDeleteForm={deleteBooking}
                         />
                       </TableCell>
                     </TableRow>

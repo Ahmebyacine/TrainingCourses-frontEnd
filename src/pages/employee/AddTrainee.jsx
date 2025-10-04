@@ -1,20 +1,26 @@
 import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom";
 import { SuccessComponent } from "@/layouts/employee/SuccessComponent"
 import { AddTraineeCard } from "@/layouts/employee/AddTraineeCard"
 import api from "@/services/api"
 import { toast } from "sonner"
 import ErrorPage from "../common/ErrorPage"
 
-// Define the form schema with validation
-
-
 export default function AddTrainee() {
+  const location = useLocation();
   const [programs, setPrograms] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
 
   const [trainee, setTrainee] = useState({})
+
+  useEffect(() => {
+    if (location.state?.success && location.state?.trainee) {
+      setSuccess(true);
+      setTrainee(location.state.trainee);
+    }
+  }, [location.state]);
   // Fetch programs and employees data
   useEffect(() => {
     const fetchData = async () => {

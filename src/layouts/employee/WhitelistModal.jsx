@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Plus } from "lucide-react";
+import { Edit2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -38,7 +38,6 @@ const whitelistSchema = z.object({
   name: z.string().min(2, { message: "يجب أن يتكون الاسم من حرفين على الأقل" }),
   phone: z.string().min(8, { message: "رقم الهاتف غير صالح" }),
   program: z.string().min(1, { message: "الرجاء اختيار برنامج" }),
-  employee: z.string().min(1, { message: "الرجاء اختيار موظف" }),
   note: z.string().optional(),
 });
 
@@ -49,46 +48,68 @@ export default function WhitelistModal({
   initialData,
 }) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // React Hook Form
   const form = useForm({
     resolver: zodResolver(whitelistSchema),
     defaultValues: {
       name: "",
       phone: "",
       program: "",
-      employee: "",
       note: "",
     },
   });
 
   const isEdit = !!initialData;
 
-  // ✅ Fill form when editing
+  // Fill form when editing
   useEffect(() => {
     if (initialData) {
-      form.reset(initialData);
+      form.reset({
+        name: initialData?.name || "",
+        phone: initialData?.phone || "",
+        program: initialData?.program?._id || "",
+        note: initialData?.note || "",
+      });
     } else {
       form.reset({
         name: "",
         phone: "",
         program: "",
-        employee: "",
         note: "",
       });
     }
   }, [initialData, form]);
 
-  const handleSubmit = (data) => {
-    if (isEdit) {
-      onEditForm(data, isEdit);
-    } else onAddForm(data, isEdit);
-    form.reset();
-    setOpen(false);
+  const handleSubmit = async (data) => {
+    try {
+      setLoading(true);
+      if (isEdit) {
+        await onEditForm({ ...initialData, ...data });
+      } else {
+        await onAddForm(data);
+      }
+      form.reset();
+      setOpen(false);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {/* Trigger only for Add, not for edit mode */}
-      {!isEdit && (
+      {isEdit ? (
+        <DialogTrigger asChild>
+          <Button className="gap-2">
+            <Edit2 className="h-4 w-4" />
+          </Button>
+        </DialogTrigger>
+
+      ) : (
         <DialogTrigger asChild>
           <Button className="gap-2">
             <Plus className="h-4 w-4" />
@@ -96,7 +117,7 @@ export default function WhitelistModal({
           </Button>
         </DialogTrigger>
       )}
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>{isEdit ? "تعديل الحجز" : "إضافة حجز جديد"}</DialogTitle>
           <DialogDescription>
@@ -150,7 +171,7 @@ export default function WhitelistModal({
                   <FormLabel>البرنامج *</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value[0]}
+                    defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -217,10 +238,10 @@ export default function WhitelistModal({
             />
 
             <DialogFooter className="pt-4">
-              <Button type="submit" className="flex-1">
-                {isEdit ? "حفظ التغييرات" : "حفظ"}
+              <Button type="submit" className="flex-1" disabled={loading}>
+                {loading ? "جاري الحفظ..." : isEdit ? "حفظ التغييرات" : "حفظ"}
               </Button>
-              <DialogClose>
+              <DialogClose asChild>
                 <Button type="button" variant="outline" className="flex-1">
                   إلغاء
                 </Button>
