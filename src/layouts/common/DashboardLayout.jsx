@@ -12,7 +12,6 @@ import {
   FileClock,
   GraduationCap,
   LayoutDashboard,
-  Loader,
   Menu,
   Search,
   User,
@@ -178,12 +177,12 @@ export default function DashboardLayout() {
     {
       title: "شهادة التدريب",
       href: "/attestation-de-formation",
-      icon: <GraduationCap  className="h-5 w-5" />,
+      icon: <GraduationCap className="h-5 w-5" />,
     },
     {
       title: "شهادة الكفاءة",
       href: "/certificate-d-aptitude",
-      icon: <FileClock  className="h-5 w-5" />,
+      icon: <FileClock className="h-5 w-5" />,
     },
     {
       title: "شهادة التدريب (سنة واحدة)",
@@ -201,10 +200,7 @@ export default function DashboardLayout() {
         )}
       >
         <div className="flex h-16 items-center justify-between border-b px-4">
-          <Link
-            to="/"
-            className="flex items-center gap-2 font-bold text-xl"
-          >
+          <Link to="/" className="flex items-center gap-2 font-bold text-xl">
             <Calendar className="h-6 w-6 text-primary" />
             <span>EasyCole Platform</span>
           </Link>
@@ -284,7 +280,7 @@ export default function DashboardLayout() {
             </DropdownMenu>
           )}
         </nav>
-        <ModeToggle/>
+        <ModeToggle />
         <UserMenu />
       </aside>
 
@@ -403,26 +399,25 @@ export default function DashboardLayout() {
                     </DropdownMenu>
                   )}
                 </nav>
-                <ModeToggle/>
+                <ModeToggle />
                 <UserMenu />
               </SheetContent>
             </Sheet>
             <div>
               <h1 className="text-lg md:text-2xl font-semibold">
                 {((role) => {
-                      switch (role) {
-                        case "admin":
-                          return navItemsAdmin;
-                        case "manager":
-                          return navItemsManager;
-                        case "member":
-                          return navItemsMember;
-                        default:
-                          return navItemsEmployee;
-                      }
-                    })(role).find(
-                  (item) => item.href === location.pathname
-                )?.title || "Dashboard"}
+                  switch (role) {
+                    case "admin":
+                      return navItemsAdmin;
+                    case "manager":
+                      return navItemsManager;
+                    case "member":
+                      return navItemsMember;
+                    default:
+                      return navItemsEmployee;
+                  }
+                })(role).find((item) => item.href === location.pathname)
+                  ?.title || "Dashboard"}
               </h1>
             </div>
           </div>

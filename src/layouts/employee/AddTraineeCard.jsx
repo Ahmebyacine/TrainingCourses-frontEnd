@@ -63,17 +63,18 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
 
   useEffect(() => {
     const selectedProgramId = form.watch("program");
+    const selectedDiscount = form.watch("discount");
     const selectedProgram = programs.find(
       (program) => program._id === selectedProgramId
     );
 
     if (selectedProgram) {
-      form.setValue("totalPrice", selectedProgram.course.price);
+      form.setValue("totalPrice", selectedProgram.course.price - (selectedDiscount || 0));
       form.setValue("initialTranche", 0);
       form.setValue("secondTranche", 0);
       form.setValue("rest", 0);
     }
-  }, [form.watch("program"), programs, form.setValue]);
+  }, [form.watch("program"), programs, form.setValue, form.watch("discount")]);
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
@@ -191,7 +192,7 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
             {/* Payment Information */}
             <div className="bg-muted/50 p-4 rounded-lg">
               <h3 className="text-lg font-medium mb-4">معلومات الدفع</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Initial Tranche Field */}
                 <FormField
                   control={form.control}
@@ -269,9 +270,9 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                         <RadioGroup
                           onValueChange={field.onChange}
                           value={field.value}
-                          className="flex gap-4 overflow-auto"
+                          className="flex gap-4 overflow-auto scroll-hidden"
                         >
-                          {["2000", "4000", "5000"].map((val) => (
+                          {[0, 2000, 4000, 5000].map((val) => (
                             <FormItem key={val}>
                               <FormControl>
                                 <RadioGroupItem
@@ -285,7 +286,7 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                                 className={cn(
                                   "cursor-pointer rounded-2xl border px-6 py-3 text-center transition",
                                   "hover:border-primary/70",
-                                  form.watch("discount") === val
+                                  field.value === val
                                     ? "bg-primary/20 text-white border-primary"
                                     : ""
                                 )}
