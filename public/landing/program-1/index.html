@@ -387,6 +387,10 @@
         }
 
         document.getElementById("registration-form").addEventListener("submit", async function (e) {
+            if (!this.checkValidity()) {
+                this.reportValidity();
+                return;
+            }
             e.preventDefault();
 
             const form = this;
