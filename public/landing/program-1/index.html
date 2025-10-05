@@ -321,17 +321,6 @@
                 تأكيد التسجيل
             </button>
         </form>
-        <div id="success-message"
-            style="max-width: 400px; margin: 0 auto; padding: 40px 20px; text-align: center; background-color: white; border: 2px solid #10b981; border-radius: 12px; display: none;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#10b981" viewBox="0 0 16 16"
-                style="margin-bottom: 16px;">
-                <path
-                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-            </svg>
-            <h3 style="color: #10b981; font-size: 20px; margin: 0 0 8px 0;">تم التسجيل بنجاح!</h3>
-            <p style="color: #4b5563; font-size: 14px; margin: 0;">شكراً لك. سنقوم بالتواصل معك عبر الهاتف لتأكيد
-                التفاصيل في أقرب وقت.</p>
-        </div>
         <div id="error-message"
             style="max-width: 400px; margin: 0 auto; padding: 40px 20px; text-align: center; background-color: white; border: 2px solid #ef4444; border-radius: 12px; margin-top: 20px; display: none;">
             <h3 style="color: #ef4444; font-size: 20px; margin: 0 0 8px 0;">حدث خطأ في الإرسال ❌</h3>
@@ -421,9 +410,7 @@
                 // ✅ Track Facebook lead event if pixel loaded
                 if (typeof fbq === "function") fbq("track", "Lead");
 
-                // ✅ Hide form and show success message
-                form.style.display = "none";
-                successMsg.style.display = "block";
+                window.location.href = "success.html";
             } catch (error) {
                 console.error("❌ Error submitting form:", error);
                 errorMsg.style.display = "block";
