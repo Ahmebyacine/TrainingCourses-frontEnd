@@ -27,6 +27,24 @@
             font-family: 'Cairo', sans-serif;
         }
     </style>
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2316251242159712');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=2316251242159712&ev=PageView&noscript=1" /></noscript>
+
 </head>
 
 <body>
@@ -347,11 +365,6 @@
             showSlide(newIndex);
         }
 
-        function prevSlide() {
-            let newIndex = (index - 1 + slides.length) % slides.length;
-            showSlide(newIndex);
-        }
-
         dots.forEach((dot, i) => {
             dot.addEventListener("click", () => {
                 showSlide(i);
@@ -363,6 +376,7 @@
             clearInterval(interval);
             interval = setInterval(nextSlide, 4000);
         }
+
         function onSubmit(token) {
             const form = document.getElementById("registration-form");
             if (!form.dataset.submitted) {
@@ -370,11 +384,12 @@
                 form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
             }
         }
-        document.getElementById("registration-form").addEventListener("submit", function (e) {
+
+        document.getElementById("registration-form").addEventListener("submit", async function (e) {
             e.preventDefault();
 
-            // Collect form data
-            const formData = new FormData(this);
+            const form = this;
+            const formData = new FormData(form);
             const data = {
                 name: formData.get("full_name"),
                 course: formData.get("course"),
@@ -382,43 +397,35 @@
                 wilaya: formData.get("wilaya"),
             };
 
-            const form = this;
             const successMsg = document.getElementById("success-message");
             const errorMsg = document.getElementById("error-message");
-            const submitButton = document.getElementById('submit-button');
+            const submitButton = document.getElementById("submit-button");
 
             submitButton.disabled = true;
-            submitButton.textContent = '... يتم الإرسال';
+            submitButton.textContent = "يتم الإرسال...";
 
-            (async () => {
-                try {
-                    const res = await fetch("https://api.easycole.com/api/lead", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(data),
-                    });
+            try {
+                const res = await fetch("https://api.easycole.com/api/lead", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
 
-                    if (!res.ok) {
-                        const errText = await res.text();
-                        throw new Error(`Request failed: ${res.status} - ${errText}`);
-                        errorMsg.style.display = 'block';
-                    }
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-                    form.style.display = 'none';
-                    successMsg.style.display = 'block';
+                // ✅ Track Facebook lead event if pixel loaded
+                if (typeof fbq === "function") fbq("track", "Lead");
 
-                    console.log("✅ Lead saved successfully");
-                    form.reset();
-                } catch (err) {
-                    console.error("❌ Error sending lead:", err);
-                    errorMsg.style.display = 'block';
-                    form.style.display = 'none';
-                } finally {
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'تأكيد التسجيل (للتجربة فقط)';
-                }
-            })();
-            this.reset();
+                // ✅ Hide form and show success message
+                form.style.display = "none";
+                successMsg.style.display = "block";
+            } catch (error) {
+                console.error("❌ Error submitting form:", error);
+                errorMsg.style.display = "block";
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = "تأكيد التسجيل";
+            }
         });
     </script>
 </body>
