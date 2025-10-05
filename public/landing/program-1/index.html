@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Recaptcha -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 
     <!-- Global Styles -->
     <style>
@@ -62,17 +62,18 @@
             تواصل معنا عبر الواتساب
         </a>
 
-        <div style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 16px; max-width: 700px; margin:auto; height:300px;">
+        <div
+            style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 16px; max-width: 700px; margin:auto; height:300px;">
             <!-- Slides -->
             <div class="carousel">
-                <img src="/landing/program-1/carousal1.jpg" alt="صورة 1" class="slide active"
+                <img src="/landing/program-1/carousal1.jpg" alt="صورة 1" class="slide active" loading="lazy"
                     style="width:100%; height:300px; object-fit:cover; position:absolute; inset:0; opacity:1; transition:opacity 0.6s ease-in-out;">
-                <img src="/landing/program-1/carousal2.jpg" alt="صورة 2" class="slide"
+                <img src="/landing/program-1/carousal2.jpg" alt="صورة 2" class="slide" loading="lazy"
                     style="width:100%; height:300px; object-fit:cover; position:absolute; inset:0; opacity:0; transition:opacity 0.6s ease-in-out;">
-                <img src="/landing/program-1/carousal3.jpg" alt="صورة 3" class="slide"
+                <img src="/landing/program-1/carousal3.jpg" alt="صورة 3" class="slide" loading="lazy"
                     style="width:100%; height:300px; object-fit:cover; position:absolute; inset:0; opacity:0; transition:opacity 0.6s ease-in-out;">
             </div>
-            </div>
+        </div>
 
 
         <!-- Dots -->
@@ -83,7 +84,7 @@
                 style="width: 10px; height: 10px; background-color: #d1d5db; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
             <span class="dot"
                 style="width: 10px; height: 10px; background-color: #d1d5db; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
-            </div>
+        </div>
     </section>
 
     <!-- Course Program Section -->
@@ -95,105 +96,86 @@
         <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px; margin: 0 auto;">
             <!-- Card 1 -->
             <div
-                style="display: flex; background: linear-gradient(to top right, #fff, #CBE0FF); border: #8EC5FF 1px solid; border-radius: 16px; padding: 24px; position: relative;">
+                style="display: flex; align-items: center; background: linear-gradient(to top right, #fff, #CBE0FF); border: 1px solid #8EC5FF; border-radius: 16px; padding: 16px 20px; gap: 16px; margin-bottom: 12px;">
                 <div
-                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; margin: 0 auto 16px auto;">
-                    1
-                </div>
+                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px;">
+                    1</div>
                 <div>
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px 0;">
-                        مقدمة
-                    </h3>
-                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">
-                        أساسيات إنتاج التمور وتشخيص التحديات
-                    </p>
+                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 4px 0;">مقدمة</h3>
+                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">أساسيات إنتاج التمور وتشخيص
+                        التحديات</p>
                 </div>
             </div>
 
             <!-- Card 2 -->
             <div
-                style="display: flex; background: linear-gradient(to top right, #fff, #CBE0FF); border: #8EC5FF 1px solid; border-radius: 16px; padding: 24px; position: relative;">
+                style="display: flex; align-items: center; background: linear-gradient(to top right, #fff, #CBE0FF); border: 1px solid #8EC5FF; border-radius: 16px; padding: 16px 20px; gap: 16px; margin-bottom: 12px;">
                 <div
-                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; margin: 0 auto 16px auto;">
-                    2
-                </div>
+                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px;">
+                    2</div>
                 <div>
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px 0;">
-                        تصميم وحدات الإنتاج
-                    </h3>
-                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">
-                        التكييف والتخزين وفق المعايير العالمية
-                    </p>
+                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 4px 0;">تصميم وحدات
+                        الإنتاج</h3>
+                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">التكييف والتخزين وفق
+                        المعايير العالمية</p>
                 </div>
             </div>
 
             <!-- Card 3 -->
             <div
-                style="display: flex; align-content: flex-start; background: linear-gradient(to top right, #fff, #CBE0FF); border: #8EC5FF 1px solid; border-radius: 16px; padding: 24px; position: relative;">
+                style="display: flex; align-items: center; background: linear-gradient(to top right, #fff, #CBE0FF); border: 1px solid #8EC5FF; border-radius: 16px; padding: 16px 20px; gap: 16px; margin-bottom: 12px;">
                 <div
-                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; margin: 0 auto 16px auto;">
-                    3
-                </div>
+                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px;">
+                    3</div>
                 <div>
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px 0;">
-                        إدارة الجودة
-                    </h3>
-                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">
-                        تقنيات التعبئة والخدمات اللوجستية
-                    </p>
+                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 4px 0;">إدارة الجودة</h3>
+                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">تقنيات التعبئة والخدمات
+                        اللوجستية</p>
                 </div>
             </div>
 
             <!-- Card 4 -->
             <div
-                style="display: flex; background: linear-gradient(to top right, #fff, #CBE0FF); border: #8EC5FF 1px solid; border-radius: 16px; padding: 24px; position: relative;">
+                style="display: flex; align-items: center; background: linear-gradient(to top right, #fff, #CBE0FF); border: 1px solid #8EC5FF; border-radius: 16px; padding: 16px 20px; gap: 16px; margin-bottom: 12px;">
                 <div
-                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; margin: 0 auto 16px auto;">
-                    4
-                </div>
+                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px;">
+                    4</div>
                 <div>
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px 0;">
-                        التسويق والتصدير
+                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 4px 0;">التسويق والتصدير
                     </h3>
-                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">
-                        استراتيجيات محلية وعالمية + معارض
-                    </p>
+                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">استراتيجيات محلية وعالمية +
+                        معارض</p>
                 </div>
             </div>
 
             <!-- Card 5 -->
             <div
-                style="display: flex; background: linear-gradient(to top right, #fff, #CBE0FF); border: #8EC5FF 1px solid; border-radius: 16px; padding: 24px; position: relative;">
+                style="display: flex; align-items: center; background: linear-gradient(to top right, #fff, #CBE0FF); border: 1px solid #8EC5FF; border-radius: 16px; padding: 16px 20px; gap: 16px; margin-bottom: 12px;">
                 <div
-                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; margin: 0 auto 16px auto;">
-                    5
-                </div>
+                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px;">
+                    5</div>
                 <div>
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px 0;">
-                        الجوانب الإدارية
+                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 4px 0;">الجوانب الإدارية
                     </h3>
-                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">
-                        إدارة الموارد والتقارير المهنية
-                    </p>
+                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">إدارة الموارد والتقارير
+                        المهنية</p>
                 </div>
             </div>
 
             <!-- Card 6 -->
             <div
-                style="display: flex; background: linear-gradient(to top right, #fff, #CBE0FF); border: #8EC5FF 1px solid; border-radius: 16px; padding: 24px; position: relative;">
+                style="display: flex; align-items: center; background: linear-gradient(to top right, #fff, #CBE0FF); border: 1px solid #8EC5FF; border-radius: 16px; padding: 16px 20px; gap: 16px;">
                 <div
-                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; margin: 0 auto 16px auto;">
-                    6
-                </div>
+                    style="width: 40px; height: 40px; background-color: #193CB8; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px;">
+                    6</div>
                 <div>
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px 0;">
-                        التطبيق العملي
+                    <h3 style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0 0 4px 0;">التطبيق العملي
                     </h3>
-                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">
-                        دراسة حالة + خطة إنتاج نموذجية
-                    </p>
+                    <p style="font-size: 14px; color: #4b5563; margin: 0; line-height: 1.5;">دراسة حالة + خطة إنتاج
+                        نموذجية</p>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -241,19 +223,19 @@
         </h2>
 
         <form id="registration-form"
-            style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
-            <input type="text" placeholder="الإسم الكامل"
-                style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; box-sizing: border-box; outline: none; transition: border-color 0.2s;"
+            style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; direction: rtl;">
+            <input type="text" name="course" value="67e44e891ceabbedb749b65d" style="display: none;">
+            <input type="text" name="full_name" placeholder="الإسم الكامل" required
+                style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; box-sizing: border-box; outline: none; transition: border-color 0.2s; text-align: right;"
                 onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d1d5db'">
 
-            <input type="tel" placeholder="رقم الهاتف"
-                style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; box-sizing: border-box; outline: none; transition: border-color 0.2s;"
+            <input type="tel" name="phone_number" placeholder="رقم الهاتف" required
+                style="width: 100%; padding: 10px; border: 1px solid #d1f5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; box-sizing: border-box; outline: none; transition: border-color 0.2s; text-align: right;"
                 onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d1d5db'">
 
-            <select
-                style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; color: #6b7280; box-sizing: border-box; outline: none; transition: border-color 0.2s; background-color: white;"
-                onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d1d5db'">
-                <option value="">الولاية</option>
+            <select name="wilaya" required
+                style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; color: #6b7280; box-sizing: border-box; outline: none; transition: border-color 0.2s; background-color: white; text-align: right;">
+                <option value="" disabled selected>الولاية *</option>
                 <option value="أدرار">أدرار</option>
                 <option value="الشلف">الشلف</option>
                 <option value="الأغواط">الأغواط</option>
@@ -313,14 +295,35 @@
                 <option value="المغير">المغير</option>
                 <option value="المنيعة">المنيعة</option>
             </select>
-            <div class="g-recaptcha" data-sitekey="6LcciNsrAAAAAGSZUk9_boBNeDcryd-y2F9Fpq8u"></div>
-            <button type="submit"
+            <button type="submit" class="g-recaptcha" data-sitekey="6LcciNsrAAAAAGSZUk9_boBNeDcryd-y2F9Fpq8u"
+                data-callback='onSubmit' data-action='submit'
                 style="width: 100%; padding: 14px; background-color: #2563eb; color: white; border: none; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: background-color 0.2s;"
                 onmouseover="this.style.backgroundColor='#1d4ed8'" onmouseout="this.style.backgroundColor='#2563eb'">
-                تأكيد
+                تأكيد التسجيل
             </button>
         </form>
-
+        <div id="success-message"
+            style="max-width: 400px; margin: 0 auto; padding: 40px 20px; text-align: center; background-color: white; border: 2px solid #10b981; border-radius: 12px; display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#10b981" viewBox="0 0 16 16"
+                style="margin-bottom: 16px;">
+                <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+            </svg>
+            <h3 style="color: #10b981; font-size: 20px; margin: 0 0 8px 0;">تم التسجيل بنجاح!</h3>
+            <p style="color: #4b5563; font-size: 14px; margin: 0;">شكراً لك. سنقوم بالتواصل معك عبر الهاتف لتأكيد
+                التفاصيل في أقرب وقت.</p>
+        </div>
+        <div id="error-message"
+            style="max-width: 400px; margin: 0 auto; padding: 40px 20px; text-align: center; background-color: white; border: 2px solid #ef4444; border-radius: 12px; display: none;">
+            <h3 style="color: #ef4444; font-size: 20px; margin: 0 0 8px 0;">حدث خطأ في الإرسال ❌</h3>
+            <p style="color: #4b5563; font-size: 14px; margin: 0;">الرجاء التأكد من تعبئة جميع الحقول والمحاولة مرة
+                أخرى.</p>
+            <button
+                onclick="document.getElementById('form-container').style.display = 'block'; document.getElementById('error-message').style.display = 'none';"
+                style="margin-top: 15px; padding: 10px 20px; background-color: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                المحاولة مجدداً
+            </button>
+        </div>
         <p style="text-align: center; font-size: 12px; color: #193CB8; margin-top: 24px;">
             © 2025 جميع الحقوق محفوظة
         </p>
@@ -360,6 +363,63 @@
             clearInterval(interval);
             interval = setInterval(nextSlide, 4000);
         }
+        function onSubmit(token) {
+            const form = document.getElementById("registration-form");
+            if (!form.dataset.submitted) {
+                form.dataset.submitted = "true";
+                form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+            }
+        }
+        document.getElementById("registration-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Collect form data
+            const formData = new FormData(this);
+            const data = {
+                name: formData.get("full_name"),
+                course: formData.get("course"),
+                phone: formData.get("phone_number"),
+                wilaya: formData.get("wilaya"),
+            };
+
+            const form = this;
+            const successMsg = document.getElementById("success-message");
+            const errorMsg = document.getElementById("error-message");
+            const submitButton = document.getElementById('submit-button');
+
+            submitButton.disabled = true;
+            submitButton.textContent = '... يتم الإرسال';
+
+            (async () => {
+                try {
+                    const res = await fetch("https://api.easycole.com/api/lead", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (!res.ok) {
+                        const errText = await res.text();
+                        throw new Error(`Request failed: ${res.status} - ${errText}`);
+                        errorMsg.style.display = 'block';
+                    }
+
+                    form.style.display = 'none';
+                    successMsg.style.display = 'block';
+
+                    console.log("✅ Lead saved successfully");
+                    form.reset();
+                } catch (err) {
+                    console.error("❌ Error sending lead:", err);
+                    errorMsg.style.display = 'block';
+                    form.style.display = 'none';
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'تأكيد التسجيل (للتجربة فقط)';
+                }
+            })();
+            this.reset();
+        });
     </script>
 </body>
 
