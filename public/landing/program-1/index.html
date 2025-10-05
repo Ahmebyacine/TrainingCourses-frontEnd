@@ -241,7 +241,8 @@
         </h2>
 
         <form id="registration-form"
-            style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; direction: rtl;">
+            style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; direction: rtl;"
+            onsubmit="return validateForm(this)">
             <input type="text" name="course" value="67e44e891ceabbedb749b65d" style="display: none;">
             <input type="text" name="full_name" placeholder="الإسم الكامل" required
                 style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; box-sizing: border-box; outline: none; transition: border-color 0.2s; text-align: right;"
@@ -332,7 +333,7 @@
                 التفاصيل في أقرب وقت.</p>
         </div>
         <div id="error-message"
-            style="max-width: 400px; margin: 0 auto; padding: 40px 20px; text-align: center; background-color: white; border: 2px solid #ef4444; border-radius: 12px; display: none;">
+            style="max-width: 400px; margin: 0 auto; padding: 40px 20px; text-align: center; background-color: white; border: 2px solid #ef4444; border-radius: 12px; margin-top: 20px; display: none;">
             <h3 style="color: #ef4444; font-size: 20px; margin: 0 0 8px 0;">حدث خطأ في الإرسال ❌</h3>
             <p style="color: #4b5563; font-size: 14px; margin: 0;">الرجاء التأكد من تعبئة جميع الحقول والمحاولة مرة
                 أخرى.</p>
