@@ -69,7 +69,7 @@ export default function SignIn() {
   }
 
   return (
-    <div className="flex items-center justify-center bg-background px-4 py-12" dir="rtl">
+    <div className="md:min-h-screen flex items-center justify-center bg-background px-4 py-12" dir="rtl">
       <div className="w-full max-w-md">
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2 text-primary">
