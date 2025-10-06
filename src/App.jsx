@@ -29,7 +29,8 @@ import ProgramStatisticsManager from "./pages/manager/ProgramStatisticsManager";
 import { EmployeeStatisticsManager } from "./pages/manager/EmployeeStatisticsManager";
 import ProgramStatisticsEmployee from "./pages/employee/ProgramStatisticsEmployee";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { Whitelist } from "./pages/employee/Whitelist";
+import Whitelist from "./pages/employee/Whitelist";
+import Lead from "./pages/employee/Lead";
 
 const router = createHashRouter([
   {
@@ -106,6 +107,10 @@ const router = createHashRouter([
           {
             path: "whitelist",
             element: <Whitelist />,
+          },
+          {
+            path: "leads",
+            element: <Lead />,
           },
         ],
       },

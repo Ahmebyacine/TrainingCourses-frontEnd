@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Edit2, Plus } from "lucide-react";
+import { Edit2, Plus, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -46,6 +46,8 @@ export default function WhitelistModal({
   onAddForm,
   onEditForm,
   initialData,
+  onDeleteLead,
+  isLead = false,
 }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -85,7 +87,12 @@ export default function WhitelistModal({
   const handleSubmit = async (data) => {
     try {
       setLoading(true);
-      if (isEdit) {
+      if (isLead) {
+        await onAddForm(data);
+        if (onDeleteLead) {
+          await onDeleteLead(initialData._id);
+        }
+      } else if (isEdit) {
         await onEditForm({ ...initialData, ...data });
       } else {
         await onAddForm(data);
@@ -102,13 +109,23 @@ export default function WhitelistModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {/* Trigger only for Add, not for edit mode */}
-      {isEdit ? (
+      {isLead ? (
+        <DialogTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 gap-2 text-green-600 hover:text-green-700"
+          >
+            <UserCheck className="h-4 w-4" />
+            تأكيد
+          </Button>
+        </DialogTrigger>
+      ) : isEdit ? (
         <DialogTrigger asChild>
           <Button className="gap-2">
             <Edit2 className="h-4 w-4" />
           </Button>
         </DialogTrigger>
-
       ) : (
         <DialogTrigger asChild>
           <Button className="gap-2">
@@ -119,7 +136,9 @@ export default function WhitelistModal({
       )}
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>{isEdit ? "تعديل الحجز" : "إضافة حجز جديد"}</DialogTitle>
+          <DialogTitle>
+            {isLead ? "تأكيد" : isEdit ? "تعديل الحجز" : "إضافة حجز جديد"}
+          </DialogTitle>
           <DialogDescription>
             {isEdit
               ? "قم بتعديل بيانات الحجز ثم احفظ التغييرات"

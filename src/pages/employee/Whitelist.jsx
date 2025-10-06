@@ -18,7 +18,7 @@ import ConfirmTraineeModal from "@/layouts/employee/ConfirmTraineeModal";
 import { formatDate } from "@/utils/formatSafeDate";
 import { toast } from "sonner";
 
-export function Whitelist() {
+export default function Whitelist() {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [programs, setPrograms] = useState([]);

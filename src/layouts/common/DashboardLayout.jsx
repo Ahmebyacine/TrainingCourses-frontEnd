@@ -18,6 +18,7 @@ import {
   User,
   Users,
   Users2,
+  ClipboardList,
   X,
 } from "lucide-react";
 
@@ -122,6 +123,11 @@ export default function DashboardLayout() {
       title: "قيد التسجيل",
       href: "/whitelist",
       icon: <Loader className="h-5 w-5" />,
+    },
+    {
+      title: "متدربون محتملون",
+      href: "/leads",
+      icon: <ClipboardList className="h-5 w-5" />,
     },
     {
       title: "إحصائيات البرامج",
