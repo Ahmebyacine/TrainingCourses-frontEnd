@@ -247,10 +247,10 @@
             <input type="text" name="full_name" placeholder="الإسم الكامل" required
                 style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; box-sizing: border-box; outline: none; transition: border-color 0.2s; text-align: right;"
                 onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d1d5db'">
-
-            <input type="tel" name="phone_number" placeholder="رقم الهاتف" required
+            <input type="tel" name="phone_number" id="phone" placeholder="مثال: 0555123456 أو +213555123456"
+                pattern="^(?:\+213|0)(5|6|7)\d{8}$" maxlength="13" inputmode="numeric" required
                 style="width: 100%; padding: 10px; border: 1px solid #d1f5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; box-sizing: border-box; outline: none; transition: border-color 0.2s; text-align: right;"
-                onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d1d5db'">
+                onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d1d5db'" />
 
             <select name="wilaya" required
                 style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; color: #6b7280; box-sizing: border-box; outline: none; transition: border-color 0.2s; background-color: white; text-align: right;">

@@ -16,7 +16,7 @@ import Unauthorized from "./pages/common/Unauthorized";
 import TraineeSearch from "./pages/employee/TraineeSearch";
 import EditTrainee from "./layouts/employee/EditTrainee";
 import Trainers from "./pages/admin/Trainers";
-import Expenses from "./pages/manager/Expenses";
+import Expenses from "./pages/employee/Expenses";
 import ProgramReportPage from "./pages/admin/ProgramReportPage";
 import EquipmentInspection from "./pages/member/EquipmentInspection";
 import AttestationDeFormation from "./pages/member/AttestationDeFormation";
@@ -112,6 +112,10 @@ const router = createHashRouter([
             path: "leads",
             element: <Lead />,
           },
+          {
+            path: "expenses",
+            element: <Expenses />,
+          },
         ],
       },
       {
@@ -151,10 +155,6 @@ const router = createHashRouter([
             element: <InstitutionsManager />,
           },
           {
-            path: "expenses",
-            element: <Expenses />,
-          },
-          {
             path: "program-statistics-manager",
             element: <ProgramStatisticsManager />,
           },
@@ -169,7 +169,7 @@ const router = createHashRouter([
   {
     path: "/program-report/:id",
     element: (
-      <ProtectedRoute roles={["admin","manager","employee"]}>
+      <ProtectedRoute roles={["admin", "manager", "employee"]}>
         <ProgramReportPage />
       </ProtectedRoute>
     ),

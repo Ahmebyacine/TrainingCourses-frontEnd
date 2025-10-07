@@ -135,6 +135,11 @@ export default function DashboardLayout() {
       icon: <Calendar className="h-5 w-5" />,
     },
     {
+      title: "المصاريف",
+      href: "/expenses",
+      icon: <CoinsIcon className="h-5 w-5" />,
+    },
+    {
       title: "إحصائيات",
       href: "/user-statistics",
       icon: <LayoutDashboard className="h-5 w-5" />,
@@ -156,11 +161,6 @@ export default function DashboardLayout() {
       title: "المؤسسات",
       href: "/institutions-manager",
       icon: <Building2 className="h-5 w-5" />,
-    },
-    {
-      title: "المصاريف",
-      href: "/expenses",
-      icon: <CoinsIcon className="h-5 w-5" />,
     },
     {
       title: "احصائيات البرامج",
