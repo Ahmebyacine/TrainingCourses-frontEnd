@@ -69,7 +69,10 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
     );
 
     if (selectedProgram) {
-      form.setValue("totalPrice", selectedProgram.course.price - (selectedDiscount || 0));
+      form.setValue(
+        "totalPrice",
+        selectedProgram.course.price - (selectedDiscount || 0)
+      );
       form.setValue("initialTranche", 0);
       form.setValue("secondTranche", 0);
       form.setValue("rest", 0);
@@ -125,7 +128,12 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                   <FormItem>
                     <FormLabel>الهاتف *</FormLabel>
                     <FormControl>
-                      <Input placeholder="أدخل رقم الهاتف" {...field} />
+                      <Input
+                        type="tel"
+                        inputMode="tel"
+                        placeholder="أدخل رقم الهاتف"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
