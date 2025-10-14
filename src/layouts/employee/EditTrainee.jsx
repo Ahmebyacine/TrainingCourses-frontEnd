@@ -118,6 +118,19 @@ export default function EditTrainee() {
     fetchPrograms();
   }, [id, form, toast]);
 
+  useEffect(() => {
+    const totalPrice = Number(form.watch("totalPrice")) || 0;
+    const secondTranche = Number(form.watch("secondTranche")) || 0;
+    const inialTranche = Number(form.watch("inialTranche")) || 0;
+
+    form.setValue("rest", totalPrice - (secondTranche + inialTranche));
+  }, [
+    form.setValue,
+    form.watch("totalPrice"),
+    form.watch("secondTranche"),
+    form.watch("inialTranche"),
+  ]);
+
   // Handle form submission
   const onSubmit = async (values) => {
     setIsSaving(true);
@@ -394,6 +407,8 @@ export default function EditTrainee() {
                               min="0"
                               step="0.01"
                               {...field}
+                              readOnly
+                              disabled={true}
                             />
                           </FormControl>
                           <FormMessage />
@@ -457,10 +472,7 @@ export default function EditTrainee() {
           )}
         </CardContent>
         <CardFooter className="flex justify-between border-t pt-6">
-          <Button
-            variant="outline"
-            onClick={() => (window.location.href = "/trainees/search")}
-          >
+          <Button variant="outline" onClick={() => navigate(`/search-trainee`)}>
             إلغاء
           </Button>
         </CardFooter>

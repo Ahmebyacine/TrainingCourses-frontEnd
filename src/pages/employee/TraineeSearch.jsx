@@ -75,7 +75,7 @@ export default function TraineeSearch() {
       await api.delete(`/api/trainee/${trainee._id}`)
       setTrainee(null)
       toast.success('تم الحذف بنجاح')
-    } catch (error) {
+    } catch {
       toast.error('فشل في الحذف')
     }
   }

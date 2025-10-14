@@ -19,10 +19,10 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
         <div>
-          <h3 className="text-xl font-bold">{trainee.name}</h3>
-          <p className="text-muted-foreground">{trainee.phone}</p>
+          <h3 className="text-xl font-bold">{trainee?.name}</h3>
+          <p className="text-muted-foreground">{trainee?.phone}</p>
           {trainee.email && (
-            <p className="text-muted-foreground">{trainee.email}</p>
+            <p className="text-muted-foreground">{trainee?.email}</p>
           )}
         </div>
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
@@ -72,15 +72,15 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
       <div className="space-y-4">
         <div className="bg-muted p-4 rounded-lg">
           <h4 className="font-medium mb-2">تفاصيل البرنامج</h4>
-          <p className="font-medium">{trainee.program.course.name}</p>
-          {trainee.program.institution && (
+          <p className="font-medium">{trainee?.program?.course?.name}</p>
+          {trainee?.program?.institution && (
             <p className="text-sm text-muted-foreground">
-              {trainee.program.institution.name}
+              {trainee?.program?.institution?.name}
             </p>
           )}
           <p className="text-sm text-muted-foreground">
-            {formatDate(trainee.program.start_date)} -{" "}
-            {formatDate(trainee.program.end_date)}
+            {formatDate(trainee?.program?.start_date)} -{" "}
+            {formatDate(trainee?.program?.end_date)}
           </p>
         </div>
 
@@ -89,7 +89,7 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
           <div className="grid grid-cols-2 gap-2">
             <div>
               <p className="text-sm text-muted-foreground">القسط الأولي</p>
-              <p className="font-medium">{trainee.inialTranche.toFixed(2)}</p>
+              <p className="font-medium">{trainee?.inialTranche?.toFixed(2)}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">طريقة الدفع</p>
@@ -105,12 +105,12 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
                   : "غير محدد"}
               </p>
             </div>
-            {trainee.secondTranche !== undefined && (
+            {trainee?.secondTranche !== undefined && (
               <>
                 <div>
                   <p className="text-sm text-muted-foreground">القسط الثاني</p>
                   <p className="font-medium">
-                    {trainee.secondTranche.toFixed(2)}
+                    {trainee?.secondTranche?.toFixed(2)}
                   </p>
                 </div>
                 <div>
@@ -131,7 +131,7 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
             )}
             <div>
               <p className="text-sm text-muted-foreground">المبلغ المتبقي</p>
-              <p className="font-medium">{trainee.rest.toFixed(2)}</p>
+              <p className="font-medium">{trainee?.rest?.toFixed(2)}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">التخفيض</p>
@@ -139,7 +139,7 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">المبلغ الإجمالي</p>
-              <p className="font-medium">{trainee.totalPrice.toFixed(2)}</p>
+              <p className="font-medium">{trainee?.totalPrice?.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -147,7 +147,7 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
         {trainee.note && (
           <div className="bg-muted p-4 rounded-lg">
             <h4 className="font-medium mb-2">ملاحظات</h4>
-            <p className="text-sm">{trainee.note}</p>
+            <p className="text-sm">{trainee?.note}</p>
           </div>
         )}
       </div>

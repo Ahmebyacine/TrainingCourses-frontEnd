@@ -248,8 +248,8 @@ export const AddTraineeCard = ({ programs, onSubmit, isLoading }) => {
                             <SelectItem value="baridimob">
                               بريدي موب - Baridimob
                             </SelectItem>
-                            <SelectItem value="cpp">
-                              تحويل بريدي - cpp
+                            <SelectItem value="ccp">
+                              تحويل بريدي - ccp
                             </SelectItem>
                           </SelectContent>
                         </Select>
