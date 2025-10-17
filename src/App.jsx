@@ -31,6 +31,7 @@ import ProgramStatisticsEmployee from "./pages/employee/ProgramStatisticsEmploye
 import ErrorBoundary from "./components/ErrorBoundary";
 import Whitelist from "./pages/employee/Whitelist";
 import Lead from "./pages/employee/Lead";
+import ProgramReportEmployeePage from "./pages/employee/ProgramReportEmployeePage";
 
 const router = createHashRouter([
   {
@@ -116,6 +117,10 @@ const router = createHashRouter([
             path: "expenses",
             element: <Expenses />,
           },
+          {
+            path: "/program-report-employee/:id",
+            element: <ProgramReportEmployeePage />,
+          },
         ],
       },
       {
@@ -169,7 +174,7 @@ const router = createHashRouter([
   {
     path: "/program-report/:id",
     element: (
-      <ProtectedRoute roles={["admin", "manager", "employee"]}>
+      <ProtectedRoute roles={["admin", "manager"]}>
         <ProgramReportPage />
       </ProtectedRoute>
     ),
