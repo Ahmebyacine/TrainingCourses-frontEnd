@@ -82,6 +82,8 @@ export default function ProgramReportEmployeePage() {
         phone: updated.phone,
         inialTranche: updated.inialTranche,
         secondTranche: updated.secondTranche,
+        methodePaiement1: updated.methodePaiement1,
+        methodePaiement2: updated.methodePaiement2,
         totalPrice: updated.totalPrice,
         paidAmount: (updated.inialTranche || 0) + (updated.secondTranche || 0),
         unpaidAmount:
