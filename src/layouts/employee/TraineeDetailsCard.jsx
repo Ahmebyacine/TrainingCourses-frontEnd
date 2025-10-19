@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import PDFDownload from "@/utils/PDF/PDFDownload";
 import { formatDate } from "@/utils/formatSafeDate";
+import { getPaymentMethodLabel } from "@/utils/getPaymentMethodLabel";
 
 const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
   return (
@@ -94,15 +95,7 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
             <div>
               <p className="text-sm text-muted-foreground">طريقة الدفع</p>
               <p className="font-medium">
-                {trainee?.methodePaiement1
-                  ? trainee.methodePaiement1 === "cash"
-                    ? "نقدًا"
-                    : trainee.methodePaiement1 === "ccp"
-                    ? "تحويل بريدي"
-                    : trainee.methodePaiement1 === "baridimob"
-                    ? "بريدي موب"
-                    : "غير محدد"
-                  : "غير محدد"}
+                {getPaymentMethodLabel(trainee?.methodePaiement1)}
               </p>
             </div>
             {trainee?.secondTranche !== undefined && (
@@ -116,15 +109,7 @@ const TraineeDetailsCard = ({ trainee, onEdit, onDelete }) => {
                 <div>
                   <p className="text-sm text-muted-foreground">طريقة الدفع</p>
                   <p className="font-medium">
-                    {trainee?.methodePaiement2
-                  ? trainee.methodePaiement2 === "cash"
-                    ? "نقدًا"
-                    : trainee.methodePaiement2 === "ccp"
-                    ? "تحويل بريدي"
-                    : trainee.methodePaiement2 === "baridimob"
-                    ? "بريدي موب"
-                    : "غير محدد"
-                  : "غير محدد"}
+                    {getPaymentMethodLabel(trainee?.methodePaiement2)}
                   </p>
                 </div>
               </>

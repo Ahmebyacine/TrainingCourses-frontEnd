@@ -34,6 +34,7 @@ import PDFReport from "@/utils/PDF/PDFReport";
 import { Button } from "@/components/ui/button";
 import ErrorPage from "../common/ErrorPage";
 import { toast } from "sonner";
+import { getPaymentMethodLabel } from "@/utils/getPaymentMethodLabel";
 
 export default function ProgramReportEmployeePage() {
   const { id } = useParams();
@@ -46,7 +47,7 @@ export default function ProgramReportEmployeePage() {
     const fetchReportData = async () => {
       setIsLoading(true);
       try {
-        const response = await api.get(`/api/program/${id}/report`);
+        const response = await api.get(`/api/program/${id}/report/employees`);
         setReportData(response.data);
         setActiveEmployee(response.data?.employees[0]?.employee.id);
       } catch (error) {
@@ -298,7 +299,8 @@ export default function ProgramReportEmployeePage() {
                         <TableHead>الإجراءات</TableHead>
                         <TableHead>المبلغ الإجمالي</TableHead>
                         <TableHead>المبلغ المتبقي</TableHead>
-                        <TableHead>المبلغ المدفوع</TableHead>
+                        <TableHead>القسط الثاني</TableHead>
+                        <TableHead>القسط الاول</TableHead>
                         <TableHead>الهاتف</TableHead>
                         <TableHead>البريد الإلكتروني</TableHead>
                         <TableHead>الاسم</TableHead>
@@ -338,7 +340,12 @@ export default function ProgramReportEmployeePage() {
                             {trainee.unpaidAmount.toLocaleString()} دج
                           </TableCell>
                           <TableCell className="text-green-600">
-                            {trainee.paidAmount.toLocaleString()} دج
+                            {trainee.secondTranche.toLocaleString()} دج
+                           <br/> <span className="text-xs">{getPaymentMethodLabel(trainee.methodePaiement2)}</span>
+                          </TableCell>
+                          <TableCell className="text-green-600">
+                            {trainee.inialTranche.toLocaleString()} دج
+                           <br/> <span className="text-xs">{getPaymentMethodLabel(trainee.methodePaiement1)}</span>
                           </TableCell>
                           <TableCell dir="ltr">{trainee.phone}</TableCell>
                           <TableCell>{trainee.email}</TableCell>
