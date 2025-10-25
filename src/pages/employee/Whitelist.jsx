@@ -110,7 +110,7 @@ export default function Whitelist() {
   };
   // Group bookings by program
   const groupedBookings = bookings.reduce((acc, booking) => {
-    const programId = booking.program._id;
+    const programId = booking?.program?._id;
     if (!acc[programId]) {
       acc[programId] = {
         programName: booking?.program?.course?.name || "بدون برنامج",
@@ -195,7 +195,7 @@ export default function Whitelist() {
                 </TableHeader>
                 <TableBody>
                   {group.bookings.map((booking) => (
-                    <TableRow key={booking._id}>
+                    <TableRow key={booking?._id}>
                       <TableCell className="font-medium">
                         {booking.name}
                       </TableCell>
@@ -224,7 +224,7 @@ export default function Whitelist() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handleCancel(booking._id)}
+                            onClick={() => handleCancel(booking?._id)}
                             className="h-8 gap-2"
                           >
                             <X className="h-4 w-4" />
