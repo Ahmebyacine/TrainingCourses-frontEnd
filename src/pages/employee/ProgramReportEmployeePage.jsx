@@ -294,24 +294,60 @@ export default function ProgramReportEmployeePage() {
               </CardHeader>
               <CardContent>
                 <div className="rounded-md border">
-                  <Table>
+                  <Table dir="rtl">
                     <TableHeader>
                       <TableRow>
-                        <TableHead>ملاحظات</TableHead>
-                        <TableHead>الإجراءات</TableHead>
-                        <TableHead>المبلغ الإجمالي</TableHead>
-                        <TableHead>المبلغ المتبقي</TableHead>
-                        <TableHead>القسط الثاني</TableHead>
-                        <TableHead>القسط الاول</TableHead>
-                        <TableHead>الهاتف</TableHead>
-                        <TableHead>البريد الإلكتروني</TableHead>
-                        <TableHead>الاسم</TableHead>
                         <TableHead className="w-[50px]">#</TableHead>
+                        <TableHead>الاسم</TableHead>
+                        <TableHead>البريد الإلكتروني</TableHead>
+                        <TableHead>الهاتف</TableHead>
+                        <TableHead>القسط الاول</TableHead>
+                        <TableHead>القسط الثاني</TableHead>
+                        <TableHead>المبلغ المتبقي</TableHead>
+                        <TableHead>المبلغ الإجمالي</TableHead>
+                        <TableHead>الإجراءات</TableHead>
+                        <TableHead>ملاحظات</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {emp.trainees.map((trainee, index) => (
                         <TableRow key={index}>
+                          <TableCell>{index + 1}</TableCell>
+                          <TableCell className="font-medium">
+                            {trainee.name}
+                          </TableCell>
+                          <TableCell>{trainee.email}</TableCell>
+                          <TableCell dir="ltr">{trainee.phone}</TableCell>
+                          <TableCell className="text-green-600">
+                            {trainee.inialTranche.toLocaleString()} دج
+                            <br />{" "}
+                            <span className="text-xs">
+                              {getPaymentMethodLabel(trainee.methodePaiement1)}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-green-600">
+                            {trainee.secondTranche.toLocaleString()} دج
+                            <br />{" "}
+                            <span className="text-xs">
+                              {getPaymentMethodLabel(trainee.methodePaiement2)}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-red-600">
+                            {trainee.unpaidAmount.toLocaleString()} دج
+                          </TableCell>
+                          <TableCell>
+                            {trainee.totalPrice.toLocaleString()} دج
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              onClick={() => confirmPayment(trainee.id)}
+                              disabled={!trainee.unpaidAmount}
+                              className="bg-green-700"
+                              size="sm"
+                            >
+                              تاكيد الدفعة الثانية
+                            </Button>
+                          </TableCell>
                           <TableCell>
                             {trainee.note ? (
                               <div className="flex items-center gap-1">
@@ -324,37 +360,6 @@ export default function ProgramReportEmployeePage() {
                               </span>
                             )}
                           </TableCell>
-
-                          <TableCell>
-                            <Button
-                              onClick={() => confirmPayment(trainee.id)}
-                              disabled={!trainee.unpaidAmount}
-                              className="bg-green-700"
-                              size="sm"
-                            >
-                              تاكيد الدفعة الثانية
-                            </Button>
-                          </TableCell>
-                          <TableCell>
-                            {trainee.totalPrice.toLocaleString()} دج
-                          </TableCell>
-                          <TableCell className="text-red-600">
-                            {trainee.unpaidAmount.toLocaleString()} دج
-                          </TableCell>
-                          <TableCell className="text-green-600">
-                            {trainee.secondTranche.toLocaleString()} دج
-                           <br/> <span className="text-xs">{getPaymentMethodLabel(trainee.methodePaiement2)}</span>
-                          </TableCell>
-                          <TableCell className="text-green-600">
-                            {trainee.inialTranche.toLocaleString()} دج
-                           <br/> <span className="text-xs">{getPaymentMethodLabel(trainee.methodePaiement1)}</span>
-                          </TableCell>
-                          <TableCell dir="ltr">{trainee.phone}</TableCell>
-                          <TableCell>{trainee.email}</TableCell>
-                          <TableCell className="font-medium">
-                            {trainee.name}
-                          </TableCell>
-                          <TableCell>{index + 1}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
