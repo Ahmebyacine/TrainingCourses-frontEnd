@@ -266,7 +266,7 @@ const CertificatConformite = ({ values }) => {
         </View>
 
         <View break>
-          <Text style={styles.title}>CERTIFICAT DE CONFORMITE</Text>
+          <Text style={styles.title}>RAPPORT DE VISITE D'UN EQUIPEMENT</Text>
           <Text style={styles.block2}>Borthwork Appliance Certificat</Text>
           <Text style={styles.block}>
             Décret exécutif '91-05 du19-jane--1991, relatif aux presertations
